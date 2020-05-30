@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import * as Tone from "tone";
 import * as ChordDetect from "@tonaljs/chord-detect";
-import { keys } from "./keys";
+import { keys, shortcuts } from "./keys";
 import classNames from "classnames";
 
 let piano = new Tone.Sampler(
@@ -68,6 +68,7 @@ function Keyboard() {
       color={key.color}
       label={key.label}
       note={key.note}
+      shortcut={key.shortcut}
       updateSelected={(note, active) => {
         updateSelected(note, active);
       }}
@@ -77,6 +78,7 @@ function Keyboard() {
 
   return (
     <>
+      {/* <Shortcuts /> */}
       <div className="kb">{keyList}</div>
       <Selected selected={selected} />
       <Chords chordDetect={chordDetect} />
@@ -90,6 +92,7 @@ function Key(props) {
 
   return (
     <button
+      data-note={props.note}
       className={classNames(`key key-${props.color}`, {
         active: active,
       })}
@@ -111,6 +114,12 @@ function Key(props) {
       }}
     >
       <div className="key-label">{props.label}</div>
+      {props.shortcut && (
+        <div className="key-shortcut">
+          <span className="key-shortcut-line"></span>
+          <span className="key-shortcut-btn">{props.shortcut}</span>
+        </div>
+      )}
     </button>
   );
 }
@@ -120,7 +129,7 @@ function Selected(props) {
   return (
     <div className="selected">
       <span>
-        Selected keys:
+        <span className="list-label">Selected keys:</span>
         <span className={`list ${!props.selected.length && "empty"}`}>
           {props.selected.length
             ? props.selected.join(", ")
@@ -136,7 +145,7 @@ function Chords(props) {
   return (
     <div className="chords">
       <span>
-        Predicted chords:
+        <span className="list-label">Predicted chords:</span>
         <span className={`list ${!props.chordDetect.length && "empty"}`}>
           {props.chordDetect.length
             ? props.chordDetect.join(", ")
@@ -146,5 +155,62 @@ function Chords(props) {
     </div>
   );
 }
+
+// Shortcut Indicators
+// function Shortcuts() {
+//   return (
+//     <div className="shortcuts">
+//       {Object.keys(shortcuts).map((key, i) => (
+//         <span
+//           className={`shortcuts-key ${
+//             shortcuts[key].includes("#") ? "black" : "white"
+//           }`}
+//         >
+//           {key}
+//         </span>
+//       ))}
+//     </div>
+//   );
+// }
+
+// Key Down
+var keyDown = false;
+document.addEventListener("keydown", (e) => {
+  if (keyDown) {
+    if (e.key === " ") {
+      console.log(
+        "Later, this should toggle the follow key: " + shortcuts[e.key]
+      );
+    } else {
+      return;
+    }
+  }
+
+  keyDown = true;
+
+  if (e.key in shortcuts) {
+    var key = document.querySelector(`[data-note='${shortcuts[e.key]}']`);
+    if (key !== undefined) {
+      key.classList.add("pressed");
+    }
+
+    piano.triggerAttack(shortcuts[e.key]);
+  }
+
+  return;
+});
+
+// Key Up
+document.addEventListener("keyup", (e) => {
+  keyDown = false;
+
+  if (e.key in shortcuts) {
+    var key = document.querySelector(`[data-note='${shortcuts[e.key]}']`);
+    if (key !== undefined) {
+      key.classList.remove("pressed");
+    }
+    piano.triggerRelease(shortcuts[e.key]);
+  }
+});
 
 export default Keyboard;

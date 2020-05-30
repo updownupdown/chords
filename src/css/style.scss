@@ -1,5 +1,9 @@
 @import "./colors.scss";
 
+* {
+  box-sizing: border-box;
+}
+
 body {
   background: $white;
   margin: 0;
@@ -35,18 +39,19 @@ code {
 
   height: 200px;
 
+  border-radius: 6px;
   background: #eee;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+  box-shadow: 1px 2px 4px $K200;
 }
 
 // Keys
-.key {
-  $white-width: 52px;
-  $black-width: 34px;
-  $black-height: 65%;
-  $label-diameter: 28px;
-  $border-radius: 6px;
+$key-white-width: 52px;
+$key-black-width: 34px;
+$key-black-height: 65%;
+$key-label-diameter: 28px;
+$key-border-radius: 6px;
 
+.key {
   transition: 0.1s ease background-color;
 
   cursor: pointer;
@@ -58,35 +63,37 @@ code {
   padding: 0;
 
   border: 0;
-  border-bottom-left-radius: $border-radius;
-  border-bottom-right-radius: $border-radius;
+  border-bottom-left-radius: $key-border-radius;
+  border-bottom-right-radius: $key-border-radius;
 
   // White Key
   &-white {
     z-index: 1;
-    width: $white-width;
+    width: $key-white-width;
     height: 100%;
 
     background: $white;
     border: 1px solid $K200;
 
+    &.pressed,
     &:hover {
-      background: $K100;
+      background: $K200;
     }
   }
 
   // Black Key
   &-black {
     z-index: 2;
-    width: $black-width;
-    height: $black-height;
-    margin: 0 (-$black-width/2);
+    width: $key-black-width;
+    height: $key-black-height;
+    margin: 0 (-$key-black-width/2);
 
     background: $K900;
     box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.2);
 
+    &.pressed,
     &:hover {
-      background: $K800;
+      background: $K700;
     }
   }
 
@@ -99,8 +106,8 @@ code {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: $label-diameter;
-    height: $label-diameter;
+    width: $key-label-diameter;
+    height: $key-label-diameter;
 
     margin-bottom: 10px;
 
@@ -110,23 +117,97 @@ code {
     font-weight: bold;
     user-select: none;
 
+    // White label
     .key-white & {
-      background: $K100;
-      color: $K600;
+      // background: $K100;
+      color: $K400;
     }
     .key-white.active & {
       background: $orange;
       color: $white;
     }
 
+    // Black label
     .key-black & {
-      background: $K700;
-      color: $K300;
+      // background: $K800;
+      color: $K600;
     }
     .key-black.active & {
       background: $orange;
       color: $white;
     }
+  }
+
+  // Shortcuts
+  &-shortcut {
+    user-select: none;
+    pointer-events: none;
+    overflow: hidden;
+    position: absolute;
+    bottom: 100%;
+    width: 100%;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+
+    .key-white & {
+      height: 36px;
+    }
+    .key-black & {
+      height: 52px;
+    }
+
+    &-btn {
+      transition: 0.1s ease background-color;
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+
+      border-radius: 4px;
+      background: $K100;
+
+      font-size: 12px;
+      color: $K400;
+      text-transform: uppercase;
+    }
+
+    &-line {
+      position: absolute;
+      z-index: 1;
+      top: 0;
+      left: 50%;
+      width: 1px;
+      height: 100%;
+      background: $K200;
+    }
+  }
+
+  &.pressed .key-shortcut .key-shortcut-btn {
+    background: $K200;
+    color: $K600;
+  }
+}
+
+// Lists
+.list-label {
+  user-select: none;
+  padding-right: 8px;
+  color: $K700;
+}
+
+.list {
+  &:not(.empty) {
+    font-weight: bold;
+  }
+
+  &.empty {
+    user-select: none;
+    color: $K400;
   }
 }
 
@@ -136,18 +217,6 @@ code {
   justify-content: flex-start;
   width: 100%;
   padding-top: 40px;
-
-  .list {
-    padding-left: 6px;
-
-    &:not(.empty) {
-      font-weight: bold;
-    }
-
-    &.empty {
-      color: $K400;
-    }
-  }
 }
 
 // Chords detected
@@ -156,16 +225,22 @@ code {
   justify-content: flex-start;
   width: 100%;
   padding-top: 20px;
+}
 
-  .list {
-    padding-left: 6px;
+// Shortcuts
+.shortcuts {
+  display: flex;
+  flex-direction: row;
 
-    &:not(.empty) {
-      font-weight: bold;
+  &-key {
+    border: 1px solid #eee;
+
+    &.white {
+      width: $key-white-width;
     }
 
-    &.empty {
-      color: $K400;
+    &.black {
+      width: $key-black-width;
     }
   }
 }
