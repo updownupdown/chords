@@ -41,10 +41,10 @@ code {
 
 // Keys
 .key {
-  $white-width: 58px;
-  $black-width: 36px;
+  $white-width: 52px;
+  $black-width: 34px;
   $black-height: 65%;
-  $label-diameter: 32px;
+  $label-diameter: 28px;
   $border-radius: 6px;
 
   transition: 0.1s ease background-color;
@@ -108,6 +108,7 @@ code {
 
     font-size: 12px;
     font-weight: bold;
+    user-select: none;
 
     .key-white & {
       background: $K100;

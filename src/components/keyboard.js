@@ -1,91 +1,45 @@
 import React, { useState } from "react";
 import * as Tone from "tone";
 import * as ChordDetect from "@tonaljs/chord-detect";
+import { keys } from "./keys";
 import classNames from "classnames";
 
-// Synth
-const synth = new Tone.Synth({
-  oscillator: {
-    type: "sine",
-    modulationFrequency: 2,
-  },
-});
-synth.volume.value = -20;
-synth.toDestination();
-
-const keys = [
+let piano = new Tone.Sampler(
   {
-    color: "white",
-    label: "C",
-    note: "C",
-  },
-  {
-    color: "black",
-    label: "C#",
-    note: "C#",
+    C3: "C3v8.mp3",
+    C4: "C4v8.mp3",
+    C5: "C5v8.mp3",
+    C6: "C6v8.mp3",
+    "F#3": "Fs3v8.mp3",
+    "F#4": "Fs4v8.mp3",
+    "F#5": "Fs5v8.mp3",
+    "F#6": "Fs6v8.mp3",
+    A3: "A3v8.mp3",
+    A4: "A4v8.mp3",
+    A5: "A5v8.mp3",
+    A6: "A6v8.mp3",
   },
   {
-    color: "white",
-    label: "D",
-    note: "D",
-  },
-  {
-    color: "black",
-    label: "D#",
-    note: "D#",
-  },
-  {
-    color: "white",
-    label: "E",
-    note: "E",
-  },
-  {
-    color: "white",
-    label: "F",
-    note: "F",
-  },
-  {
-    color: "black",
-    label: "F#",
-    note: "F#",
-  },
-  {
-    color: "white",
-    label: "G",
-    note: "G",
-  },
-  {
-    color: "black",
-    label: "G#",
-    note: "G#",
-  },
-  {
-    color: "white",
-    label: "A",
-    note: "A",
-  },
-  {
-    color: "black",
-    label: "A#",
-    note: "A#",
-  },
-  {
-    color: "white",
-    label: "B",
-    note: "B",
-  },
-  {
-    color: "black",
-    label: "B#",
-    note: "B#",
-  },
-];
+    release: 1.2,
+    baseUrl: process.env.PUBLIC_URL + "./samples/",
+  }
+);
+piano.volume.value = -5;
+piano.toDestination();
 
 // Keyboard
 function Keyboard() {
   // Selected Keys
   const [selected, setSelected] = useState([]);
   const [chordDetect, setChordDetect] = useState("");
+  const [mouseDown, setMouseDown] = useState(0);
+
+  document.body.onmousedown = function () {
+    setMouseDown(1);
+  };
+  document.body.onmouseup = function () {
+    setMouseDown(0);
+  };
 
   function updateSelected(note, active) {
     // Update selected notes
@@ -113,10 +67,11 @@ function Keyboard() {
       key={key.note}
       color={key.color}
       label={key.label}
-      note={`${key.note}4`}
+      note={key.note}
       updateSelected={(note, active) => {
         updateSelected(note, active);
       }}
+      mouseDown={mouseDown}
     />
   ));
 
@@ -138,10 +93,21 @@ function Key(props) {
       className={classNames(`key key-${props.color}`, {
         active: active,
       })}
-      onClick={() => {
-        synth.triggerAttackRelease(props.note, "8n");
+      onMouseDown={() => {
+        piano.triggerAttack(props.note);
         props.updateSelected(props.note, !active);
         setActive(!active);
+      }}
+      onMouseUp={() => {
+        piano.triggerRelease(props.note);
+      }}
+      onMouseLeave={() => {
+        piano.triggerRelease(props.note);
+      }}
+      onMouseEnter={() => {
+        if (props.mouseDown) {
+          piano.triggerAttackRelease(props.note, "8n");
+        }
       }}
     >
       <div className="key-label">{props.label}</div>
