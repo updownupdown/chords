@@ -1,4 +1,4 @@
-@import "./colors.scss";
+@import "./vars.scss";
 
 * {
   box-sizing: border-box;
@@ -7,16 +7,40 @@
 body {
   background: $white;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  font-family: $font, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-weight: normal;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+  font-family: $monoFont, monospace;
+}
+
+button {
+  transition: 0.2s ease background-color;
+  cursor: pointer;
+  padding: 8px 14px;
+
+  border: 0;
+  border-radius: 4px;
+  background: $orange;
+
+  font-family: $headingFont;
+  font-size: 16px;
+  color: $white;
+  font-weight: 600;
+  box-shadow: 1px 2px 4px $K100;
+
+  &:hover {
+    background: darken($orange, 10%);
+  }
+
+  &:disabled {
+    cursor: default;
+    background: $K200;
+    color: $K500;
+  }
 }
 
 // Layout
@@ -73,7 +97,7 @@ $key-border-radius: 6px;
     height: 100%;
 
     background: $white;
-    border: 1px solid $K200;
+    box-shadow: inset 0 0 0 1px $K200;
 
     &.pressed,
     &:hover {
@@ -103,6 +127,7 @@ $key-border-radius: 6px;
 
   // Labels
   &-label {
+    transition: 0.2s ease color;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -113,14 +138,15 @@ $key-border-radius: 6px;
 
     border-radius: 50%;
 
-    font-size: 12px;
-    font-weight: bold;
+    font-family: $headingFont;
+    font-size: 14px;
+    font-weight: 600;
     user-select: none;
+    color: transparent;
 
     // White label
-    .key-white & {
-      // background: $K100;
-      color: $K400;
+    .key-white:hover & {
+      color: $K600;
     }
     .key-white.active & {
       background: $orange;
@@ -128,9 +154,8 @@ $key-border-radius: 6px;
     }
 
     // Black label
-    .key-black & {
-      // background: $K800;
-      color: $K600;
+    .key-black:hover & {
+      color: $K400;
     }
     .key-black.active & {
       background: $orange;
@@ -183,7 +208,7 @@ $key-border-radius: 6px;
       left: 50%;
       width: 1px;
       height: 100%;
-      background: $K200;
+      background: rgba($K900, 0.1);
     }
   }
 
@@ -191,18 +216,44 @@ $key-border-radius: 6px;
     background: $K200;
     color: $K600;
   }
+
+  // Pitch
+  &-pitch {
+    user-select: none;
+    pointer-events: none;
+    overflow: hidden;
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    width: 1px;
+    margin-top: 4px;
+    height: 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: linear-gradient(180deg, $white, $K200);
+
+    font-size: 0;
+  }
 }
 
 // Lists
 .list-label {
   user-select: none;
   padding-right: 8px;
+
+  font-family: $font;
+  font-size: 18px;
+  font-weight: 400;
   color: $K700;
 }
 
 .list {
-  &:not(.empty) {
-    font-weight: bold;
+  &.not-empty {
+    font-weight: 700;
+    color: $K900;
   }
 
   &.empty {
@@ -214,9 +265,38 @@ $key-border-radius: 6px;
 // Selected
 .selected {
   display: flex;
-  justify-content: flex-start;
   width: 100%;
   padding-top: 40px;
+
+  .selected-lists {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  button {
+    margin-left: auto;
+  }
+
+  &-clean .list:not(.empty) {
+    // font-weight: 600;
+    // color: $K900;
+
+    .pitch {
+      display: none;
+    }
+  }
+
+  &-full .list {
+    transition: 0.3s ease color;
+    font-size: 12px;
+    font-weight: normal;
+    color: $K400;
+  }
+
+  &:hover &-full .list {
+    color: $K900;
+  }
 }
 
 // Chords detected
@@ -243,4 +323,9 @@ $key-border-radius: 6px;
       width: $key-black-width;
     }
   }
+}
+
+// Drawer
+.drawer {
+  padding-top: 40px;
 }

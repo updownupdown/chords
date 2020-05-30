@@ -13,8 +13,12 @@ export const Keys = (props) => {
 
     // If valid key press + spacebar, toggle that key
     if (keyDown && e.key === " ") {
-      var note = KeyboardMap[keyDown];
-      props.updateSelected(note, !props.selected.includes(note));
+      for (var i = 0; i < KeysList.length; i++) {
+        if (KeysList[i].shortcut === keyDown) {
+          props.updateSelected(i, !props.selected.includes(i));
+          break;
+        }
+      }
     }
 
     if (e.key in KeyboardMap) {
@@ -55,10 +59,12 @@ export const Keys = (props) => {
     <div className="keyboard">
       {KeysList.map((key) => (
         <Key
-          key={key.note}
+          key={key.index}
+          index={key.index}
           color={key.color}
           label={key.label}
           note={key.note}
+          pitch={key.pitch}
           shortcut={key.shortcut}
           piano={props.piano}
           selected={props.selected}

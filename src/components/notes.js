@@ -1,6 +1,7 @@
 import { KeyboardMap } from "./KeyboardMap";
 
 let list = [];
+var index = 0;
 const octave = ["C", "D", "E", "F", "G", "A", "B"];
 const octaveLength = octave.length;
 const pitchStart = 2;
@@ -14,14 +15,16 @@ function hasSharp(note) {
   return false;
 }
 
-function addKey(letter, index, sharp) {
+function addKey(letter, sharp) {
   var note = letter + (sharp ? "#" : "") + pitch.toString();
+  var label = letter + (sharp ? "#" : "");
 
   var key = {
     index: index,
     color: sharp ? "black" : "white",
-    label: note,
+    label: label,
     note: note,
+    pitch: pitch,
   };
 
   // Keyboard shortcut?
@@ -31,6 +34,8 @@ function addKey(letter, index, sharp) {
   }
 
   list.push(key);
+
+  index++;
 }
 
 function generateKeys() {
@@ -46,11 +51,11 @@ function generateKeys() {
     var letter = octave[i % octaveLength];
 
     // Add white note
-    addKey(letter, i);
+    addKey(letter);
 
     // Add black note?
     if (hasSharp(letter)) {
-      addKey(letter, i, true);
+      addKey(letter, true);
     }
   }
 

@@ -4,6 +4,8 @@ import * as ChordDetect from "@tonaljs/chord-detect";
 import { Keys } from "./Keys";
 import { Selected } from "./Selected";
 import { Chords } from "./Chords";
+import { Drawer } from "./Drawer";
+import { selectedToNotes } from "./Utils";
 
 const piano = new Tone.Sampler(
   {
@@ -46,14 +48,15 @@ function Keyboard() {
   document.body.onmouseup = setLeftButtonState;
 
   // Update selected notes
-  function updateSelected(note, active) {
+  function updateSelected(index, active) {
     const list = selected;
 
     if (active) {
-      list.push(note);
+      list.push(index);
+      list.sort((a, b) => a - b);
     } else {
       for (var i = 0; i < list.length; i++) {
-        if (list[i] === note) {
+        if (list[i] === index) {
           list.splice(i, 1);
         }
       }
@@ -62,21 +65,26 @@ function Keyboard() {
     setSelected(list);
 
     // Predict chords
-    const chords = ChordDetect.detect(list);
+    const chords = ChordDetect.detect(selectedToNotes(list));
     setChordDetect(chords);
+  }
+
+  function clearSelected() {
+    setSelected([]);
+    setChordDetect("");
   }
 
   return (
     <>
-      {/* <Shortcuts piano={piano} /> */}
       <Keys
         piano={piano}
         mouseDown={mouseDown}
         selected={selected}
         updateSelected={updateSelected}
       />
-      <Selected selected={selected} />
+      <Selected selected={selected} clearSelected={clearSelected} />
       <Chords chordDetect={chordDetect} />
+      <Drawer selected={selected} clearSelected={clearSelected} />
     </>
   );
 }
