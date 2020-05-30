@@ -32,7 +32,7 @@ code {
 }
 
 // Keyboard
-.kb {
+.keyboard {
   display: flex;
   align-items: flex-start;
   justify-content: center;
@@ -45,7 +45,7 @@ code {
 }
 
 // Keys
-$key-white-width: 52px;
+$key-white-width: 48px;
 $key-black-width: 34px;
 $key-black-height: 65%;
 $key-label-diameter: 28px;
@@ -165,8 +165,8 @@ $key-border-radius: 6px;
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 24px;
-      height: 24px;
+      width: 22px;
+      height: 22px;
 
       border-radius: 4px;
       background: $K100;

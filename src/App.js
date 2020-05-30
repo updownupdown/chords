@@ -1,5 +1,5 @@
 import React from "react";
-import Keyboard from "./components/keyboard";
+import Keyboard from "./components/Keyboard";
 import "./css/style.scss";
 
 function App() {
