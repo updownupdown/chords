@@ -23,6 +23,8 @@ code {
   height: 100vh;
   align-items: center;
   justify-content: center;
+
+  // &-keyboard {  }
 }
 
 // Keyboard
@@ -71,10 +73,6 @@ code {
     &:hover {
       background: $K100;
     }
-
-    &.active {
-      background: $orange;
-    }
   }
 
   // Black Key
@@ -90,10 +88,10 @@ code {
     &:hover {
       background: $K800;
     }
+  }
 
-    &.active {
-      background: $orange;
-    }
+  &:focus {
+    outline: none;
   }
 
   // Labels
@@ -115,14 +113,36 @@ code {
       background: $K100;
       color: $K600;
     }
+    .key-white.active & {
+      background: $orange;
+      color: $white;
+    }
+
     .key-black & {
       background: $K700;
       color: $K300;
+    }
+    .key-black.active & {
+      background: $orange;
+      color: $white;
     }
   }
 }
 
 // Selected
 .selected {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
   padding-top: 40px;
+
+  .list {
+    &:not(.empty) {
+      font-weight: bold;
+    }
+
+    &.empty {
+      color: $K400;
+    }
+  }
 }
