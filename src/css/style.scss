@@ -1,0 +1,128 @@
+@import "./colors.scss";
+
+body {
+  background: $white;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+// Layout
+.layout {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+}
+
+// Keyboard
+.kb {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+
+  height: 200px;
+
+  background: #eee;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+}
+
+// Keys
+.key {
+  $white-width: 58px;
+  $black-width: 36px;
+  $black-height: 65%;
+  $label-diameter: 32px;
+  $border-radius: 6px;
+
+  transition: 0.1s ease background-color;
+
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+
+  padding: 0;
+
+  border: 0;
+  border-bottom-left-radius: $border-radius;
+  border-bottom-right-radius: $border-radius;
+
+  // White Key
+  &-white {
+    z-index: 1;
+    width: $white-width;
+    height: 100%;
+
+    background: $white;
+    border: 1px solid $K200;
+
+    &:hover {
+      background: $K100;
+    }
+
+    &.active {
+      background: $orange;
+    }
+  }
+
+  // Black Key
+  &-black {
+    z-index: 2;
+    width: $black-width;
+    height: $black-height;
+    margin: 0 (-$black-width/2);
+
+    background: $K900;
+    box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.2);
+
+    &:hover {
+      background: $K800;
+    }
+
+    &.active {
+      background: $orange;
+    }
+  }
+
+  // Labels
+  &-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: $label-diameter;
+    height: $label-diameter;
+
+    margin-bottom: 10px;
+
+    border-radius: 50%;
+
+    font-size: 12px;
+    font-weight: bold;
+
+    .key-white & {
+      background: $K100;
+      color: $K600;
+    }
+    .key-black & {
+      background: $K700;
+      color: $K300;
+    }
+  }
+}
+
+// Selected
+.selected {
+  padding-top: 40px;
+}

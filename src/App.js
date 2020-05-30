@@ -1,12 +1,13 @@
 import React from "react";
-import "./App.css";
+import Keyboard from "./components/keyboard";
+import Selected from "./components/selected";
+import "./css/style.scss";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>There's going to be a piano here!</p>
-      </header>
+    <div className="layout">
+      <Keyboard />
+      <Selected />
     </div>
   );
 }

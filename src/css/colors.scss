@@ -1,0 +1,15 @@
+$white: white;
+
+$base: #d4dae0;
+
+$K100: lighten($base, 10%);
+$K200: lighten($base, 5%);
+$K300: $base;
+$K400: darken($base, 10%);
+$K500: darken($base, 25%);
+$K600: darken($base, 30%);
+$K700: darken($base, 50%);
+$K800: darken($base, 65%);
+$K900: darken($base, 75%);
+
+$orange: #ffc107;
