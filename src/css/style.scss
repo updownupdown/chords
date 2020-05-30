@@ -137,6 +137,28 @@ code {
   padding-top: 40px;
 
   .list {
+    padding-left: 6px;
+
+    &:not(.empty) {
+      font-weight: bold;
+    }
+
+    &.empty {
+      color: $K400;
+    }
+  }
+}
+
+// Chords detected
+.chords {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  padding-top: 20px;
+
+  .list {
+    padding-left: 6px;
+
     &:not(.empty) {
       font-weight: bold;
     }

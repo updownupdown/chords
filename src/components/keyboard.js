@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import * as Tone from "tone";
+import * as ChordDetect from "@tonaljs/chord-detect";
 import classNames from "classnames";
 
 // Synth
@@ -84,11 +85,10 @@ const keys = [
 function Keyboard() {
   // Selected Keys
   const [selected, setSelected] = useState([]);
-  const [selectedList, setSelectedList] = useState("");
+  const [chordDetect, setChordDetect] = useState("");
 
   function updateSelected(note, active) {
-    console.log("===== " + (active ? "+" : "-") + " " + note + " =====");
-
+    // Update selected notes
     const list = selected;
 
     if (active) {
@@ -102,9 +102,10 @@ function Keyboard() {
     }
 
     setSelected(list);
-    setSelectedList(list.join(", "));
 
-    console.log("selected: " + selected);
+    // Predict chords
+    const chords = ChordDetect.detect(list);
+    setChordDetect(chords);
   }
 
   const keyList = keys.map((key) => (
@@ -122,8 +123,8 @@ function Keyboard() {
   return (
     <>
       <div className="kb">{keyList}</div>
-      <Selected selectedList={selectedList} />
-      <Chords selected={selected} />
+      <Selected selected={selected} />
+      <Chords chordDetect={chordDetect} />
     </>
   );
 }
@@ -154,9 +155,10 @@ function Selected(props) {
     <div className="selected">
       <span>
         Selected keys:
-        <span className={`list ${!props.selectedList && "empty"}`}>
-          {" "}
-          {props.selectedList || "(press a key...)"}
+        <span className={`list ${!props.selected.length && "empty"}`}>
+          {props.selected.length
+            ? props.selected.join(", ")
+            : "no keys selected..."}
         </span>
       </span>
     </div>
@@ -165,7 +167,18 @@ function Selected(props) {
 
 // Chords
 function Chords(props) {
-  return <div className="chords">trying to predict chords...</div>;
+  return (
+    <div className="chords">
+      <span>
+        Predicted chords:
+        <span className={`list ${!props.chordDetect.length && "empty"}`}>
+          {props.chordDetect.length
+            ? props.chordDetect.join(", ")
+            : "no chords detected..."}
+        </span>
+      </span>
+    </div>
+  );
 }
 
 export default Keyboard;
