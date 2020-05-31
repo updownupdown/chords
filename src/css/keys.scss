@@ -1,0 +1,165 @@
+@import "./vars.scss";
+
+.key {
+  transition: 0.1s ease background-color;
+
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+
+  padding: 0;
+
+  border: 0;
+  border-bottom-left-radius: $key-border-radius;
+  border-bottom-right-radius: $key-border-radius;
+
+  // White Key
+  &-white {
+    z-index: 1;
+    width: $key-white-width;
+    height: 100%;
+
+    background: $white;
+    box-shadow: inset 0 0 0 1px $K200;
+
+    &.pressed,
+    &:hover {
+      background: $K200;
+    }
+  }
+
+  // Black Key
+  &-black {
+    z-index: 2;
+    width: $key-black-width;
+    height: $key-black-height;
+    margin: 0 (-$key-black-width/2);
+
+    background: $K900;
+    box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.2);
+
+    &.pressed,
+    &:hover {
+      background: $K700;
+    }
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  // Labels
+  &-label {
+    transition: 0.2s ease color;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: $key-label-diameter;
+    height: $key-label-diameter;
+
+    margin-bottom: 10px;
+
+    border-radius: 50%;
+
+    font-family: $headingFont;
+    font-size: 14px;
+    font-weight: 600;
+    user-select: none;
+    color: transparent;
+
+    // White label
+    .key-white:hover & {
+      color: $K600;
+    }
+    .key-white.active & {
+      background: $orange;
+      color: $white;
+    }
+
+    // Black label
+    .key-black:hover & {
+      color: $K400;
+    }
+    .key-black.active & {
+      background: $orange;
+      color: $white;
+    }
+  }
+
+  // Shortcuts
+  &-shortcut {
+    user-select: none;
+    pointer-events: none;
+    overflow: hidden;
+    position: absolute;
+    bottom: 100%;
+    width: 100%;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+
+    .key-white & {
+      height: 36px;
+    }
+    .key-black & {
+      height: 52px;
+    }
+
+    &-btn {
+      transition: 0.1s ease background-color;
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px;
+      height: 22px;
+
+      border-radius: 4px;
+      background: $K100;
+
+      font-size: 12px;
+      color: $K400;
+      text-transform: uppercase;
+    }
+
+    &-line {
+      position: absolute;
+      z-index: 1;
+      top: 0;
+      left: 50%;
+      width: 1px;
+      height: 100%;
+      background: rgba($K900, 0.1);
+    }
+  }
+
+  &.pressed .key-shortcut .key-shortcut-btn {
+    background: $K200;
+    color: $K600;
+  }
+
+  // Pitch
+  &-pitch {
+    user-select: none;
+    pointer-events: none;
+    overflow: hidden;
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    width: 1px;
+    margin-top: 4px;
+    height: 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: linear-gradient(180deg, $white, $K200);
+
+    font-size: 0;
+  }
+}

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import * as Tone from "tone";
 import * as ChordDetect from "@tonaljs/chord-detect";
+import { Wheel } from "./Wheel";
 import { Keys } from "./Keys";
 import { Selected } from "./Selected";
 import { Chords } from "./Chords";
@@ -76,14 +77,17 @@ function Keyboard() {
 
   return (
     <>
-      <Keys
-        piano={piano}
-        mouseDown={mouseDown}
-        selected={selected}
-        updateSelected={updateSelected}
-      />
-      <Selected selected={selected} clearSelected={clearSelected} />
-      <Chords chordDetect={chordDetect} />
+      <div className="layout-keyboard">
+        <Wheel />
+        <Keys
+          piano={piano}
+          mouseDown={mouseDown}
+          selected={selected}
+          updateSelected={updateSelected}
+        />
+        <Selected selected={selected} clearSelected={clearSelected} />
+        <Chords chordDetect={chordDetect} />
+      </div>
       <Drawer selected={selected} clearSelected={clearSelected} />
     </>
   );

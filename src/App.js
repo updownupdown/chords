@@ -5,9 +5,7 @@ import "./css/style.scss";
 function App() {
   return (
     <div className="layout">
-      <div className="layout-keyboard">
-        <Keyboard />
-      </div>
+      <Keyboard />
     </div>
   );
 }

@@ -1,0 +1,179 @@
+@import "./vars.scss";
+
+.wheel {
+  $rad: 200px;
+  $dia: $rad * 2;
+  $outer-thickness: 60px;
+  $ring-gap: 4px;
+  $inner-thickness: 50px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  padding: 20px;
+
+  border: 1px solid $K100;
+
+  // Highlight
+  .wheelset-highlight {
+    pointer-events: none;
+    $highlight: rgba($K400, 0.4);
+    $overflow: 30px;
+
+    opacity: 0.7;
+    position: relative;
+    z-index: 10;
+
+    .arc {
+      position: absolute;
+      top: -$overflow/2;
+      left: -$overflow/2;
+      width: $dia + $overflow;
+      height: $dia + $overflow;
+      border-radius: 50%;
+      border: $outer-thickness + $ring-gap + $inner-thickness + $overflow solid;
+
+      border-color: transparent transparent transparent $highlight;
+      transform: rotate(90deg);
+    }
+  }
+
+  // Wheelset
+  .wheelset {
+    position: relative;
+    display: block;
+    width: $dia;
+    height: $dia;
+    margin: auto;
+
+    // Backgrounds
+    &-bg {
+      position: absolute;
+      z-index: 1;
+      width: $dia;
+      height: $dia;
+      border-radius: 50%;
+
+      &-outer {
+        display: block;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        // background: $K100;
+        box-shadow: inset 0 0 0 $outer-thickness $K300;
+      }
+
+      &-inner {
+        display: block;
+        position: absolute;
+        top: $outer-thickness + $ring-gap;
+        left: $outer-thickness + $ring-gap;
+        width: ($rad - $outer-thickness - $ring-gap) * 2;
+        height: ($rad - $outer-thickness - $ring-gap) * 2;
+        box-shadow: inset 0 0 0 $inner-thickness $K200;
+      }
+    }
+  }
+
+  // Outer
+  &-outer {
+    transition: 1s ease transform;
+    position: absolute;
+    z-index: 2;
+    display: block;
+    width: 100%;
+    height: 100%;
+
+    // Notes
+    .note {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      width: $outer-thickness;
+      height: $rad;
+
+      transform-origin: 50% 100%;
+      //   border: 1px solid $K600;
+
+      @for $i from 1 through 12 {
+        &:nth-child(#{$i}) {
+          transform: translate(($rad - $outer-thickness/2), 0)
+            rotate(#{30 * $i - 30}deg);
+        }
+      }
+
+      &-btn {
+        cursor: pointer;
+        transition: 0.3s ease color;
+        user-select: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: $outer-thickness;
+
+        // border: 1px solid $K800;
+
+        font-family: $headingFont;
+        color: $K500;
+        font-weight: 600;
+
+        &.major {
+          height: $outer-thickness;
+          font-size: 40px;
+        }
+        &.minor {
+          margin-top: $ring-gap;
+          height: $inner-thickness;
+          font-size: 24px;
+        }
+
+        span:not(:first-child) {
+          padding-top: 0;
+          font-size: 60%;
+        }
+
+        &.current,
+        &:hover {
+          color: $K900;
+        }
+      }
+    }
+  }
+
+  // Arrows
+  &-arrows {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 80px;
+
+    // Arrow
+    .wheel-arrow {
+      transition: 0.3s ease background-color;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      height: 50px;
+
+      border-radius: 50%;
+
+      background: $K200;
+
+      &:hover {
+        background: $K300;
+      }
+
+      svg {
+        width: 60%;
+        height: 60%;
+
+        path {
+          fill: $K700;
+        }
+      }
+    }
+  }
+}
