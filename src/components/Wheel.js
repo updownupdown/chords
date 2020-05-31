@@ -38,6 +38,8 @@ export const Wheel = (props) => {
   function rotateToIndex(i) {
     if (i === rotateIndex) return;
 
+    console.log("wants to rotate to: " + i);
+
     var distanceCW = 0;
     var distanceCCW = 0;
     var toAngle = 0;
@@ -76,7 +78,7 @@ export const Wheel = (props) => {
         <div className="wheelset-bg wheelset-bg-outer"></div>
         <div className="wheelset-bg wheelset-bg-inner"></div>
         <div className="wheelset-highlight">
-          <div class="arc"></div>
+          <div className="arc"></div>
         </div>
         <div
           className="wheel-outer"
@@ -125,7 +127,7 @@ export const Wheel = (props) => {
           role="button"
           className="wheel-arrow cw"
           onClick={() => {
-            rotateToIndex(rotateIndex === 1 ? 12 : rotateIndex - 1);
+            rotateToIndex(rotateIndex === 0 ? 11 : rotateIndex - 1);
           }}
         >
           <RotateCW />
@@ -134,7 +136,7 @@ export const Wheel = (props) => {
           role="button"
           className="wheel-arrow ccw"
           onClick={() => {
-            rotateToIndex(rotateIndex === 12 ? 1 : rotateIndex + 1);
+            rotateToIndex(rotateIndex === 11 ? 0 : rotateIndex + 1);
           }}
         >
           <RotateCCW />
