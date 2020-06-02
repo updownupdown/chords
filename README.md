@@ -12,3 +12,4 @@ To do:
 - use typescript
 - add accessbility (aria)
 - make mobile responsive, with touch events
+- prevent repeat sounds if pressing and holding keyboard key

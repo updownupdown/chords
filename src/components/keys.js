@@ -1,4 +1,5 @@
 import React from "react";
+import { Note } from "@tonaljs/tonal";
 import { KeyboardMap } from "./KeyboardMap";
 import { KeysList } from "./notes";
 import { Key } from "./Key";
@@ -15,7 +16,7 @@ export const Keys = (props) => {
     if (keyDown && e.key === " ") {
       for (var i = 0; i < KeysList.length; i++) {
         if (KeysList[i].shortcut === keyDown) {
-          props.updateSelected(i, !props.selected.includes(i));
+          props.updateSelected(i, !props.selectedMidi.includes(i));
           break;
         }
       }
@@ -64,10 +65,11 @@ export const Keys = (props) => {
           color={key.color}
           label={key.label}
           note={key.note}
+          midi={Note.midi(key.note)}
           pitch={key.pitch}
           shortcut={key.shortcut}
           piano={props.piano}
-          selected={props.selected}
+          selectedMidi={props.selectedMidi}
           updateSelected={props.updateSelected}
           mouseDown={props.mouseDown}
         />

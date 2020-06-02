@@ -1,5 +1,5 @@
 import React from "react";
-import { selectedToNotesSubtle } from "./Utils";
+import { selectedToNotesSimple, selectedToNotesComplex } from "./Utils";
 
 export const Selected = (props) => {
   return (
@@ -9,22 +9,22 @@ export const Selected = (props) => {
           <span className="list-label">Selected keys:</span>
           <span
             className={`list ${
-              props.selected.length > 0 ? "not-empty" : "empty"
+              props.selectedMidi.length > 0 ? "not-empty" : "empty"
             }`}
           >
-            {props.selected.length
-              ? selectedToNotesSubtle(props.selected)
+            {props.selectedMidi.length
+              ? selectedToNotesSimple(props.selectedMidi)
               : "no keys selected..."}
           </span>
         </span>
         <span className="selected-full">
           <span
             className={`list ${
-              props.selected.length > 0 ? "not-empty" : "empty"
+              props.selectedMidi.length > 0 ? "not-empty" : "empty"
             }`}
           >
-            {props.selected.length > 0 ? (
-              selectedToNotesSubtle(props.selected)
+            {props.selectedMidi.length > 0 ? (
+              selectedToNotesComplex(props.selectedMidi)
             ) : (
               <span>&nbsp;</span>
             )}
@@ -35,7 +35,7 @@ export const Selected = (props) => {
         onClick={() => {
           props.clearSelected();
         }}
-        disabled={props.selected.length === 0}
+        disabled={props.selectedMidi.length === 0}
       >
         Clear Selection
       </button>

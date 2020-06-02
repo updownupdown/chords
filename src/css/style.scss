@@ -1,8 +1,12 @@
 @import "./vars.scss";
 
+$wheel-rad: 200px;
+$wheel-dia: $wheel-rad * 2;
+
 @import "./chords.scss";
 @import "./keys.scss";
 @import "./wheel.scss";
+@import "./keychart.scss";
 
 * {
   box-sizing: border-box;
@@ -56,7 +60,10 @@ button {
   align-items: center;
   justify-content: center;
 
-  // &-keyboard {  }
+  &-keyboard {
+    width: calc(100% - 40px);
+    max-width: 1200px;
+  }
 }
 
 // Keyboard
@@ -158,4 +165,12 @@ button {
   height: 80px;
 
   box-shadow: 0 0 20px $K200;
+}
+
+// Wheel and Key Chart
+.wheel-and-chart {
+  display: flex;
+  justify-content: center;
+
+  width: 100%;
 }

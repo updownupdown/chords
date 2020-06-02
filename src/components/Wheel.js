@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import RotateCW from "../icons/rotate-cw";
 import RotateCCW from "../icons/rotate-ccw";
+import Play from "../icons/play";
 
 export const Wheel = (props) => {
   const outer = [
@@ -38,8 +39,6 @@ export const Wheel = (props) => {
   function rotateToIndex(i) {
     if (i === rotateIndex) return;
 
-    console.log("wants to rotate to: " + i);
-
     var distanceCW = 0;
     var distanceCCW = 0;
     var toAngle = 0;
@@ -53,19 +52,10 @@ export const Wheel = (props) => {
     }
 
     if (distanceCW < distanceCCW) {
-      // CW
       toAngle = rotateDeg - distanceCW * 30;
-      console.log("distanceCW: " + distanceCW);
     } else {
-      // CCW
       toAngle = rotateDeg + distanceCCW * 30;
-      console.log("distanceCCW: " + distanceCCW);
     }
-
-    console.log("from: " + rotateIndex);
-    console.log("to: " + i);
-    console.log("toAngle: " + toAngle);
-    console.log("rotateDeg: " + rotateDeg);
 
     setRotateDeg(toAngle);
     setRotateIndex(i);
@@ -77,6 +67,15 @@ export const Wheel = (props) => {
       <div className="wheelset">
         <div className="wheelset-bg wheelset-bg-outer"></div>
         <div className="wheelset-bg wheelset-bg-inner"></div>
+        <button
+          className="wheelset-play"
+          onClick={
+            Object.keys(props.selectedKey).length !== 0 ? props.playScale : null
+          }
+          disabled={Object.keys(props.selectedKey).length === 0}
+        >
+          <Play />
+        </button>
         <div className="wheelset-highlight">
           <div className="arc"></div>
         </div>
@@ -85,29 +84,39 @@ export const Wheel = (props) => {
           style={{ transform: `rotate(${rotateDeg}deg)` }}
         >
           {outer.map((note, i) => (
-            <span
-              key={i}
-              className="note"
-              index={i}
-              role="button"
-              onClick={() => {
-                rotateToIndex(i);
-              }}
-            >
+            <span key={i} className="note" index={i}>
               <span
-                className={`note-btn major ${i === rotateIndex && "current"}`}
+                className={`note-btn major ${
+                  props.selectedKeyNote === outer[i] &&
+                  props.selectedKeyType === "major" &&
+                  "current"
+                }`}
+                role="button"
+                onClick={() => {
+                  rotateToIndex(i);
+                  props.findKey(outer[i], "major");
+                }}
               >
-                {note.length > 1 ? (
+                {outer[i].length > 1 ? (
                   <>
-                    <span>{note.charAt(0)}</span>
-                    <span>{note.charAt(1)}</span>
+                    <span>{outer[i].charAt(0)}</span>
+                    <span>{outer[i].charAt(1)}</span>
                   </>
                 ) : (
-                  <span>{note}</span>
+                  <span>{outer[i]}</span>
                 )}
               </span>
               <span
-                className={`note-btn minor ${i === rotateIndex && "current"}`}
+                className={`note-btn minor ${
+                  props.selectedKeyNote === inner[i] &&
+                  props.selectedKeyType === "minor" &&
+                  "current"
+                }`}
+                role="button"
+                onClick={() => {
+                  rotateToIndex(i);
+                  props.findKey(inner[i], "minor");
+                }}
               >
                 {inner[i].length > 1 ? (
                   <>
@@ -121,8 +130,7 @@ export const Wheel = (props) => {
             </span>
           ))}
         </div>
-      </div>
-      <div className="wheel-arrows">
+
         <span
           role="button"
           className="wheel-arrow cw"

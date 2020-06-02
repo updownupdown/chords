@@ -1,8 +1,6 @@
 @import "./vars.scss";
 
 .wheel {
-  $rad: 200px;
-  $dia: $rad * 2;
   $outer-thickness: 60px;
   $ring-gap: 4px;
   $inner-thickness: 50px;
@@ -10,10 +8,8 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 100%;
-  padding: 20px;
-
-  border: 1px solid $K100;
+  width: $wheel-dia;
+  height: $wheel-dia;
 
   // Highlight
   .wheelset-highlight {
@@ -29,8 +25,8 @@
       position: absolute;
       top: -$overflow/2;
       left: -$overflow/2;
-      width: $dia + $overflow;
-      height: $dia + $overflow;
+      width: $wheel-dia + $overflow;
+      height: $wheel-dia + $overflow;
       border-radius: 50%;
       border: $outer-thickness + $ring-gap + $inner-thickness + $overflow solid;
 
@@ -43,16 +39,16 @@
   .wheelset {
     position: relative;
     display: block;
-    width: $dia;
-    height: $dia;
+    width: $wheel-dia;
+    height: $wheel-dia;
     margin: auto;
 
     // Backgrounds
     &-bg {
       position: absolute;
       z-index: 1;
-      width: $dia;
-      height: $dia;
+      width: $wheel-dia;
+      height: $wheel-dia;
       border-radius: 50%;
 
       &-outer {
@@ -60,8 +56,7 @@
         position: absolute;
         width: 100%;
         height: 100%;
-        // background: $K100;
-        box-shadow: inset 0 0 0 $outer-thickness $K300;
+        box-shadow: inset 0 0 0 $outer-thickness $K200;
       }
 
       &-inner {
@@ -69,9 +64,9 @@
         position: absolute;
         top: $outer-thickness + $ring-gap;
         left: $outer-thickness + $ring-gap;
-        width: ($rad - $outer-thickness - $ring-gap) * 2;
-        height: ($rad - $outer-thickness - $ring-gap) * 2;
-        box-shadow: inset 0 0 0 $inner-thickness $K200;
+        width: ($wheel-rad - $outer-thickness - $ring-gap) * 2;
+        height: ($wheel-rad - $outer-thickness - $ring-gap) * 2;
+        box-shadow: inset 0 0 0 $inner-thickness $K100;
       }
     }
   }
@@ -92,14 +87,13 @@
       flex-direction: column;
       justify-content: flex-start;
       width: $outer-thickness;
-      height: $rad;
+      height: $wheel-rad;
 
       transform-origin: 50% 100%;
-      //   border: 1px solid $K600;
 
       @for $i from 1 through 12 {
         &:nth-child(#{$i}) {
-          transform: translate(($rad - $outer-thickness/2), 0)
+          transform: translate(($wheel-rad - $outer-thickness/2), 0)
             rotate(#{30 * $i - 30}deg);
         }
       }
@@ -112,8 +106,6 @@
         justify-content: center;
         align-items: center;
         width: $outer-thickness;
-
-        // border: 1px solid $K800;
 
         font-family: $headingFont;
         color: $K500;
@@ -136,42 +128,100 @@
 
         &.current,
         &:hover {
-          color: $K900;
+          color: $green;
         }
       }
     }
   }
 
-  // Arrows
-  &-arrows {
+  // Arrow
+  .wheel-arrow {
+    cursor: pointer;
+    transition: 0.3s ease background-color, 0.3s ease border-color;
+
+    position: absolute;
+    z-index: 10;
+    bottom: 0;
+    width: 50px;
+    height: 50px;
+
     display: flex;
-    justify-content: space-between;
-    margin-top: 80px;
+    align-items: center;
+    justify-content: center;
 
-    // Arrow
-    .wheel-arrow {
-      transition: 0.3s ease background-color;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 50px;
-      height: 50px;
+    border-radius: 50%;
+    border: 1px solid $K100;
 
-      border-radius: 50%;
+    &.cw {
+      left: 0;
+    }
+    &.ccw {
+      right: 0;
+    }
 
+    svg {
+      width: 60%;
+      height: 60%;
+
+      path {
+        transition: 0.3s ease fill;
+        fill: $K500;
+      }
+    }
+
+    &:hover {
       background: $K200;
+      border-color: $K300;
+
+      svg path {
+        fill: $K700;
+      }
+    }
+  }
+
+  // Play Key
+  .wheelset-play {
+    $play-size: 80px;
+
+    transition: 0.3s ease background;
+    position: absolute;
+    z-index: 11;
+    top: 50%;
+    left: 50%;
+    margin-top: -$play-size/2;
+    margin-left: -$play-size/2;
+    width: $play-size;
+    height: $play-size;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+    background: $K100;
+
+    svg {
+      width: 50%;
+      height: 50%;
+
+      path {
+        transition: 0.3s ease fill;
+        fill: $K700;
+      }
+    }
+
+    &:disabled {
+      opacity: 0.5;
+    }
+
+    &:not(:disabled) {
+      cursor: pointer;
 
       &:hover {
-        background: $K300;
-      }
+        background: $K200;
 
-      svg {
-        width: 60%;
-        height: 60%;
-
-        path {
-          fill: $K700;
+        svg path {
+          fill: $K900;
         }
       }
     }

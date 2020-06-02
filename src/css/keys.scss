@@ -28,6 +28,10 @@
     &:hover {
       background: $K200;
     }
+
+    &.highlighted {
+      background: $orange;
+    }
   }
 
   // Black Key
@@ -44,10 +48,27 @@
     &:hover {
       background: $K700;
     }
+
+    &.highlighted {
+      background: $orange;
+    }
   }
 
   &:focus {
     outline: none;
+  }
+
+  &.soft-highlighted:before {
+    content: "";
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    width: $key-label-diameter;
+    height: $key-label-diameter;
+    margin-left: -$key-label-diameter/2;
+
+    border-radius: 50%;
+    background: $orange;
   }
 
   // Labels

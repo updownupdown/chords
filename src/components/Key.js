@@ -4,17 +4,18 @@ import classNames from "classnames";
 export const Key = (props) => {
   return (
     <button
-      data-index={props.index}
-      data-shortcut={props.shortcut}
-      data-note={props.note}
       className={classNames(`key key-${props.color}`, {
-        active: props.selected.includes(props.index),
+        active: props.selectedMidi.includes(props.midi),
       })}
+      data-index={props.index}
+      data-midi={props.midi}
+      data-note={props.note}
+      data-shortcut={props.shortcut}
       onMouseDown={() => {
         props.piano.triggerAttack(props.note);
         props.updateSelected(
-          props.index,
-          !props.selected.includes(props.index)
+          props.midi,
+          !props.selectedMidi.includes(props.index)
         );
       }}
       onMouseUp={() => {

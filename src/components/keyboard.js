@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import * as Tone from "tone";
+import { Key, Note } from "@tonaljs/tonal";
 import * as ChordDetect from "@tonaljs/chord-detect";
 import { Wheel } from "./Wheel";
+import { KeyChart } from "./KeyChart";
 import { Keys } from "./Keys";
 import { Selected } from "./Selected";
 import { Chords } from "./Chords";
@@ -34,11 +36,61 @@ piano.toDestination();
 
 // Keyboard
 function Keyboard() {
-  // Selected Keys
-  const [selected, setSelected] = useState([]);
+  // Selected Keys (notes)
+  const [selectedMidi, setSelectedMidi] = useState([]);
 
   // Chord Detection
   const [chordDetect, setChordDetect] = useState("");
+
+  // Selected Key
+  const [selectedKey, setSelectedKey] = useState({});
+  const [selectedKeyNote, setSelectedKeyNote] = useState("");
+  const [selectedKeyType, setSelectedKeyType] = useState("");
+
+  function setKey(note, type, foundKey) {
+    setSelectedKeyNote(note);
+    setSelectedKeyType(type);
+    setSelectedKey(foundKey);
+
+    pressKeys(foundKey, type);
+  }
+
+  function pressKeys(foundKey, type) {
+    var scale = pitchedScaleFromSelectedKey(foundKey, type);
+    console.log(selectedMidi);
+    var selected = [];
+
+    // document
+    //   .querySelectorAll(".key")
+    //   .forEach((el) => el.classList.remove("soft-highlighted"));
+
+    for (var i = 0; i < scale.length; i++) {
+      var midi = Note.midi(scale[i]);
+
+      selected.push(midi);
+
+      // document
+      //   .querySelector(`.key[data-midi='${midi}'`)
+      //   .classList.add("soft-highlighted");
+    }
+
+    console.log(selected);
+
+    setSelectedMidi(selected);
+  }
+
+  function findKey(note, type) {
+    var key = {};
+    if (type === "major") {
+      key = Key.majorKey(note);
+    } else if (type === "minor") {
+      key = Key.minorKey(note);
+    } else {
+      return;
+    }
+
+    setKey(note, type, key);
+  }
 
   // Mouse down (for keyboard swiping)
   const [mouseDown, setMouseDown] = useState(false);
@@ -50,7 +102,7 @@ function Keyboard() {
 
   // Update selected notes
   function updateSelected(index, active) {
-    const list = selected;
+    const list = selectedMidi;
 
     if (active) {
       list.push(index);
@@ -63,7 +115,7 @@ function Keyboard() {
       }
     }
 
-    setSelected(list);
+    setSelectedMidi(list);
 
     // Predict chords
     const chords = ChordDetect.detect(selectedToNotes(list));
@@ -71,24 +123,145 @@ function Keyboard() {
   }
 
   function clearSelected() {
-    setSelected([]);
+    setSelectedMidi([]);
     setChordDetect("");
+  }
+
+  var timeouts = [];
+
+  function cancelTimeouts() {
+    // console.log("cancelTimeouts...");
+    // console.log(timeouts);
+
+    for (var i = 0; i < timeouts.length; i++) {
+      clearTimeout(timeouts[i]);
+      // console.log("clearing timeout");
+    }
+    timeouts = [];
+
+    document.querySelector(".key").classList.remove("pressed");
+  }
+
+  function highlightKeys(playScale, tempo) {
+    for (let i = 0; i < playScale.length; i++) {
+      var midi = Note.midi(playScale[i].note);
+
+      let keyToPress = document.querySelector(`.key[data-midi='${midi}'`);
+
+      timeouts.push(
+        setTimeout(() => {
+          keyToPress.classList.add("highlighted");
+        }, tempo * i * 1000)
+      );
+
+      timeouts.push(
+        setTimeout(function () {
+          keyToPress.classList.remove("highlighted");
+        }, tempo * i * 1000 + tempo * 1000)
+      );
+    }
+
+    // console.log(timeouts);
+  }
+
+  function scaleFromKey(key, keyType) {
+    console.log(key);
+    console.log(keyType);
+    if (keyType === "major") {
+      return key.scale;
+    } else {
+      return key.natural.scale;
+    }
+  }
+
+  function pitchedScaleFromSelectedKey(key, type, startPitch = 4) {
+    console.log(key);
+    console.log(type);
+
+    var pitch = startPitch;
+    var scale = scaleFromKey(key, type);
+    var pitched = [];
+
+    for (var i = 0; i < scale.length; i++) {
+      pitched.push(scale[i] + pitch.toString());
+
+      if (scale[i].includes("B")) {
+        pitch++;
+      }
+    }
+    pitched.push(scale[0] + pitch.toString());
+
+    return pitched;
+  }
+
+  function playScale() {
+    if (Object.keys(selectedKey).length === 0) {
+      return;
+    }
+
+    // Cancel play in progress
+    Tone.Transport.cancel(0);
+
+    // Cancel/reset key highlights
+    cancelTimeouts();
+
+    var pitchedScale = pitchedScaleFromSelectedKey(
+      selectedKey,
+      selectedKeyType
+    );
+
+    const playScale = [];
+    const tempo = 0.32;
+    const noteLength = "8n";
+
+    for (var i = 0; i < pitchedScale.length; i++) {
+      playScale.push({
+        time: i * tempo,
+        note: pitchedScale[i],
+        duration: noteLength,
+      });
+    }
+
+    new Tone.Part(function (time, note) {
+      piano.triggerAttackRelease(note.note, note.duration, time);
+    }, playScale).start();
+    Tone.Transport.start();
+
+    // Highlight keys
+    highlightKeys(playScale, tempo);
+
+    return;
   }
 
   return (
     <>
       <div className="layout-keyboard">
-        <Wheel />
+        <div className="wheel-and-chart">
+          <Wheel
+            playScale={playScale}
+            piano={piano}
+            findKey={findKey}
+            selectedKey={selectedKey}
+            selectedKeyNote={selectedKeyNote}
+            selectedKeyType={selectedKeyType}
+          />
+          <KeyChart
+            selectedKeyNote={selectedKeyNote}
+            setSelectedKeyNote={setSelectedKeyNote}
+            selectedKeyType={selectedKeyType}
+            setSelectedKeyType={setSelectedKeyType}
+          />
+        </div>
         <Keys
           piano={piano}
           mouseDown={mouseDown}
-          selected={selected}
+          selectedMidi={selectedMidi}
           updateSelected={updateSelected}
         />
-        <Selected selected={selected} clearSelected={clearSelected} />
+        <Selected selectedMidi={selectedMidi} clearSelected={clearSelected} />
         <Chords chordDetect={chordDetect} />
       </div>
-      <Drawer selected={selected} clearSelected={clearSelected} />
+      <Drawer selectedMidi={selectedMidi} clearSelected={clearSelected} />
     </>
   );
 }
