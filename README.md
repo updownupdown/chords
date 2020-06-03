@@ -2,14 +2,23 @@
 
 This project is at a very early stage.
 
-To do:
+Bugs:
+
+- add onload/buffer for Tone.Sampler to prevent error on page load
+- prevent repeat sounds if pressing and holding keyboard key
+- move scss includes back to components; clean up file names?
+
+Technical:
+
+- review var/let/const
+- clean up files
+- use context?
+- use typescript
+
+Features:
 
 - volume slider with mute
-- add onload/buffer for Tone.Sampler to prevent error on page load
-- add circle of fifth
 - add toggles for labels, keyboard shortcuts, simple/advanced info
-- guitar tabs?
-- use typescript
-- add accessbility (aria)
 - make mobile responsive, with touch events
-- prevent repeat sounds if pressing and holding keyboard key
+- add accessbility (aria)
+- guitar tabs?

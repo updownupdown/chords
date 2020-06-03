@@ -18,7 +18,7 @@ export function selectedToNotesSimple(selected) {
     list.push(Note.fromMidi(selected[i]).replace(/[0-9]/g, ""));
   }
 
-  console.log(list);
+  // console.log(list);
 
   var uniqueList = removeDuplicates(list);
 

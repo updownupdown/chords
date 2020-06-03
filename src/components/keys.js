@@ -30,7 +30,7 @@ export const Keys = (props) => {
       }
 
       // Start sound
-      props.piano.triggerAttack(KeyboardMap[e.key]);
+      props.pianoAttack(KeyboardMap[e.key]);
     }
 
     // Store for spacebar toggling
@@ -48,7 +48,7 @@ export const Keys = (props) => {
       }
 
       // Stop sound
-      props.piano.triggerRelease(KeyboardMap[e.key]);
+      props.pianoRelease(KeyboardMap[e.key]);
     }
 
     // Store for spacebar toggling
@@ -68,7 +68,9 @@ export const Keys = (props) => {
           midi={Note.midi(key.note)}
           pitch={key.pitch}
           shortcut={key.shortcut}
-          piano={props.piano}
+          pianoAttack={props.pianoAttack}
+          pianoRelease={props.pianoRelease}
+          pianoAttackRelease={props.pianoAttackRelease}
           selectedMidi={props.selectedMidi}
           updateSelected={props.updateSelected}
           mouseDown={props.mouseDown}

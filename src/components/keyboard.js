@@ -28,11 +28,11 @@ const piano = new Tone.Sampler(
   {
     release: 1.2,
     baseUrl: process.env.PUBLIC_URL + "./samples/",
-    // onload: pianoReady,
   }
 );
 piano.volume.value = -5;
 piano.toDestination();
+Tone.context.resume();
 
 // Keyboard
 function Keyboard() {
@@ -57,7 +57,7 @@ function Keyboard() {
 
   function pressKeys(foundKey, type) {
     var scale = pitchedScaleFromSelectedKey(foundKey, type);
-    console.log(selectedMidi);
+    // console.log(selectedMidi);
     var selected = [];
 
     // document
@@ -74,7 +74,7 @@ function Keyboard() {
       //   .classList.add("soft-highlighted");
     }
 
-    console.log(selected);
+    // console.log(selected);
 
     setSelectedMidi(selected);
   }
@@ -165,8 +165,8 @@ function Keyboard() {
   }
 
   function scaleFromKey(key, keyType) {
-    console.log(key);
-    console.log(keyType);
+    // console.log(key);
+    // console.log(keyType);
     if (keyType === "major") {
       return key.scale;
     } else {
@@ -175,8 +175,8 @@ function Keyboard() {
   }
 
   function pitchedScaleFromSelectedKey(key, type, startPitch = 4) {
-    console.log(key);
-    console.log(type);
+    // console.log(key);
+    // console.log(type);
 
     var pitch = startPitch;
     var scale = scaleFromKey(key, type);
@@ -233,13 +233,22 @@ function Keyboard() {
     return;
   }
 
+  function pianoAttack(note) {
+    piano.triggerAttack(note);
+  }
+  function pianoRelease(note) {
+    piano.triggerRelease(note);
+  }
+  function pianoAttackRelease(note, duration) {
+    piano.triggerAttackRelease(note, duration);
+  }
+
   return (
     <>
       <div className="layout-keyboard">
         <div className="wheel-and-chart">
           <Wheel
             playScale={playScale}
-            piano={piano}
             findKey={findKey}
             selectedKey={selectedKey}
             selectedKeyNote={selectedKeyNote}
@@ -253,7 +262,9 @@ function Keyboard() {
           />
         </div>
         <Keys
-          piano={piano}
+          pianoAttack={pianoAttack}
+          pianoRelease={pianoRelease}
+          pianoAttackRelease={pianoAttackRelease}
           mouseDown={mouseDown}
           selectedMidi={selectedMidi}
           updateSelected={updateSelected}

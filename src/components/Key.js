@@ -12,21 +12,21 @@ export const Key = (props) => {
       data-note={props.note}
       data-shortcut={props.shortcut}
       onMouseDown={() => {
-        props.piano.triggerAttack(props.note);
+        props.pianoAttack(props.note);
         props.updateSelected(
           props.midi,
           !props.selectedMidi.includes(props.index)
         );
       }}
       onMouseUp={() => {
-        props.piano.triggerRelease(props.note);
+        props.pianoRelease(props.note);
       }}
       onMouseLeave={() => {
-        props.piano.triggerRelease(props.note);
+        props.pianoRelease(props.note);
       }}
       onMouseEnter={(e) => {
         if (props.mouseDown) {
-          props.piano.triggerAttackRelease(props.note, "8n");
+          props.pianoAttackRelease(props.note, "8n");
         }
       }}
     >
