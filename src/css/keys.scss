@@ -58,19 +58,6 @@
     outline: none;
   }
 
-  &.soft-highlighted:before {
-    content: "";
-    position: absolute;
-    bottom: 10px;
-    left: 50%;
-    width: $key-label-diameter;
-    height: $key-label-diameter;
-    margin-left: -$key-label-diameter/2;
-
-    border-radius: 50%;
-    background: $orange;
-  }
-
   // Labels
   &-label {
     transition: 0.2s ease color;

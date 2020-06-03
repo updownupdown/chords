@@ -91,8 +91,8 @@ export const KeyChart = (props) => {
       },
     ];
 
-    if (props.selectedKeyType === "major") {
-      const details = Key.majorKey(props.selectedKeyNote);
+    if (props.myKey.type === "major") {
+      const details = Key.majorKey(props.myKey.note);
 
       return majorInfo.map(
         (info, i) =>
@@ -107,8 +107,8 @@ export const KeyChart = (props) => {
             </span>
           )
       );
-    } else if (props.selectedKeyType === "minor") {
-      const details = Key.minorKey(props.selectedKeyNote);
+    } else if (props.myKey.type === "minor") {
+      const details = Key.minorKey(props.myKey.note);
 
       return minorInfo.map(
         (info, i) =>
@@ -131,7 +131,7 @@ export const KeyChart = (props) => {
   return (
     <div className="key-chart">
       <div className="key-chart-details">
-        {props.selectedKeyNote ? keyInfo() : "Select a key..."}
+        {props.myKey.note ? keyInfo() : "Select a key..."}
       </div>
     </div>
   );

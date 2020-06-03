@@ -15,7 +15,7 @@ export const Key = (props) => {
         props.pianoAttack(props.note);
         props.updateSelected(
           props.midi,
-          !props.selectedMidi.includes(props.index)
+          !props.selectedMidi.includes(props.midi)
         );
       }}
       onMouseUp={() => {

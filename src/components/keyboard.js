@@ -43,38 +43,22 @@ function Keyboard() {
   const [chordDetect, setChordDetect] = useState("");
 
   // Selected Key
-  const [selectedKey, setSelectedKey] = useState({});
-  const [selectedKeyNote, setSelectedKeyNote] = useState("");
-  const [selectedKeyType, setSelectedKeyType] = useState("");
+  const [myKey, setMyKey] = useState({ key: {}, note: "", type: "" });
 
-  function setKey(note, type, foundKey) {
-    setSelectedKeyNote(note);
-    setSelectedKeyType(type);
-    setSelectedKey(foundKey);
+  // to handle playing keys by dragging mouse while mouse is down
+  const [mouseDown, setMouseDown] = useState(false);
 
-    pressKeys(foundKey, type);
-  }
+  function setKey(key, note, type) {
+    setMyKey({ key: key, note: note, type: type });
 
-  function pressKeys(foundKey, type) {
-    var scale = pitchedScaleFromSelectedKey(foundKey, type);
-    // console.log(selectedMidi);
+    var scale = pitchedScale(key, type);
     var selected = [];
-
-    // document
-    //   .querySelectorAll(".key")
-    //   .forEach((el) => el.classList.remove("soft-highlighted"));
 
     for (var i = 0; i < scale.length; i++) {
       var midi = Note.midi(scale[i]);
 
       selected.push(midi);
-
-      // document
-      //   .querySelector(`.key[data-midi='${midi}'`)
-      //   .classList.add("soft-highlighted");
     }
-
-    // console.log(selected);
 
     setSelectedMidi(selected);
   }
@@ -89,11 +73,9 @@ function Keyboard() {
       return;
     }
 
-    setKey(note, type, key);
+    setKey(key, note, type);
   }
 
-  // Mouse down (for keyboard swiping)
-  const [mouseDown, setMouseDown] = useState(false);
   function setLeftButtonState(e) {
     setMouseDown(e.buttons === undefined ? e.which === 1 : e.buttons === 1);
   }
@@ -142,9 +124,9 @@ function Keyboard() {
     document.querySelector(".key").classList.remove("pressed");
   }
 
-  function highlightKeys(playScale, tempo) {
-    for (let i = 0; i < playScale.length; i++) {
-      var midi = Note.midi(playScale[i].note);
+  function highlightKeys(playlist, tempo) {
+    for (let i = 0; i < playlist.length; i++) {
+      var midi = Note.midi(playlist[i].note);
 
       let keyToPress = document.querySelector(`.key[data-midi='${midi}'`);
 
@@ -164,23 +146,25 @@ function Keyboard() {
     // console.log(timeouts);
   }
 
-  function scaleFromKey(key, keyType) {
-    // console.log(key);
-    // console.log(keyType);
-    if (keyType === "major") {
-      return key.scale;
-    } else {
-      return key.natural.scale;
-    }
-  }
-
-  function pitchedScaleFromSelectedKey(key, type, startPitch = 4) {
+  function scaleFromKey(key, type) {
+    // console.log(myKey);
     // console.log(key);
     // console.log(type);
+    if (type === "major") {
+      return key.scale;
+    } else if (type === "minor") {
+      return key.natural.scale;
+    }
+    return;
+  }
 
+  function pitchedScale(key, type, startPitch = 4) {
+    // console.log(myKey);
     var pitch = startPitch;
     var scale = scaleFromKey(key, type);
     var pitched = [];
+
+    // console.log(scale);
 
     for (var i = 0; i < scale.length; i++) {
       pitched.push(scale[i] + pitch.toString());
@@ -195,7 +179,7 @@ function Keyboard() {
   }
 
   function playScale() {
-    if (Object.keys(selectedKey).length === 0) {
+    if (Object.keys(myKey.key).length === 0) {
       return;
     }
 
@@ -205,30 +189,27 @@ function Keyboard() {
     // Cancel/reset key highlights
     cancelTimeouts();
 
-    var pitchedScale = pitchedScaleFromSelectedKey(
-      selectedKey,
-      selectedKeyType
-    );
+    var scale = pitchedScale(myKey.key, myKey.type);
 
-    const playScale = [];
+    const playlist = [];
     const tempo = 0.32;
     const noteLength = "8n";
 
-    for (var i = 0; i < pitchedScale.length; i++) {
-      playScale.push({
+    for (var i = 0; i < scale.length; i++) {
+      playlist.push({
         time: i * tempo,
-        note: pitchedScale[i],
+        note: scale[i],
         duration: noteLength,
       });
     }
 
     new Tone.Part(function (time, note) {
       piano.triggerAttackRelease(note.note, note.duration, time);
-    }, playScale).start();
+    }, playlist).start();
     Tone.Transport.start();
 
     // Highlight keys
-    highlightKeys(playScale, tempo);
+    highlightKeys(playlist, tempo);
 
     return;
   }
@@ -247,19 +228,8 @@ function Keyboard() {
     <>
       <div className="layout-keyboard">
         <div className="wheel-and-chart">
-          <Wheel
-            playScale={playScale}
-            findKey={findKey}
-            selectedKey={selectedKey}
-            selectedKeyNote={selectedKeyNote}
-            selectedKeyType={selectedKeyType}
-          />
-          <KeyChart
-            selectedKeyNote={selectedKeyNote}
-            setSelectedKeyNote={setSelectedKeyNote}
-            selectedKeyType={selectedKeyType}
-            setSelectedKeyType={setSelectedKeyType}
-          />
+          <Wheel playScale={playScale} findKey={findKey} myKey={myKey} />
+          <KeyChart myKey={myKey} />
         </div>
         <Keys
           pianoAttack={pianoAttack}

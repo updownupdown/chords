@@ -70,9 +70,9 @@ export const Wheel = (props) => {
         <button
           className="wheelset-play"
           onClick={
-            Object.keys(props.selectedKey).length !== 0 ? props.playScale : null
+            Object.keys(props.myKey.key).length !== 0 ? props.playScale : null
           }
-          disabled={Object.keys(props.selectedKey).length === 0}
+          disabled={Object.keys(props.myKey.key).length === 0}
         >
           <Play />
         </button>
@@ -87,8 +87,8 @@ export const Wheel = (props) => {
             <span key={i} className="note" index={i}>
               <span
                 className={`note-btn major ${
-                  props.selectedKeyNote === outer[i] &&
-                  props.selectedKeyType === "major" &&
+                  props.myKey.note === outer[i] &&
+                  props.myKey.type === "major" &&
                   "current"
                 }`}
                 role="button"
@@ -108,8 +108,8 @@ export const Wheel = (props) => {
               </span>
               <span
                 className={`note-btn minor ${
-                  props.selectedKeyNote === inner[i] &&
-                  props.selectedKeyType === "minor" &&
+                  props.myKey.note === inner[i] &&
+                  props.myKey.type === "minor" &&
                   "current"
                 }`}
                 role="button"
