@@ -20,6 +20,7 @@ Features:
 - chord finder/selector with series of dropdowns
 - volume slider with mute
 - add toggles for labels, keyboard shortcuts, simple/advanced info
+- keyboard shortcut guide (esp. for delete, enter, key + space to select)
 - make mobile responsive, with touch events
 - add accessbility (aria)
 - guitar tabs?

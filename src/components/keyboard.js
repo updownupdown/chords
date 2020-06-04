@@ -256,6 +256,7 @@ function Keyboard() {
           mouseDown={mouseDown}
           selectedMidi={selectedMidi}
           updateSelected={updateSelected}
+          clearSelected={clearSelected}
           playSelectedKeys={playSelectedKeys}
         />
         <Selected selectedMidi={selectedMidi} clearSelected={clearSelected} />

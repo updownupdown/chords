@@ -13,6 +13,12 @@ export const Keys = (props) => {
     // Prevent repeat key presses
     if (e.key === keyDown) return;
 
+    // Delete key = Unselect keys
+    if (e.key === "Delete") {
+      props.clearSelected();
+      return;
+    }
+
     // Enter key = play selected
     if (e.key === "Enter") {
       props.playSelectedKeys();
