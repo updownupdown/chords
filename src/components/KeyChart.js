@@ -7,18 +7,14 @@ import { Key } from "@tonaljs/tonal";
 export const KeyChart = (props) => {
   function keyInfo() {
     const majorInfo = [
-      {
-        label: "Tonic",
-        info: "tonic",
-      },
-      {
-        label: "Type",
-        info: "type",
-      },
-      {
-        label: "Key Signature",
-        info: "keySignature",
-      },
+      // {
+      //   label: "Tonic",
+      //   info: "tonic",
+      // },
+      // {
+      //   label: "Type",
+      //   info: "type",
+      // },
       {
         label: "Relative Minor",
         info: "relativeMinor",
@@ -76,18 +72,18 @@ export const KeyChart = (props) => {
     ];
 
     const minorInfo = [
-      {
-        label: "Tonic",
-        info: "tonic",
-      },
-      {
-        label: "Type",
-        info: "type",
-      },
-      {
-        label: "Key Signature",
-        info: "keySignature",
-      },
+      // {
+      //   label: "Tonic",
+      //   info: "tonic",
+      // },
+      // {
+      //   label: "Type",
+      //   info: "type",
+      // },
+      // {
+      //   label: "Key Signature",
+      //   info: "keySignature",
+      // },
       {
         label: "Relative Major",
         info: "relativeMajor",
@@ -155,6 +151,17 @@ export const KeyChart = (props) => {
 
   return (
     <div className="key-chart">
+      <div className="key-chart-title">
+        <span className="value">
+          {Object.keys(props.myKey.key).length === 0 ? (
+            <span className="empty">No key selected...</span>
+          ) : (
+            <span>
+              {props.myKey.key.tonic} {props.myKey.key.type}
+            </span>
+          )}
+        </span>
+      </div>
       <div className="key-chart-signature">
         <div className="treble-clef">
           <Treble />
@@ -168,9 +175,7 @@ export const KeyChart = (props) => {
         </div>
         <div className="sharps-flats">{signature && sigList(signature)}</div>
       </div>
-      <div className="key-chart-details">
-        {props.myKey.note ? keyInfo() : "Select a key..."}
-      </div>
+      <div className="key-chart-details">{props.myKey.note && keyInfo()}</div>
     </div>
   );
 };

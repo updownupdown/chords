@@ -13,6 +13,33 @@
   border: 1px solid $K100;
   box-shadow: 1px 2px 12px $K100;
 
+  // Title
+  &-title {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 40px;
+    padding-bottom: 10px;
+
+    border-bottom: 1px solid $K200;
+
+    span {
+      font-family: $headingFont;
+
+      &:not(.empty) {
+        font-weight: 600;
+        font-size: 22px;
+        color: $K900;
+      }
+
+      &.empty {
+        font-size: 16px;
+        font-weight: 400;
+        color: $K400;
+      }
+    }
+  }
+
   // Signature
   &-signature {
     $sig-height: 50px;
@@ -21,7 +48,7 @@
     flex-shrink: 0;
     width: $sig-height * 2.8;
     height: $sig-height;
-    margin: $sig-height * 0.25 0 $sig-height * 0.45;
+    margin: $sig-height * 0.7 0 $sig-height * 0.45;
 
     .lines {
       position: absolute;

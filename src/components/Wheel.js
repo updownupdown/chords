@@ -135,7 +135,13 @@ export const Wheel = (props) => {
           role="button"
           className="wheel-arrow cw"
           onClick={() => {
-            rotateToIndex(rotateIndex === 0 ? 11 : rotateIndex - 1);
+            const rotateTo = rotateIndex === 0 ? 11 : rotateIndex - 1;
+            const type = props.myKey.type ? props.myKey.type : "major";
+            rotateToIndex(rotateTo);
+            props.findKey(
+              type === "major" ? outer[rotateTo] : inner[rotateTo],
+              type
+            );
           }}
         >
           <RotateCW />
@@ -144,7 +150,13 @@ export const Wheel = (props) => {
           role="button"
           className="wheel-arrow ccw"
           onClick={() => {
-            rotateToIndex(rotateIndex === 11 ? 0 : rotateIndex + 1);
+            const rotateTo = rotateIndex === 11 ? 0 : rotateIndex + 1;
+            const type = props.myKey.type ? props.myKey.type : "major";
+            rotateToIndex(rotateTo);
+            props.findKey(
+              type === "major" ? outer[rotateTo] : inner[rotateTo],
+              type
+            );
           }}
         >
           <RotateCCW />
