@@ -183,7 +183,6 @@
   .wheelset-play {
     $play-size: 80px;
 
-    transition: 0.3s ease background;
     position: absolute;
     z-index: 11;
     top: 50%;
@@ -192,38 +191,5 @@
     margin-left: -$play-size/2;
     width: $play-size;
     height: $play-size;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 50%;
-    background: $K100;
-
-    svg {
-      width: 50%;
-      height: 50%;
-
-      path {
-        transition: 0.3s ease fill;
-        fill: $K700;
-      }
-    }
-
-    &:disabled {
-      opacity: 0.5;
-    }
-
-    &:not(:disabled) {
-      cursor: pointer;
-
-      &:hover {
-        background: $K200;
-
-        svg path {
-          fill: $K900;
-        }
-      }
-    }
   }
 }

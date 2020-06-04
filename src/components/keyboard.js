@@ -48,6 +48,10 @@ function Keyboard() {
   // to handle playing keys by dragging mouse while mouse is down
   const [mouseDown, setMouseDown] = useState(false);
 
+  // for auto play keys
+  const autoplayDelay = 0.3;
+  const autoplayLength = "8n";
+
   function setKey(key, note, type) {
     setMyKey({ key: key, note: note, type: type });
 
@@ -124,7 +128,7 @@ function Keyboard() {
     document.querySelector(".key").classList.remove("pressed");
   }
 
-  function highlightKeys(playlist, tempo) {
+  function highlightKeys(playlist) {
     for (let i = 0; i < playlist.length; i++) {
       var midi = Note.midi(playlist[i].note);
 
@@ -133,13 +137,13 @@ function Keyboard() {
       timeouts.push(
         setTimeout(() => {
           keyToPress.classList.add("highlighted");
-        }, tempo * i * 1000)
+        }, autoplayDelay * i * 1000)
       );
 
       timeouts.push(
         setTimeout(function () {
           keyToPress.classList.remove("highlighted");
-        }, tempo * i * 1000 + tempo * 1000)
+        }, autoplayDelay * i * 1000 + autoplayDelay * 1000)
       );
     }
 
@@ -178,30 +182,12 @@ function Keyboard() {
     return pitched;
   }
 
-  function playScale() {
-    if (Object.keys(myKey.key).length === 0) {
-      return;
-    }
-
+  function playPlaylist(playlist) {
     // Cancel play in progress
     Tone.Transport.cancel(0);
 
     // Cancel/reset key highlights
     cancelTimeouts();
-
-    var scale = pitchedScale(myKey.key, myKey.type);
-
-    const playlist = [];
-    const tempo = 0.32;
-    const noteLength = "8n";
-
-    for (var i = 0; i < scale.length; i++) {
-      playlist.push({
-        time: i * tempo,
-        note: scale[i],
-        duration: noteLength,
-      });
-    }
 
     new Tone.Part(function (time, note) {
       piano.triggerAttackRelease(note.note, note.duration, time);
@@ -209,9 +195,41 @@ function Keyboard() {
     Tone.Transport.start();
 
     // Highlight keys
-    highlightKeys(playlist, tempo);
+    highlightKeys(playlist);
+  }
 
-    return;
+  function playSelectedKeys() {
+    if (selectedMidi.length === 0) return;
+
+    const playlist = [];
+    for (var i = 0; i < selectedMidi.length; i++) {
+      playlist.push({
+        time: i * autoplayDelay,
+        note: Note.fromMidi(selectedMidi[i]),
+        duration: autoplayLength,
+      });
+    }
+
+    playPlaylist(playlist);
+  }
+
+  function playScale() {
+    if (Object.keys(myKey.key).length === 0) {
+      return;
+    }
+
+    var scale = pitchedScale(myKey.key, myKey.type);
+
+    const playlist = [];
+    for (var i = 0; i < scale.length; i++) {
+      playlist.push({
+        time: i * autoplayDelay,
+        note: scale[i],
+        duration: autoplayLength,
+      });
+    }
+
+    playPlaylist(playlist);
   }
 
   function pianoAttack(note) {
@@ -238,11 +256,16 @@ function Keyboard() {
           mouseDown={mouseDown}
           selectedMidi={selectedMidi}
           updateSelected={updateSelected}
+          playSelectedKeys={playSelectedKeys}
         />
         <Selected selectedMidi={selectedMidi} clearSelected={clearSelected} />
         <Chords chordDetect={chordDetect} />
       </div>
-      <Drawer selectedMidi={selectedMidi} clearSelected={clearSelected} />
+      <Drawer
+        selectedMidi={selectedMidi}
+        clearSelected={clearSelected}
+        playSelectedKeys={playSelectedKeys}
+      />
     </>
   );
 }

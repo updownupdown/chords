@@ -13,6 +13,140 @@
   border: 1px solid $K100;
   box-shadow: 1px 2px 12px $K100;
 
+  // Signature
+  &-signature {
+    $sig-height: 50px;
+    position: relative;
+    display: flex;
+    flex-shrink: 0;
+    width: $sig-height * 2.8;
+    height: $sig-height;
+    margin: $sig-height * 0.25 0 $sig-height * 0.45;
+
+    .lines {
+      position: absolute;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+
+      span {
+        position: absolute;
+        left: 0;
+        width: 100%;
+        height: 1px;
+        background: $K900;
+
+        @for $i from 1 through 5 {
+          &:nth-child(#{$i}) {
+            top: ($i - 1) * 25%;
+          }
+        }
+      }
+    }
+
+    // treble clef
+    .treble-clef {
+      position: absolute;
+      z-index: 2;
+      top: -$sig-height * 0.17;
+      left: -$sig-height * 0.32;
+
+      svg {
+        width: $sig-height * 1.45;
+        height: $sig-height * 1.45;
+
+        path {
+          fill: $K900;
+        }
+      }
+    }
+
+    // sharps/flats
+    .sharps-flats {
+      position: absolute;
+      z-index: 3;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+
+      span {
+        position: absolute;
+
+        @for $i from 1 through 7 {
+          &:nth-child(#{$i}) {
+            left: $i * 12 + $sig-height * 0.4;
+          }
+        }
+
+        svg {
+          width: $sig-height * 0.6;
+          height: $sig-height * 0.6;
+
+          path {
+            fill: $K900;
+          }
+        }
+
+        .hover-zone {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          margin: -25% 0 0 -25%;
+          width: 50%;
+          height: 50%;
+        }
+      }
+
+      .sharp {
+        &:nth-child(1) {
+          top: -30%;
+        }
+        &:nth-child(2) {
+          top: 8%;
+        }
+        &:nth-child(3) {
+          top: -44%;
+        }
+        &:nth-child(4) {
+          top: -5%;
+        }
+        &:nth-child(5) {
+          top: 33%;
+        }
+        &:nth-child(6) {
+          top: -19%;
+        }
+        &:nth-child(7) {
+          top: 20%;
+        }
+      }
+      .flat {
+        &:nth-child(1) {
+          top: 7%;
+        }
+        &:nth-child(2) {
+          top: -31%;
+        }
+        &:nth-child(3) {
+          top: 20%;
+        }
+        &:nth-child(4) {
+          top: -17%;
+        }
+        &:nth-child(5) {
+          top: 33%;
+        }
+        &:nth-child(6) {
+          top: -3%;
+        }
+        &:nth-child(7) {
+          top: 46%;
+        }
+      }
+    }
+  }
+
   // Details
   &-details {
     display: flex;
@@ -24,7 +158,7 @@
 
     .label {
       display: inline-block;
-      width: 290px;
+      width: 120px;
       color: $K600;
     }
     .value {

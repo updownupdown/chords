@@ -16,7 +16,7 @@
   border-bottom-right-radius: $key-border-radius;
 
   // White Key
-  &-white {
+  &:not(:disabled).key-white {
     z-index: 1;
     width: $key-white-width;
     height: 100%;
@@ -35,7 +35,7 @@
   }
 
   // Black Key
-  &-black {
+  &:not(:disabled).key-black {
     z-index: 2;
     width: $key-black-width;
     height: $key-black-height;

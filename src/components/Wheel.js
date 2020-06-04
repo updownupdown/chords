@@ -68,7 +68,7 @@ export const Wheel = (props) => {
         <div className="wheelset-bg wheelset-bg-outer"></div>
         <div className="wheelset-bg wheelset-bg-inner"></div>
         <button
-          className="wheelset-play"
+          className="wheelset-play round-button"
           onClick={
             Object.keys(props.myKey.key).length !== 0 ? props.playScale : null
           }

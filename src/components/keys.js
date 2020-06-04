@@ -9,6 +9,12 @@ export const Keys = (props) => {
 
   // Key Down
   document.body.onkeydown = function (e) {
+    // Enter key = play selected
+    if (e.key === "Enter") {
+      props.playSelectedKeys();
+      return;
+    }
+
     // Don't both with irrelevant keys
     if (!(e.key in KeyboardMap) && e.key !== " ") return;
 
