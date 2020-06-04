@@ -3,12 +3,16 @@ import { Note } from "@tonaljs/tonal";
 import { KeyboardMap } from "./KeyboardMap";
 import { KeysList } from "./notes";
 import { Key } from "./Key";
+import "../css/keys.scss";
 
 export const Keys = (props) => {
   var keyDown = false;
 
   // Key Down
   document.body.onkeydown = function (e) {
+    // Prevent repeat key presses
+    if (e.key === keyDown) return;
+
     // Enter key = play selected
     if (e.key === "Enter") {
       props.playSelectedKeys();
@@ -18,11 +22,14 @@ export const Keys = (props) => {
     // Don't both with irrelevant keys
     if (!(e.key in KeyboardMap) && e.key !== " ") return;
 
-    // If valid key press + spacebar, toggle that key
+    // If key already pressed + now pressing spacebar, toggle that key
     if (keyDown && e.key === " ") {
       for (var i = 0; i < KeysList.length; i++) {
         if (KeysList[i].shortcut === keyDown) {
-          props.updateSelected(i, !props.selectedMidi.includes(i));
+          props.updateSelected(
+            KeysList[i].midi,
+            !props.selectedMidi.includes(KeysList[i].midi)
+          );
           break;
         }
       }

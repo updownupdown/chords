@@ -3,6 +3,7 @@ import Treble from "../icons/treble";
 import Sharp from "../icons/sharp";
 import Flat from "../icons/flat";
 import { Key } from "@tonaljs/tonal";
+import "../css/keychart.scss";
 
 export const KeyChart = (props) => {
   function keyInfo() {

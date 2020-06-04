@@ -1,4 +1,5 @@
 import { KeyboardMap } from "./KeyboardMap";
+import { Note } from "@tonaljs/tonal";
 
 let list = [];
 var index = 0;
@@ -25,6 +26,7 @@ function addKey(letter, sharp) {
     label: label,
     note: note,
     pitch: pitch,
+    midi: Note.midi(note),
   };
 
   // Keyboard shortcut?

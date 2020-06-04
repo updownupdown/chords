@@ -1,13 +1,5 @@
 @import "./vars.scss";
 
-$wheel-rad: 200px;
-$wheel-dia: $wheel-rad * 2;
-
-@import "./chords.scss";
-@import "./keys.scss";
-@import "./wheel.scss";
-@import "./keychart.scss";
-
 * {
   box-sizing: border-box;
 }

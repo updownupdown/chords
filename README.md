@@ -5,18 +5,19 @@ This project is at a very early stage.
 Bugs:
 
 - add onload/buffer for Tone.Sampler to prevent error on page load
-- prevent repeat sounds if pressing and holding keyboard key
-- move scss includes back to components; clean up file names?
+- make sound work on online build
 
 Technical:
 
 - review var/let/const
-- clean up files
-- use context?
+- use context
+- clean up files?
 - use typescript
+- launch from github? (.io)
 
 Features:
 
+- chord finder/selector with series of dropdowns
 - volume slider with mute
 - add toggles for labels, keyboard shortcuts, simple/advanced info
 - make mobile responsive, with touch events

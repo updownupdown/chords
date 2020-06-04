@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Chord } from "@tonaljs/tonal";
+import "../css/chords.scss";
 
 export const Chords = (props) => {
   const [chosenChord, setChosenChord] = useState(false);

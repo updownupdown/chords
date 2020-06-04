@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import RotateCW from "../icons/rotate-cw";
 import RotateCCW from "../icons/rotate-ccw";
 import Play from "../icons/play";
+import "../css/wheel.scss";
 
 export const Wheel = (props) => {
   const outer = [
