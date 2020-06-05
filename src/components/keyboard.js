@@ -15,10 +15,6 @@ function Keyboard() {
   const [pianoLoaded, setPianoLoaded] = useState(false);
   const piano = useRef(null);
 
-  const samplesUrl = window.location.hostname.includes("localhost")
-    ? process.env.PUBLIC_URL + "./samples/"
-    : "https://www.jamescarmichael.ca/chords/samples/";
-
   useEffect(() => {
     piano.current = new Sampler(
       {
@@ -38,7 +34,9 @@ function Keyboard() {
       {
         volume: 0,
         release: 1.2,
-        baseUrl: samplesUrl,
+        baseUrl: window.location.hostname.includes("localhost")
+          ? process.env.PUBLIC_URL + "./samples/"
+          : "https://www.jamescarmichael.ca/chords/samples/",
         onload: () => {
           setPianoLoaded(true);
           console.log("Piano loaded!");
@@ -68,19 +66,13 @@ function Keyboard() {
   }
 
   function pianoAttack(note) {
-    if (pianoLoaded) {
-      piano.current.triggerAttack(note);
-    }
+    pianoLoaded && piano.current.triggerAttack(note);
   }
   function pianoRelease(note) {
-    if (pianoLoaded) {
-      piano.current.triggerRelease(note);
-    }
+    pianoLoaded && piano.current.triggerRelease(note);
   }
   function pianoAttackRelease(note, duration) {
-    if (pianoLoaded) {
-      piano.current.triggerAttackRelease(note, duration);
-    }
+    pianoLoaded && piano.current.triggerAttackRelease(note, duration);
   }
 
   // Selected Keys (notes)

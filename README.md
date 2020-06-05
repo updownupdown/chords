@@ -4,6 +4,7 @@ This project is at a very early stage.
 
 Bugs:
 
+- can't press mouse down and move across keyboard to play music (buggy mousedown state)
 - add onload/buffer for Tone.Sampler to prevent error on page load
 - make sound work on online build
 
