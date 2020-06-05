@@ -1,14 +1,10 @@
 import React from "react";
 // import { ChordsProvider } from "./contexts/ChordsContext";
-import Keyboard from "./components/Keyboard";
+import Layout from "./components/Layout";
 import "./css/style.scss";
 
 function App() {
-  return (
-    <div className="layout">
-      <Keyboard />
-    </div>
-  );
+  return <Layout />;
 }
 
 export default App;

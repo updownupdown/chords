@@ -64,16 +64,16 @@ export const Wheel = (props) => {
   }
 
   return (
-    <div className="wheel">
-      <div className="wheelset">
-        <div className="wheelset-background">
+    <div className="wheel-wrap">
+      <div className="wheel">
+        <div className="wheel-background">
           <div className="outer"></div>
           <div className="gap"></div>
           <div className="inner"></div>
           <div className="center"></div>
         </div>
         <button
-          className="wheelset-play round-button"
+          className="wheel-play round-button"
           onClick={
             Object.keys(props.myKey.key).length !== 0 ? props.playScale : null
           }
@@ -81,7 +81,7 @@ export const Wheel = (props) => {
         >
           <Play />
         </button>
-        <div className="wheelset-highlight">
+        <div className="wheel-highlight">
           <div className="arc"></div>
         </div>
         <div

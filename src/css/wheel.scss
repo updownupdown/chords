@@ -1,48 +1,57 @@
 @import "./vars.scss";
 
-.wheel {
-  $rad-outer: 180px;
+.wheel-wrap {
+  $rad-outer: 50%;
   $rad-gap: $rad-outer * 0.7;
   $rad-inner: $rad-outer * 0.68;
   $rad-center: $rad-outer * 0.43;
-
-  $dia-outer: $rad-outer * 2;
 
   $highglight-overflow: $rad-outer * 0.15;
 
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: $dia-outer;
-  height: $dia-outer;
+
+  @media #{$query-min-md} {
+    width: 360px;
+    height: 360px;
+  }
+  @media #{$query-max-md} {
+    width: 280px;
+    height: 280px;
+  }
+  @media #{$query-max-sm} {
+    width: calc(100vw - 40px);
+    height: calc(100vw - 40px);
+  }
 
   // Highlight
-  .wheelset-highlight {
+  .wheel-highlight {
     pointer-events: none;
     opacity: 0.7;
     position: relative;
     z-index: 10;
 
-    .arc {
-      position: absolute;
-      top: -$highglight-overflow/2;
-      left: -$highglight-overflow/2;
-      width: $dia-outer + $highglight-overflow;
-      height: $dia-outer + $highglight-overflow;
-      border-radius: 50%;
-      border: $rad-outer - $rad-center + $highglight-overflow solid;
+    // .arc {
+    //   position: absolute;
+    //   top: -$highglight-overflow/2;
+    //   left: -$highglight-overflow/2;
+    //   width: $dia-outer + $highglight-overflow;
+    //   height: $dia-outer + $highglight-overflow;
+    //   border-radius: 50%;
+    //   border: $rad-outer - $rad-center + $highglight-overflow solid;
 
-      border-color: transparent transparent transparent rgba($K400, 0.4);
-      transform: rotate(90deg);
-    }
+    //   border-color: transparent transparent transparent rgba($K400, 0.4);
+    //   transform: rotate(90deg);
+    // }
   }
 
-  // Wheelset
-  .wheelset {
+  // Wheel
+  .wheel {
     position: relative;
     display: block;
-    width: $dia-outer;
-    height: $dia-outer;
+    width: 100%;
+    height: 100%;
     margin: auto;
 
     // Backgrounds
@@ -90,7 +99,7 @@
   }
 
   // Outer
-  &-outer {
+  .wheel-outer {
     transition: 1s ease transform;
     position: absolute;
     z-index: 2;
@@ -100,19 +109,21 @@
 
     // Notes
     .note {
+      $note-width: $rad-outer - $rad-gap;
       position: absolute;
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
-      width: $rad-outer - $rad-gap;
+      width: $note-width;
       height: $rad-outer;
+      left: 50 - $note-width / 2;
 
       transform-origin: 50% 100%;
 
       @for $i from 1 through 12 {
         &:nth-child(#{$i}) {
-          transform: translate(($rad-outer - ($rad-outer - $rad-gap)/2), 0)
-            rotate(#{30 * $i - 30}deg);
+          // transform: translate(($rad-outer - ($rad-outer - $rad-gap)/2), 0)            rotate(#{30 * $i - 30}deg);
+          transform: rotate(#{30 * $i - 30}deg);
         }
       }
 
@@ -123,20 +134,43 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        width: $rad-outer - $rad-gap;
+        width: 100%;
 
         font-family: $headingFont;
         color: $K500;
         font-weight: 600;
 
         &.major {
-          height: $rad-outer - $rad-gap;
-          font-size: $rad-outer * 0.2;
+          height: ($rad-outer - $rad-gap) * 2;
         }
         &.minor {
-          margin-top: $rad-gap - $rad-inner;
-          height: $rad-inner - $rad-center;
-          font-size: $rad-outer * 0.12;
+          margin-top: ($rad-gap - $rad-inner) * 2;
+          height: ($rad-inner - $rad-center) * 2;
+        }
+
+        @media #{$query-min-md} {
+          &.major {
+            font-size: 34px;
+          }
+          &.minor {
+            font-size: 24px;
+          }
+        }
+        @media #{$query-max-md} {
+          &.major {
+            font-size: 30px;
+          }
+          &.minor {
+            font-size: 20px;
+          }
+        }
+        @media #{$query-max-sm} {
+          &.major {
+            font-size: 9vw;
+          }
+          &.minor {
+            font-size: 6vw;
+          }
         }
 
         span:not(:first-child) {
@@ -198,7 +232,7 @@
   }
 
   // Play Key
-  .wheelset-play {
+  .wheel-play {
     $play-size: $rad-outer * 0.4;
 
     position: absolute;

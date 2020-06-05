@@ -31,14 +31,6 @@ export const Selected = (props) => {
           </span>
         </span>
       </div>
-      <button
-        onClick={() => {
-          props.clearSelected();
-        }}
-        disabled={props.selectedMidi.length === 0}
-      >
-        Clear Selection
-      </button>
     </div>
   );
 };

@@ -1,21 +1,42 @@
 @import "./vars.scss";
 
 // Keyboard
-.keyboard-wrap {
-  display: block;
-  overflow-x: auto;
-}
 .keyboard {
-  min-width: $key-white-width * 7 * 3;
   display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  margin-top: 80px;
-  height: 200px;
+  flex-direction: column;
+  width: 100%;
 
-  border-radius: $key-border-radius;
-  background: $K100;
-  box-shadow: 1px 2px 4px $K200;
+  // Keyboard Keys
+  .keyboard-keys-wrap {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+
+    .keyboard-keys {
+      min-width: $key-white-width * 7 * 3;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      margin-top: 80px;
+      height: 200px;
+
+      border-radius: $key-border-radius;
+      background: $K100;
+      box-shadow: 1px 2px 4px $K200;
+    }
+  }
+
+  // Keyboard Buttons
+  .keyboard-buttons {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    margin-top: 20px;
+
+    button:not(:last-child) {
+      margin-right: 12px;
+    }
+  }
 }
 
 // Individual Keys
