@@ -35,7 +35,7 @@ function Keyboard() {
         volume: 0,
         release: 1.2,
         baseUrl: window.location.hostname.includes("localhost")
-          ? process.env.PUBLIC_URL + "./samples/"
+          ? process.env.PUBLIC_URL + "/samples/"
           : "https://www.jamescarmichael.ca/chords/samples/",
         onload: () => {
           setPianoLoaded(true);

@@ -6,16 +6,15 @@
   overflow-x: auto;
 }
 .keyboard {
-  width: $key-white-width * 7 * 3;
+  min-width: $key-white-width * 7 * 3;
   display: flex;
   align-items: flex-start;
   justify-content: center;
   margin-top: 80px;
   height: 200px;
-  overflow-x: auto;
 
-  border-radius: 6px;
-  background: #eee;
+  border-radius: $key-border-radius;
+  background: $K100;
   box-shadow: 1px 2px 4px $K200;
 }
 

@@ -66,8 +66,12 @@ export const Wheel = (props) => {
   return (
     <div className="wheel">
       <div className="wheelset">
-        <div className="wheelset-bg wheelset-bg-outer"></div>
-        <div className="wheelset-bg wheelset-bg-inner"></div>
+        <div className="wheelset-background">
+          <div className="outer"></div>
+          <div className="gap"></div>
+          <div className="inner"></div>
+          <div className="center"></div>
+        </div>
         <button
           className="wheelset-play round-button"
           onClick={

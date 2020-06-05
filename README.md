@@ -18,7 +18,7 @@ Technical:
 
 Features:
 
-- after playing a series of notes, play all of them at once
+- after playing a chord, play all of them at once (playChord function doesn't exist yet)
 - order to: legend and (?) at top, then staff (bass -8, bass, clef, clef + 8), piano, then at bottom, CoF on left, and on right, either chord or key area. maybe the bottom area has three columns (CoF/key/chord) that slide on top of each other when there isn't enough room, prioritizing the current one. OR have tabs and use arrow keys to tab between them quickly. tabs may be needed if there are a lot of them, as more is added (sine waves...)
 - in key info, better show "functional harmony" with tonic, dominant, and subdominant, like on pianolit.com, but more interactive
 - use staff to: show key signature, show live keys, show selected notes, selected chord/key

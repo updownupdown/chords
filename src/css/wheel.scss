@@ -1,21 +1,18 @@
 @import "./vars.scss";
 
 .wheel {
-  $wheel-rad: 200px;
-  $wheel-dia: $wheel-rad * 2;
+  $rad-outer: 200px;
+  $rad-gap: 140px;
+  $rad-inner: 136px;
+  $rad-center: 86px;
 
-  $outer-thickness: 60px;
-  $ring-gap: 4px;
-  $inner-thickness: 50px;
-  // $outer-thickness: 30%;
-  // $ring-gap: 2%;
-  // $inner-thickness: 25%;
+  $dia-outer: $rad-outer * 2;
 
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: $wheel-dia;
-  height: $wheel-dia;
+  width: $dia-outer;
+  height: $dia-outer;
 
   // Highlight
   .wheelset-highlight {
@@ -31,10 +28,10 @@
       position: absolute;
       top: -$overflow/2;
       left: -$overflow/2;
-      width: $wheel-dia + $overflow;
-      height: $wheel-dia + $overflow;
+      width: $dia-outer + $overflow;
+      height: $dia-outer + $overflow;
       border-radius: 50%;
-      border: $outer-thickness + $ring-gap + $inner-thickness + $overflow solid;
+      border: $rad-outer - $rad-center + $overflow solid;
 
       border-color: transparent transparent transparent $highlight;
       transform: rotate(90deg);
@@ -45,34 +42,50 @@
   .wheelset {
     position: relative;
     display: block;
-    width: $wheel-dia;
-    height: $wheel-dia;
+    width: $dia-outer;
+    height: $dia-outer;
     margin: auto;
 
     // Backgrounds
-    &-bg {
+    &-background {
       position: absolute;
       z-index: 1;
-      width: $wheel-dia;
-      height: $wheel-dia;
+      width: 100%;
+      height: 100%;
       border-radius: 50%;
 
-      &-outer {
-        display: block;
+      div {
         position: absolute;
-        width: 100%;
-        height: 100%;
-        box-shadow: inset 0 0 0 $outer-thickness $K200;
-      }
+        border-radius: 50%;
 
-      &-inner {
-        display: block;
-        position: absolute;
-        top: $outer-thickness + $ring-gap;
-        left: $outer-thickness + $ring-gap;
-        width: ($wheel-rad - $outer-thickness - $ring-gap) * 2;
-        height: ($wheel-rad - $outer-thickness - $ring-gap) * 2;
-        box-shadow: inset 0 0 0 $inner-thickness $K100;
+        &.outer {
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: $K200;
+        }
+        &.gap {
+          top: $rad-outer - $rad-gap;
+          left: $rad-outer - $rad-gap;
+          width: $rad-gap * 2;
+          height: $rad-gap * 2;
+          background: $white;
+        }
+        &.inner {
+          top: $rad-outer - $rad-inner;
+          left: $rad-outer - $rad-inner;
+          width: $rad-inner * 2;
+          height: $rad-inner * 2;
+          background: $K100;
+        }
+        &.center {
+          top: $rad-outer - $rad-center;
+          left: $rad-outer - $rad-center;
+          width: $rad-center * 2;
+          height: $rad-center * 2;
+          background: $white;
+        }
       }
     }
   }
@@ -92,14 +105,14 @@
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
-      width: $outer-thickness;
-      height: $wheel-rad;
+      width: $rad-outer - $rad-gap;
+      height: $rad-outer;
 
       transform-origin: 50% 100%;
 
       @for $i from 1 through 12 {
         &:nth-child(#{$i}) {
-          transform: translate(($wheel-rad - $outer-thickness/2), 0)
+          transform: translate(($rad-outer - ($rad-outer - $rad-gap)/2), 0)
             rotate(#{30 * $i - 30}deg);
         }
       }
@@ -111,19 +124,19 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        width: $outer-thickness;
+        width: $rad-outer - $rad-gap;
 
         font-family: $headingFont;
         color: $K500;
         font-weight: 600;
 
         &.major {
-          height: $outer-thickness;
+          height: $rad-outer - $rad-gap;
           font-size: 40px;
         }
         &.minor {
-          margin-top: $ring-gap;
-          height: $inner-thickness;
+          margin-top: $rad-gap - $rad-inner;
+          height: $rad-inner - $rad-center;
           font-size: 24px;
         }
 
