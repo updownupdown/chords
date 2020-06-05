@@ -263,6 +263,13 @@ function Layout() {
         playSelectedKeys={playSelectedKeys}
       />
       <div className="layout">
+        <div className={`loader ${pianoLoaded ? "loaded" : "loading"}`}>
+          <div className="loading">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
         <div className="layout-keyboard">
           <div className="wheel-and-chart">
             <Wheel playScale={playScale} findKey={findKey} myKey={myKey} />
