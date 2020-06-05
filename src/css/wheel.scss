@@ -1,12 +1,14 @@
 @import "./vars.scss";
 
 .wheel {
-  $rad-outer: 200px;
-  $rad-gap: 140px;
-  $rad-inner: 136px;
-  $rad-center: 86px;
+  $rad-outer: 180px;
+  $rad-gap: $rad-outer * 0.7;
+  $rad-inner: $rad-outer * 0.68;
+  $rad-center: $rad-outer * 0.43;
 
   $dia-outer: $rad-outer * 2;
+
+  $highglight-overflow: $rad-outer * 0.15;
 
   display: flex;
   flex-direction: column;
@@ -17,23 +19,20 @@
   // Highlight
   .wheelset-highlight {
     pointer-events: none;
-    $highlight: rgba($K400, 0.4);
-    $overflow: 30px;
-
     opacity: 0.7;
     position: relative;
     z-index: 10;
 
     .arc {
       position: absolute;
-      top: -$overflow/2;
-      left: -$overflow/2;
-      width: $dia-outer + $overflow;
-      height: $dia-outer + $overflow;
+      top: -$highglight-overflow/2;
+      left: -$highglight-overflow/2;
+      width: $dia-outer + $highglight-overflow;
+      height: $dia-outer + $highglight-overflow;
       border-radius: 50%;
-      border: $rad-outer - $rad-center + $overflow solid;
+      border: $rad-outer - $rad-center + $highglight-overflow solid;
 
-      border-color: transparent transparent transparent $highlight;
+      border-color: transparent transparent transparent rgba($K400, 0.4);
       transform: rotate(90deg);
     }
   }
@@ -132,12 +131,12 @@
 
         &.major {
           height: $rad-outer - $rad-gap;
-          font-size: 40px;
+          font-size: $rad-outer * 0.2;
         }
         &.minor {
           margin-top: $rad-gap - $rad-inner;
           height: $rad-inner - $rad-center;
-          font-size: 24px;
+          font-size: $rad-outer * 0.12;
         }
 
         span:not(:first-child) {
@@ -161,8 +160,8 @@
     position: absolute;
     z-index: 10;
     bottom: 0;
-    width: 50px;
-    height: 50px;
+    width: $rad-outer * 0.25;
+    height: $rad-outer * 0.25;
 
     display: flex;
     align-items: center;
@@ -200,7 +199,7 @@
 
   // Play Key
   .wheelset-play {
-    $play-size: 80px;
+    $play-size: $rad-outer * 0.4;
 
     position: absolute;
     z-index: 11;
