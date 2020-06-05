@@ -4,14 +4,20 @@
   display: flex;
   flex-direction: column;
   flex: 1;
-  margin-left: 40px;
+
   padding: 20px;
-  height: $wheel-dia;
   overflow-y: auto;
 
   border-radius: 8px;
   border: 1px solid $K100;
   box-shadow: 1px 2px 12px $K100;
+
+  @media #{$query-min-md} {
+    margin-left: 40px;
+  }
+  @media #{$query-max-md} {
+    margin-top: 40px;
+  }
 
   // Title
   &-title {

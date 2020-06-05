@@ -59,27 +59,15 @@ button {
   display: flex;
   flex-direction: column;
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   align-items: center;
   justify-content: center;
+  padding: 20px 20px 120px;
 
   &-keyboard {
     width: calc(100% - 40px);
     max-width: 1200px;
   }
-}
-
-// Keyboard
-.keyboard {
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  margin-top: 80px;
-  height: 200px;
-
-  border-radius: 6px;
-  background: #eee;
-  box-shadow: 1px 2px 4px $K200;
 }
 
 // Lists
@@ -166,6 +154,10 @@ button {
   justify-content: center;
 
   width: 100%;
+
+  @media #{$query-max-md} {
+    flex-direction: column;
+  }
 }
 
 .round-button {

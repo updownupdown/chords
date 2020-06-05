@@ -13,6 +13,37 @@ $key-black-height: 65%;
 $key-label-diameter: 28px;
 $key-border-radius: 6px;
 
-// Wheel dimensions
-$wheel-rad: 200px;
-$wheel-dia: $wheel-rad * 2;
+// Media query breakpoints
+$break-sm: 576px;
+$break-md: 768px;
+$break-lg: 992px;
+$break-xl: 1200px;
+
+$break-sm-low: $break-sm - 0.02;
+$break-md-low: $break-md - 0.02;
+$break-lg-low: $break-lg - 0.02;
+$break-xl-low: $break-xl - 0.02;
+
+// Trigger *at min* size
+$query-min-sm: "(min-width: #{$break-sm})";
+$query-min-md: "(min-width: #{$break-md})";
+$query-min-lg: "(min-width: #{$break-lg})";
+$query-min-xl: "(min-width: #{$break-xl})";
+
+// Default/recommended usage (mobile first)
+$query-sm: $query-min-sm;
+$query-md: $query-min-md;
+$query-lg: $query-min-lg;
+$query-xl: $query-min-xl;
+
+// Trigger *at max* size
+$query-max-sm: "(max-width: #{$break-sm-low})";
+$query-max-md: "(max-width: #{$break-md-low})";
+$query-max-lg: "(max-width: #{$break-lg-low})";
+$query-max-xl: "(max-width: #{$break-xl-low})";
+
+// Trigger *within* size
+$query-within-sm: "(max-width: #{$break-md-low})";
+$query-within-md: "(min-width: #{$break-md}) and (max-width: #{$break-lg-low})";
+$query-within-lg: "(min-width: #{$break-lg}) and (max-width: #{$break-xl-low})";
+$query-within-xl: "(min-width: #{$break-xl})";

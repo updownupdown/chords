@@ -1,11 +1,32 @@
 @import "./vars.scss";
 
+// Keyboard
+.keyboard-wrap {
+  display: block;
+  overflow-x: auto;
+}
+.keyboard {
+  width: $key-white-width * 7 * 3;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  margin-top: 80px;
+  height: 200px;
+  overflow-x: auto;
+
+  border-radius: 6px;
+  background: #eee;
+  box-shadow: 1px 2px 4px $K200;
+}
+
+// Individual Keys
 .key {
   transition: 0.1s ease background-color;
 
   cursor: pointer;
   position: relative;
   display: flex;
+  flex-shrink: 0;
   align-items: flex-end;
   justify-content: center;
 

@@ -76,25 +76,27 @@ export const Keys = (props) => {
   };
 
   return (
-    <div className="keyboard">
-      {KeysList.map((key) => (
-        <Key
-          key={key.index}
-          index={key.index}
-          color={key.color}
-          label={key.label}
-          note={key.note}
-          midi={Note.midi(key.note)}
-          pitch={key.pitch}
-          shortcut={key.shortcut}
-          pianoAttack={props.pianoAttack}
-          pianoRelease={props.pianoRelease}
-          pianoAttackRelease={props.pianoAttackRelease}
-          selectedMidi={props.selectedMidi}
-          updateSelected={props.updateSelected}
-          mouseDown={props.mouseDown}
-        />
-      ))}
+    <div className="keyboard-wrap">
+      <div className="keyboard">
+        {KeysList.map((key) => (
+          <Key
+            key={key.index}
+            index={key.index}
+            color={key.color}
+            label={key.label}
+            note={key.note}
+            midi={Note.midi(key.note)}
+            pitch={key.pitch}
+            shortcut={key.shortcut}
+            pianoAttack={props.pianoAttack}
+            pianoRelease={props.pianoRelease}
+            pianoAttackRelease={props.pianoAttackRelease}
+            selectedMidi={props.selectedMidi}
+            updateSelected={props.updateSelected}
+            mouseDown={props.mouseDown}
+          />
+        ))}
+      </div>
     </div>
   );
 };

@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import * as Tone from "tone";
+import React, { useState, useRef, useEffect } from "react";
+import { Sampler, Part, Transport } from "tone";
 import { Key, Note } from "@tonaljs/tonal";
 import * as ChordDetect from "@tonaljs/chord-detect";
 import { Wheel } from "./Wheel";
@@ -10,32 +10,79 @@ import { Chords } from "./Chords";
 import { Drawer } from "./Drawer";
 import { selectedToNotes } from "./Utils";
 
-const piano = new Tone.Sampler(
-  {
-    C3: "C3v8.mp3",
-    C4: "C4v8.mp3",
-    C5: "C5v8.mp3",
-    C6: "C6v8.mp3",
-    "F#3": "Fs3v8.mp3",
-    "F#4": "Fs4v8.mp3",
-    "F#5": "Fs5v8.mp3",
-    "F#6": "Fs6v8.mp3",
-    A3: "A3v8.mp3",
-    A4: "A4v8.mp3",
-    A5: "A5v8.mp3",
-    A6: "A6v8.mp3",
-  },
-  {
-    release: 1.2,
-    baseUrl: process.env.PUBLIC_URL + "./samples/",
-  }
-);
-piano.volume.value = -5;
-piano.toDestination();
-Tone.context.resume();
-
 // Keyboard
 function Keyboard() {
+  const [pianoLoaded, setPianoLoaded] = useState(false);
+  const piano = useRef(null);
+
+  const samplesUrl = window.location.hostname.includes("localhost")
+    ? process.env.PUBLIC_URL + "./samples/"
+    : "https://www.jamescarmichael.ca/chords/samples/";
+
+  useEffect(() => {
+    piano.current = new Sampler(
+      {
+        C3: "C3v8.mp3",
+        C4: "C4v8.mp3",
+        C5: "C5v8.mp3",
+        C6: "C6v8.mp3",
+        "F#3": "Fs3v8.mp3",
+        "F#4": "Fs4v8.mp3",
+        "F#5": "Fs5v8.mp3",
+        "F#6": "Fs6v8.mp3",
+        A3: "A3v8.mp3",
+        A4: "A4v8.mp3",
+        A5: "A5v8.mp3",
+        A6: "A6v8.mp3",
+      },
+      {
+        volume: 0,
+        release: 1.2,
+        baseUrl: samplesUrl,
+        onload: () => {
+          setPianoLoaded(true);
+          console.log("Piano loaded!");
+        },
+      }
+    ).toDestination();
+    // piano.current.volume.value = -5;
+    // Tone.context.resume();
+  }, []);
+
+  function playPlaylist(playlist) {
+    // Cancel/reset key highlights
+    cancelTimeouts();
+
+    if (pianoLoaded) {
+      // Cancel play in progress
+      Transport.cancel(0);
+
+      new Part(function (time, note) {
+        piano.current.triggerAttackRelease(note.note, note.duration, time);
+      }, playlist).start();
+      Transport.start();
+    }
+
+    // Highlight keys
+    highlightKeys(playlist);
+  }
+
+  function pianoAttack(note) {
+    if (pianoLoaded) {
+      piano.current.triggerAttack(note);
+    }
+  }
+  function pianoRelease(note) {
+    if (pianoLoaded) {
+      piano.current.triggerRelease(note);
+    }
+  }
+  function pianoAttackRelease(note, duration) {
+    if (pianoLoaded) {
+      piano.current.triggerAttackRelease(note, duration);
+    }
+  }
+
   // Selected Keys (notes)
   const [selectedMidi, setSelectedMidi] = useState([]);
 
@@ -182,22 +229,6 @@ function Keyboard() {
     return pitched;
   }
 
-  function playPlaylist(playlist) {
-    // Cancel play in progress
-    Tone.Transport.cancel(0);
-
-    // Cancel/reset key highlights
-    cancelTimeouts();
-
-    new Tone.Part(function (time, note) {
-      piano.triggerAttackRelease(note.note, note.duration, time);
-    }, playlist).start();
-    Tone.Transport.start();
-
-    // Highlight keys
-    highlightKeys(playlist);
-  }
-
   function playSelectedKeys() {
     if (selectedMidi.length === 0) return;
 
@@ -230,16 +261,6 @@ function Keyboard() {
     }
 
     playPlaylist(playlist);
-  }
-
-  function pianoAttack(note) {
-    piano.triggerAttack(note);
-  }
-  function pianoRelease(note) {
-    piano.triggerRelease(note);
-  }
-  function pianoAttackRelease(note, duration) {
-    piano.triggerAttackRelease(note, duration);
   }
 
   return (
