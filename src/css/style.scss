@@ -22,7 +22,7 @@ button {
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: 8px 14px;
+  padding: 8px;
 
   border-radius: 4px;
 
@@ -33,7 +33,18 @@ button {
   svg {
     width: 24px;
     height: 24px;
-    margin: 0 8px 0 -4px;
+
+    path {
+      transition: 0.2s ease fill;
+    }
+  }
+
+  .text {
+    margin: 0 4px;
+  }
+
+  svg + .text {
+    margin-left: 8px;
   }
 
   &:not(:disabled) {
@@ -44,7 +55,7 @@ button {
   &.full {
     transition: 0.2s ease background-color;
     border: 0;
-    background: $orange;
+    background: $blue;
     box-shadow: 1px 2px 4px $K100;
 
     color: $white;
@@ -56,7 +67,7 @@ button {
     &:not(:disabled) {
       &:hover,
       &:focus {
-        background: darken($orange, 10%);
+        background: $blueHover;
       }
     }
 
@@ -78,21 +89,20 @@ button {
     background: transparent;
 
     &:not(:disabled) {
-      color: $orange;
+      color: $blue;
 
       svg path {
-        transition: 0.2s ease fill;
-        fill: $orange;
+        fill: $blue;
       }
 
       &:hover,
       &:focus,
       &.active {
-        background: rgba($orangeHover, 0.05);
-        color: $orangeHover;
+        background: rgba($blueHover, 0.05);
+        color: $blueHover;
 
         svg path {
-          fill: $orangeHover;
+          fill: $blueHover;
         }
       }
 
@@ -123,7 +133,7 @@ button {
   flex-direction: row;
 
   &:not(.touching) {
-    &:not(:first-child) {
+    button:not(:first-child) {
       margin-left: 12px;
     }
   }
@@ -149,12 +159,83 @@ button {
   justify-content: center;
   padding: 20px;
 
-  &-keyboard {
+  &-center {
     width: 100%;
     max-width: $max-layout-width;
   }
+
+  &-bottom {
+    display: flex;
+  }
+
+  &-charts {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
+    @media #{$query-min-md} {
+      margin-left: 40px;
+    }
+    @media #{$query-max-md} {
+      margin-top: 40px;
+    }
+  }
 }
 
+// Radio Group
+.radio-group {
+  display: flex;
+
+  .radio-item {
+    $border-radius: 6px;
+
+    position: relative;
+    z-index: 1;
+
+    input {
+      display: none;
+    }
+
+    label {
+      transition: 0.3s ease background;
+      cursor: pointer;
+      padding: 8px 10px;
+
+      border: 1px solid $blue;
+
+      font-weight: 700;
+      color: $blue;
+
+      &:hover {
+        background: rgba($blue, 0.1);
+      }
+    }
+
+    &.checked {
+      z-index: 2;
+
+      label {
+        border-color: $blue;
+        background: $blue;
+        color: $white;
+      }
+    }
+
+    &:first-child label {
+      border-top-left-radius: $border-radius;
+      border-bottom-left-radius: $border-radius;
+    }
+    &:last-child label {
+      border-top-right-radius: $border-radius;
+      border-bottom-right-radius: $border-radius;
+    }
+    &:not(:first-child) label {
+      margin-left: -1px;
+    }
+  }
+}
+
+// Loader
 .loader {
   position: fixed;
   z-index: 99;
@@ -228,55 +309,6 @@ button {
   color: $K700;
 }
 
-// Selected
-.selected {
-  display: flex;
-  width: 100%;
-  padding-top: 40px;
-
-  .selected-lists {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-  }
-
-  .list {
-    &.not-empty {
-      font-weight: 700;
-      color: $K900;
-    }
-
-    &.empty {
-      user-select: none;
-      color: $K400;
-    }
-  }
-
-  button {
-    margin-left: auto;
-  }
-
-  &-clean .list:not(.empty) {
-    // font-weight: 600;
-    // color: $K900;
-
-    .pitch {
-      display: none;
-    }
-  }
-
-  &-full .list {
-    transition: 0.3s ease color;
-    font-size: 12px;
-    font-weight: normal;
-    color: $K400;
-  }
-
-  &:hover &-full .list {
-    color: $K900;
-  }
-}
-
 // Shortcuts
 .shortcuts {
   display: flex;
@@ -296,7 +328,7 @@ button {
 }
 
 // Wheel and Key Chart
-.wheel-and-chart {
+.layout-bottom {
   display: flex;
   justify-content: center;
 
@@ -304,30 +336,5 @@ button {
 
   @media #{$query-max-md} {
     flex-direction: column;
-  }
-}
-
-.round-button {
-  $size: 60px;
-
-  width: $size;
-  height: $size;
-  margin: 0;
-  padding: 0;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border-radius: 50%;
-
-  svg {
-    margin: 0;
-    width: 70%;
-    height: 70%;
-
-    path {
-      fill: $white;
-    }
   }
 }

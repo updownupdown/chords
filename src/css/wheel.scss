@@ -13,8 +13,8 @@
   justify-content: center;
 
   @media #{$query-min-md} {
-    width: 360px;
-    height: 360px;
+    width: 320px;
+    height: 320px;
   }
   @media #{$query-max-md} {
     width: 280px;
@@ -137,7 +137,7 @@
         width: 100%;
 
         font-family: $headingFont;
-        color: $K500;
+        color: $K450;
         font-weight: 600;
 
         &.major {
@@ -150,10 +150,10 @@
 
         @media #{$query-min-md} {
           &.major {
-            font-size: 34px;
+            font-size: 32px;
           }
           &.minor {
-            font-size: 24px;
+            font-size: 22px;
           }
         }
         @media #{$query-max-md} {
@@ -178,9 +178,11 @@
           font-size: 60%;
         }
 
-        &.current,
+        &.current {
+          color: $blue;
+        }
         &:hover {
-          color: $orange;
+          color: $blueHover;
         }
       }
     }
@@ -243,5 +245,21 @@
     margin-left: -$play-size/2;
     width: $play-size;
     height: $play-size;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    svg {
+      margin: 0;
+      width: 70%;
+      height: 70%;
+
+      path {
+        fill: $white;
+      }
+    }
   }
 }

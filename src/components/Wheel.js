@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import classNames from "classnames";
 import RotateCW from "../icons/rotate-cw";
 import RotateCCW from "../icons/rotate-ccw";
 import Play from "../icons/play";
@@ -78,7 +79,7 @@ export const Wheel = (props) => {
             Object.keys(props.myKey.key).length !== 0 ? props.playScale : null
           }
           disabled={
-            props.autoplaying || Object.keys(props.myKey.key).length === 0
+            props.keyboardLocked || Object.keys(props.myKey.key).length === 0
           }
         >
           <Play />
@@ -93,11 +94,11 @@ export const Wheel = (props) => {
           {outer.map((note, i) => (
             <span key={i} className="note" index={i}>
               <span
-                className={`note-btn major ${
-                  props.myKey.note === outer[i] &&
-                  props.myKey.type === "major" &&
-                  "current"
-                }`}
+                className={classNames("note-btn major", {
+                  current:
+                    props.myKey.note === outer[i] &&
+                    props.myKey.type === "major",
+                })}
                 role="button"
                 onClick={() => {
                   rotateToIndex(i);
@@ -114,11 +115,11 @@ export const Wheel = (props) => {
                 )}
               </span>
               <span
-                className={`note-btn minor ${
-                  props.myKey.note === inner[i] &&
-                  props.myKey.type === "minor" &&
-                  "current"
-                }`}
+                className={classNames("note-btn minor", {
+                  current:
+                    props.myKey.note === inner[i] &&
+                    props.myKey.type === "minor",
+                })}
                 role="button"
                 onClick={() => {
                   rotateToIndex(i);

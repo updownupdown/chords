@@ -65,11 +65,12 @@
       box-shadow: 1px 2px 3px $K100;
 
       &:hover {
-        background: $K200;
+        background: $K150;
       }
 
       &:active,
       &.pressed {
+        border-color: $K300;
         background: $K300;
         box-shadow: 0 0 1px $K100;
       }
@@ -87,11 +88,11 @@
       box-shadow: 1px 2px 3px rgba($K800, 0.2);
 
       &:hover {
-        background: $K700;
+        background: $K650;
       }
       &:active,
       &.pressed {
-        background: $K600;
+        background: $K500;
         box-shadow: 0 1px 1px rgba($K800, 0.1);
       }
     }

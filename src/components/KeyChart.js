@@ -1,6 +1,7 @@
 import React from "react";
 import { Key } from "@tonaljs/tonal";
-import "../css/keychart.scss";
+import Sound from "../icons/sound";
+import "../css/charts.scss";
 
 export const KeyChart = (props) => {
   function keyInfo() {
@@ -94,14 +95,14 @@ export const KeyChart = (props) => {
       return majorInfo.map(
         (info, i) =>
           details[info.info] !== undefined && (
-            <span key={i}>
+            <div key={i} className="detail">
               <span className="label">{info.label}: </span>
               <span className="value">
                 {info.object
                   ? details[info.info].join(", ")
                   : details[info.info]}
               </span>
-            </span>
+            </div>
           )
       );
     } else if (props.myKey.type === "minor") {
@@ -110,14 +111,14 @@ export const KeyChart = (props) => {
       return minorInfo.map(
         (info, i) =>
           details[info.info] !== undefined && (
-            <span key={i}>
+            <div key={i} className="detail">
               <span className="label">{info.label}: </span>
               <span className="value">
                 {info.object
                   ? details[info.info].join(", ")
                   : details[info.info]}
               </span>
-            </span>
+            </div>
           )
       );
     }
@@ -126,9 +127,9 @@ export const KeyChart = (props) => {
   }
 
   return (
-    <div className="key-chart">
-      <div className="key-chart-title">
-        <span className="value">
+    <div className="chart">
+      <div className="chart-title">
+        <span className="chart-title-label">
           {Object.keys(props.myKey.key).length === 0 ? (
             <span className="empty">No key selected...</span>
           ) : (
@@ -137,9 +138,39 @@ export const KeyChart = (props) => {
             </span>
           )}
         </span>
+
+        <div className="button-group touching">
+          <button
+            className="outline play-key"
+            onClick={
+              Object.keys(props.myKey.key).length !== 0 ? props.playScale : null
+            }
+            disabled={
+              props.autoplaying || Object.keys(props.myKey.key).length === 0
+            }
+          >
+            <Sound />
+          </button>
+          <button
+            className="outline select-key"
+            onClick={() => {
+              if (Object.keys(props.myKey.key).length !== 0) {
+                props.selectNotesFromKey(props.myKey.key, props.myKey.type);
+              }
+            }}
+            disabled={
+              props.autoplaying ||
+              props.keyboardLocked ||
+              props.onlyKeySelected ||
+              Object.keys(props.myKey.key).length === 0
+            }
+          >
+            <span className="text">Select</span>
+          </button>
+        </div>
       </div>
 
-      <div className="key-chart-details">{props.myKey.note && keyInfo()}</div>
+      <div className="chart-details">{props.myKey.note && keyInfo()}</div>
     </div>
   );
 };

@@ -1,45 +1,32 @@
 Bugs:
 
 - prevent AudioContext warnings
-- note + spacebar may update key but doesn't cycle through enharmonicsf
 
 Technical:
 
-- Smoother loading screen
+- Reactivate loading screen but make it smoother
 - review var/let/const
 - use context?
-- move common functions to utils.js?
 - use typescript
 - launch from github? (.io)
 
 High Priority:
 
+- chord finder/selector with series of dropdowns
+- after playing a chord, play all of them at once (playChord function doesn't exist yet)
 - decouple "piano" into a component, and all the play functions are used by importing it into whatever component needs it. selected notes would be managed by Keyboard? Layout? global?
-- update layout to: menu, staff, keyboard, (Wheel, Tabs: Key/Chords/Waves/...); consider tabs to be actions you want to make: find chord, explore keys, see sine waves, etc. see if it makes sense to do just one at a time.
-- move keyboard shortcuts below keyboard, allow toggle off, have other toggles below keyboard for behavior?
-- move "Play Selected" and "Clear Selected" buttons in line with staff, simplify.
-- Add info (go to github, about, etc.), help (modal to explain), settings (?), keyboard shortcut guide (esp. for delete, enter, key + space to select)
 - "Help" stuff may be distributed along with elements, rather than just at the top. Use help icons throughout with tooltips? Toggle to hide Help icons, also hides keyboard labels?
 - Add volume slider and mute in menu
-- clean up list of selected keys, maybe not needed?
-- move staff to above keyboard, chords to above - show bass, clef + 1 line, include C in between. show key signature, show live keys, show selected notes, selected chord/key
+- in key info, better show "functional harmony" with tonic, dominant, and subdominant, like on pianolit.com, but more interactive
 - clearer indicators of selected items in wheel
-- loading screen, before samples are loaded
 
 Medium Priority:
 
-- when holding shift, don't select/deselect keys. add lock icon that does the same, with an info icon about the shift key
-- show enharmonics on black key labels
+- Flesh out menu: help (modal to explain), settings (?), keyboard shortcut guide (esp. for delete, enter, key + space to select)
 - show enharmonics in wheel
 - make wheel rotate by drag and drop
-- chord finder/selector with series of dropdowns
-- after playing a chord, play all of them at once (playChord function doesn't exist yet)
-- in key info, better show "functional harmony" with tonic, dominant, and subdominant, like on pianolit.com, but more interactive
-- when a key or chord is selected on the keyboard, once you select/unselect a key, it "disconnects" or discolors that selection, or deselects the key
-- selecting key should be double click/single click should just play, or at least have a toggle to change the behavior. same for selecting chord in wheel vs. playing and selecting?
-- consider decoupling selected keys vs. highlighted keys for showing key scale, and chords. maybe selected is user only, with open to "select highlighted", "play highlighted" and "play selected". auto actions would not select keys, just highlight them. so selecting is for detecting chords only.
 - make mobile responsive, with touch events
-- add accessbility (aria)
+- add accessibility (aria)
 - add metronome with adjustable beats
 
 Low Priority

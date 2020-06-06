@@ -5,11 +5,10 @@ import * as ChordDetect from "@tonaljs/chord-detect";
 import { Wheel } from "./Wheel";
 import { KeyChart } from "./KeyChart";
 import { Keyboard } from "./Keyboard";
-import { Chords } from "./Chords";
+import { ChordChart } from "./ChordChart";
 import { Menu } from "./Menu";
 import { Staff } from "./Staff";
 import { KeyList } from "./KeyList";
-import { selectedToNotes } from "./Utils";
 
 // Keyboard
 function Layout() {
@@ -21,6 +20,7 @@ function Layout() {
   const [mouseDown, setMouseDown] = useState(false);
   const [autoplaying, setAutoplaying] = useState(false);
   const [keyboardLocked, setKeyboardLocked] = useState(false);
+  const [onlyKeySelected, setOnlyKeySelected] = useState(false);
 
   // for auto play keys
   const autoplayDelay = 0.3;
@@ -60,12 +60,12 @@ function Layout() {
   }, []);
 
   function playPlaylist(playlist) {
-    if (pianoLoaded) {
-      new Part(function (time, note) {
-        piano.current.triggerAttackRelease(note.note, note.duration, time);
-      }, playlist).start();
-      Transport.start();
-    }
+    if (!pianoLoaded) return;
+
+    new Part(function (time, note) {
+      piano.current.triggerAttackRelease(note.note, note.duration, time);
+    }, playlist).start();
+    Transport.start();
 
     highlightKeys(playlist);
   }
@@ -83,7 +83,12 @@ function Layout() {
   function setKey(key, note, type) {
     setMyKey({ key: key, note: note, type: type });
 
-    setSelectedNotes(pitchedScale(key, type));
+    selectNotesFromKey(key, type);
+  }
+
+  function selectNotesFromKey(key, type) {
+    !keyboardLocked && setSelectedNotes(pitchedScale(key, type));
+    setOnlyKeySelected(true);
   }
 
   function findKey(note, type) {
@@ -109,6 +114,7 @@ function Layout() {
     const list = selectedNotes;
     list.push(note);
     setSelectedNotes(Note.sortedNames(list));
+    setOnlyKeySelected(false);
   }
   function removeNote(note) {
     const list = selectedNotes;
@@ -117,6 +123,7 @@ function Layout() {
       list.splice(index, 1);
     }
     setSelectedNotes(Note.sortedNames(list));
+    setOnlyKeySelected(false);
   }
 
   function pressNote(note) {
@@ -135,9 +142,8 @@ function Layout() {
 
   // Update selected notes
   function updateSelected(index) {
-    if (keyboardLocked) return;
+    if (keyboardLocked || autoplaying) return;
 
-    const list = selectedNotes;
     const note = KeyList[index].note;
     const enharmonic = KeyList[index].enharmonic;
 
@@ -159,13 +165,14 @@ function Layout() {
     }
 
     // Predict chords
-    const chords = ChordDetect.detect(selectedToNotes(list));
+    const chords = ChordDetect.detect(selectedNotes);
     setChordDetect(chords);
   }
 
   function clearSelected() {
     setSelectedNotes([]);
     setChordDetect("");
+    setOnlyKeySelected(false);
   }
 
   function highlightKeys(playlist) {
@@ -176,15 +183,14 @@ function Layout() {
 
       timeouts.push(
         setTimeout(() => {
-          console.log("pressing note: " + playlist[i].note);
           setPressedNotes(playlist[i].note);
         }, autoplayDelay * i * 1000)
       );
 
       timeouts.push(
         setTimeout(function () {
-          setAutoplaying(false);
           setPressedNotes([]);
+          setAutoplaying(false);
         }, autoplayDelay * playlist.length * 1000)
       );
     }
@@ -199,8 +205,8 @@ function Layout() {
     return;
   }
 
-  function pitchedScale(key, type, startPitch = 4) {
-    var pitch = startPitch;
+  function pitchedScale(key, type) {
+    var pitch = 4;
     var scale = scaleFromKey(key, type);
     var pitched = [];
 
@@ -265,7 +271,7 @@ function Layout() {
             <span></span>
           </div>
         </div> */}
-        <div className="layout-keyboard">
+        <div className="layout-center">
           <Staff selectedNotes={selectedNotes} myKey={myKey} />
 
           <Keyboard
@@ -285,17 +291,25 @@ function Layout() {
             autoplaying={autoplaying}
           />
 
-          <div className="wheel-and-chart">
+          <div className="layout-bottom">
             <Wheel
               playScale={playScale}
               findKey={findKey}
               myKey={myKey}
               autoplaying={autoplaying}
             />
-            <KeyChart myKey={myKey} />
+            <div className="layout-charts">
+              <KeyChart
+                keyboardLocked={keyboardLocked}
+                autoplaying={autoplaying}
+                selectNotesFromKey={selectNotesFromKey}
+                playScale={playScale}
+                myKey={myKey}
+                onlyKeySelected={onlyKeySelected}
+              />
+              <ChordChart chordDetect={chordDetect} />
+            </div>
           </div>
-
-          <Chords chordDetect={chordDetect} />
         </div>
       </div>
     </>

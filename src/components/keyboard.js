@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Note } from "@tonaljs/tonal";
+import classNames from "classnames";
 import { KeyShortcuts, KeyList } from "./KeyList";
 import { Key } from "./Key";
 import Play from "../icons/play";
@@ -51,9 +52,8 @@ export const Keyboard = (props) => {
         break;
     }
 
-    // Don't store space or special keys,
-    // so key can be toggled multiple times with space
-    if (e.key !== " " && e.key.length === 1) setKeyDown(e.key);
+    // Ommit space key for key+space selection
+    if (e.key !== " ") setKeyDown(e.key);
     return;
   };
 
@@ -61,7 +61,7 @@ export const Keyboard = (props) => {
   document.body.onkeyup = function (e) {
     switch (e.key) {
       // Shift key temporarily (un)locks keyboard
-      case e.key === "Shift":
+      case "Shift":
         props.setKeyboardLocked(!props.keyboardLocked);
         break;
       default:
@@ -72,15 +72,17 @@ export const Keyboard = (props) => {
         break;
     }
 
-    // Clear key from state
-    // Avoid modifying keyDown if space or special key is being released
-    // so key can be toggled multiple times with space
-    if (e.key !== " " && e.key.length === 1) setKeyDown(false);
+    // Ommit space key for key+space selection
+    if (e.key !== " ") setKeyDown(false);
     return;
   };
 
   return (
-    <div className={`keyboard ${props.keyboardLocked && "locked"}`}>
+    <div
+      className={classNames("keyboard", {
+        locked: props.keyboardLocked,
+      })}
+    >
       <div className="keyboard-keys-wrap">
         <div className="keyboard-keys">
           {KeyList.map((key, i) => (
@@ -122,7 +124,7 @@ export const Keyboard = (props) => {
             onClick={() => {
               props.playSelectedKeys();
             }}
-            disabled={props.autoplaying || props.selectedNotes.length === 0}
+            disabled={props.keyboardLocked || props.selectedNotes.length === 0}
           >
             <Play />
             <span className="text">Play</span>
@@ -132,11 +134,7 @@ export const Keyboard = (props) => {
             onClick={() => {
               props.clearSelected();
             }}
-            disabled={
-              props.keyboardLocked ||
-              props.autoplaying ||
-              props.selectedNotes.length === 0
-            }
+            disabled={props.keyboardLocked || props.selectedNotes.length === 0}
           >
             <Clear />
             <span className="text">Clear</span>
