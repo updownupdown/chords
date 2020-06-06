@@ -1,7 +1,4 @@
 import React from "react";
-import Treble from "../icons/treble";
-import Sharp from "../icons/sharp";
-import Flat from "../icons/flat";
 import { Key } from "@tonaljs/tonal";
 import "../css/keychart.scss";
 
@@ -128,28 +125,6 @@ export const KeyChart = (props) => {
     return;
   }
 
-  const signature = props.myKey.key.keySignature;
-  const accidental = signature === undefined ? undefined : signature.charAt(0);
-
-  const sharps = ["F", "C", "G", "D", "A", "E", "B"];
-
-  function sigList(sig) {
-    let list = [];
-    for (var i = 0; i < sig.length; i++) {
-      list.push(
-        <span
-          key={i}
-          className={accidental === "#" ? "sharp" : "flat"}
-          title={accidental === "#" ? sharps[i] : sharps[sharps.length - i - 1]}
-        >
-          <span className="hover-zone"></span>
-          {accidental === "#" ? <Sharp /> : <Flat />}
-        </span>
-      );
-    }
-    return list;
-  }
-
   return (
     <div className="key-chart">
       <div className="key-chart-title">
@@ -163,19 +138,7 @@ export const KeyChart = (props) => {
           )}
         </span>
       </div>
-      <div className="key-chart-signature">
-        <div className="treble-clef">
-          <Treble />
-        </div>
-        <div className="lines">
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-        <div className="sharps-flats">{signature && sigList(signature)}</div>
-      </div>
+
       <div className="key-chart-details">{props.myKey.note && keyInfo()}</div>
     </div>
   );

@@ -1,0 +1,365 @@
+@import "./vars";
+
+.staffs {
+  display: flex;
+  flex-direction: row;
+
+  padding: 70px 0;
+}
+
+.staff {
+  $staff-height: 50px;
+  position: relative;
+  display: flex;
+  flex-shrink: 0;
+  width: $staff-height * 8;
+  height: $staff-height;
+  margin: $staff-height * 0.7 0 $staff-height * 0.45;
+
+  &:not(:first-child) {
+    margin-left: 40px;
+  }
+
+  &:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -8px;
+    width: 4px;
+    height: calc(100% + 1px);
+    background: $K900;
+  }
+
+  &:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1px;
+    height: calc(100% + 1px);
+    background: $K900;
+  }
+
+  // Lines
+  .lines {
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+
+    span {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: $K900;
+
+      @for $i from 1 through 5 {
+        &:nth-child(#{$i}) {
+          top: ($i - 1) * 25%;
+        }
+      }
+    }
+  }
+
+  // Clefs
+  .clef {
+    position: absolute;
+    z-index: 2;
+
+    svg path {
+      fill: $K900;
+    }
+
+    // Treble
+    &-treble {
+      top: -$staff-height * 0.38;
+      left: -$staff-height * 0.4;
+
+      svg {
+        width: $staff-height * 1.8;
+        height: $staff-height * 1.8;
+      }
+    }
+    // Bass
+    &-bass {
+      top: $staff-height * 0.01;
+      left: $staff-height * 0.04;
+
+      svg {
+        width: $staff-height * 0.85;
+        height: $staff-height * 0.85;
+      }
+    }
+  }
+
+  // sharps/flats
+  .signature {
+    position: absolute;
+    z-index: 3;
+    top: 0;
+    left: 0;
+    width: $staff-height * 3;
+    height: 100%;
+
+    span {
+      position: absolute;
+
+      @for $i from 1 through 7 {
+        &:nth-child(#{$i}) {
+          left: $i * 12 + $staff-height * 0.6;
+        }
+      }
+
+      svg {
+        width: $staff-height * 0.6;
+        height: $staff-height * 0.6;
+
+        path {
+          fill: $K900;
+        }
+      }
+
+      .hover-zone {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin: -25% 0 0 -25%;
+        width: 50%;
+        height: 50%;
+      }
+    }
+
+    &.bass span {
+      margin-top: $staff-height * 0.26;
+    }
+
+    .sharp {
+      &:nth-child(1) {
+        top: -30%;
+      }
+      &:nth-child(2) {
+        top: 8%;
+      }
+      &:nth-child(3) {
+        top: -44%;
+      }
+      &:nth-child(4) {
+        top: -5%;
+      }
+      &:nth-child(5) {
+        top: 33%;
+      }
+      &:nth-child(6) {
+        top: -19%;
+      }
+      &:nth-child(7) {
+        top: 20%;
+      }
+    }
+    .flat {
+      &:nth-child(1) {
+        top: 7%;
+      }
+      &:nth-child(2) {
+        top: -31%;
+      }
+      &:nth-child(3) {
+        top: 20%;
+      }
+      &:nth-child(4) {
+        top: -17%;
+      }
+      &:nth-child(5) {
+        top: 33%;
+      }
+      &:nth-child(6) {
+        top: -3%;
+      }
+      &:nth-child(7) {
+        top: 46%;
+      }
+    }
+  }
+
+  // Notes
+  .notes {
+    position: absolute;
+    z-index: 3;
+    top: 0;
+    left: $staff-height * 3;
+    width: $staff-height;
+    height: 100%;
+
+    &:before,
+    &:after {
+      content: "";
+      position: absolute;
+
+      left: 0;
+      width: $staff-height * 0.5;
+      height: 1px;
+      background: $K900;
+    }
+    &:before {
+      top: -$staff-height * 0.25;
+    }
+    &:after {
+      top: $staff-height * 1.25;
+    }
+
+    &.bass:after {
+      display: none;
+    }
+
+    .note {
+      position: absolute;
+      left: $staff-height * 0.08;
+      width: $staff-height * 0.25 * 1.5;
+      height: $staff-height * 0.25;
+
+      svg {
+        display: block;
+        width: $staff-height * 0.25 * 1.5;
+        height: $staff-height * 0.25;
+
+        path {
+          fill: $K900;
+        }
+      }
+
+      // Treble
+      &.treble {
+        &.note-C3,
+        &.note-D3,
+        &.note-Db3,
+        &.note-E3,
+        &.note-Eb3,
+        &.note-F3,
+        &.note-G3,
+        &.note-Gb3,
+        &.note-A3,
+        &.note-Ab3 {
+          display: none;
+        }
+        &.note-B3 &.note-Bb3 {
+          top: 126%;
+        }
+        &.note-C4 {
+          top: 112%;
+        }
+        &.note-D4,
+        &.note-Db4 {
+          top: 100%;
+        }
+        &.note-E4 &.note-Eb4 {
+          top: 88%;
+        }
+        &.note-F4 {
+          top: 76%;
+        }
+        &.note-G4,
+        &.note-Gb4 {
+          top: 64%;
+        }
+        &.note-A4,
+        &.note-Ab4 {
+          top: 52%;
+        }
+        &.note-B4,
+        &.note-Bb4 {
+          top: 40%;
+        }
+        &.note-C5 {
+          top: 28%;
+        }
+        &.note-D5,
+        &.note-Db5 {
+          top: 16%;
+        }
+        &.note-E5,
+        &.note-Eb5 {
+          top: 4%;
+        }
+        &.note-F5 {
+          top: -8%;
+        }
+        &.note-G5,
+        &.note-Gb5 {
+          top: -20%;
+        }
+        &.note-A5,
+        &.note-Ab5 {
+          top: -32%;
+        }
+        &.note-B5,
+        &.note-Bb5 {
+          top: -44%;
+        }
+
+        &.note-B3,
+        &.note-D4,
+        &.note-F4,
+        &.note-A4,
+        &.note-C5,
+        &.note-E5,
+        &.note-G5,
+        &.note-B5 {
+          margin-left: $staff-height * 0.5;
+        }
+      }
+      &.bass {
+        &.note-C3 {
+          top: 52%;
+        }
+        &.note-D3 {
+          top: 40%;
+        }
+        &.note-E3 {
+          top: 28%;
+        }
+        &.note-F3 {
+          top: 16%;
+        }
+        &.note-G3 {
+          top: 4%;
+        }
+        &.note-A3 {
+          top: -8%;
+        }
+        &.note-B3 {
+          top: -20%;
+        }
+        &.note-C4 {
+          top: -32%;
+        }
+        &.note-D4 {
+          top: -44%;
+        }
+
+        &.note-E4,
+        &.note-F4,
+        &.note-G4,
+        &.note-A4,
+        &.note-B4,
+        &.note-C5,
+        &.note-D5,
+        &.note-E5,
+        &.note-F5,
+        &.note-G5,
+        &.note-A5,
+        &.note-B5 {
+          display: none;
+        }
+
+        &.note-C3,
+        &.note-E3,
+        &.note-G3,
+        &.note-B3,
+        &.note-D4 {
+          margin-left: $staff-height * 0.5;
+        }
+      }
+    }
+  }
+}

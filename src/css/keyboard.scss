@@ -46,9 +46,10 @@
   cursor: pointer;
   position: relative;
   display: flex;
+  flex-direction: column;
   flex-shrink: 0;
-  align-items: flex-end;
-  justify-content: center;
+  align-items: center;
+  justify-content: flex-end;
 
   padding: 0;
 
@@ -112,15 +113,17 @@
 
     border-radius: 50%;
 
-    font-family: $headingFont;
-    font-size: 14px;
+    font-family: $font;
+    font-size: 13px;
     font-weight: 600;
     user-select: none;
-    color: transparent;
 
     // White label
+    .key-white & {
+      color: $K400;
+    }
     .key-white:hover & {
-      color: $K600;
+      background: $K200;
     }
     .key-white.active & {
       background: $orange;
@@ -128,8 +131,11 @@
     }
 
     // Black label
+    .key-black & {
+      color: $K700;
+    }
     .key-black:hover & {
-      color: $K400;
+      background: $K600;
     }
     .key-black.active & {
       background: $orange;

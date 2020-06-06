@@ -8,6 +8,7 @@ import { Keyboard } from "./Keyboard";
 import { Selected } from "./Selected";
 import { Chords } from "./Chords";
 import { Menu } from "./Menu";
+import { Staff } from "./Staff";
 import { selectedToNotes } from "./Utils";
 
 // Keyboard
@@ -155,12 +156,8 @@ function Layout() {
   var timeouts = [];
 
   function cancelTimeouts() {
-    // console.log("cancelTimeouts...");
-    // console.log(timeouts);
-
     for (var i = 0; i < timeouts.length; i++) {
       clearTimeout(timeouts[i]);
-      // console.log("clearing timeout");
     }
     timeouts = [];
 
@@ -185,14 +182,9 @@ function Layout() {
         }, autoplayDelay * i * 1000 + autoplayDelay * 1000)
       );
     }
-
-    // console.log(timeouts);
   }
 
   function scaleFromKey(key, type) {
-    // console.log(myKey);
-    // console.log(key);
-    // console.log(type);
     if (type === "major") {
       return key.scale;
     } else if (type === "minor") {
@@ -202,12 +194,9 @@ function Layout() {
   }
 
   function pitchedScale(key, type, startPitch = 4) {
-    // console.log(myKey);
     var pitch = startPitch;
     var scale = scaleFromKey(key, type);
     var pitched = [];
-
-    // console.log(scale);
 
     for (var i = 0; i < scale.length; i++) {
       pitched.push(scale[i] + pitch.toString());
@@ -263,18 +252,19 @@ function Layout() {
         playSelectedKeys={playSelectedKeys}
       />
       <div className="layout">
-        <div className={`loader ${pianoLoaded ? "loaded" : "loading"}`}>
+        {/* <div className={`loader ${pianoLoaded ? "loaded" : "loading"}`}>
           <div className="loading">
             <span></span>
             <span></span>
             <span></span>
           </div>
-        </div>
+        </div> */}
         <div className="layout-keyboard">
           <div className="wheel-and-chart">
             <Wheel playScale={playScale} findKey={findKey} myKey={myKey} />
             <KeyChart myKey={myKey} />
           </div>
+          <Staff selectedMidi={selectedMidi} myKey={myKey} />
           <Keyboard
             pianoAttack={pianoAttack}
             pianoRelease={pianoRelease}

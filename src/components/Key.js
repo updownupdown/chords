@@ -1,4 +1,5 @@
 import React from "react";
+import { Note } from "@tonaljs/tonal";
 import classNames from "classnames";
 
 export const Key = (props) => {
@@ -31,6 +32,11 @@ export const Key = (props) => {
       }}
     >
       <div className="key-label">{props.label}</div>
+
+      {Note.enharmonic(props.label) !== props.label && (
+        <div className="key-label">{Note.enharmonic(props.label)}</div>
+      )}
+
       {props.label === "C" && <div className="key-pitch">{props.pitch}</div>}
 
       {props.shortcut && (
