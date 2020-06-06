@@ -5,29 +5,19 @@ export const Key = (props) => {
   return (
     <button
       className={classNames(`key key-${props.color}`, {
-        active: props.selectedNotes.includes(props.note),
+        active:
+          props.selectedNotes.includes(props.note) ||
+          props.selectedNotes.includes(props.enharmonic),
+        pressed:
+          props.pressedNotes.includes(props.note) ||
+          props.pressedNotes.includes(props.enharmonic),
       })}
       data-midi={props.midi}
       data-note={props.note}
       data-shortcut={props.shortcut}
       onMouseDown={() => {
         props.pianoAttack(props.note);
-
-        if (props.enharmonic) {
-          if (props.selectedNotes.includes(props.note)) {
-            props.updateSelected(props.note, false);
-            props.updateSelected(props.enharmonic, true);
-          } else if (props.selectedNotes.includes(props.enharmonic)) {
-            props.updateSelected(props.enharmonic, false);
-          } else {
-            props.updateSelected(props.note, true);
-          }
-        } else {
-          props.updateSelected(
-            props.note,
-            !props.selectedNotes.includes(props.note)
-          );
-        }
+        props.updateSelected(props.index);
       }}
       onMouseUp={() => {
         props.pianoRelease(props.note);

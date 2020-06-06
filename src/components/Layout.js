@@ -1,19 +1,31 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Sampler, Part, Transport } from "tone";
-import { Key, Note } from "@tonaljs/tonal";
+import { Note, Key } from "@tonaljs/tonal";
 import * as ChordDetect from "@tonaljs/chord-detect";
 import { Wheel } from "./Wheel";
 import { KeyChart } from "./KeyChart";
 import { Keyboard } from "./Keyboard";
-import { Selected } from "./Selected";
 import { Chords } from "./Chords";
 import { Menu } from "./Menu";
 import { Staff } from "./Staff";
+import { KeyList } from "./KeyList";
 import { selectedToNotes } from "./Utils";
 
 // Keyboard
 function Layout() {
   const [pianoLoaded, setPianoLoaded] = useState(false);
+  const [selectedNotes, setSelectedNotes] = useState([]);
+  const [pressedNotes, setPressedNotes] = useState([]);
+  const [chordDetect, setChordDetect] = useState("");
+  const [myKey, setMyKey] = useState({ key: {}, note: "", type: "" });
+  const [mouseDown, setMouseDown] = useState(false);
+  const [autoplaying, setAutoplaying] = useState(false);
+  const [keyboardLocked, setKeyboardLocked] = useState(false);
+
+  // for auto play keys
+  const autoplayDelay = 0.3;
+  const autoplayLength = "8n";
+
   const piano = useRef(null);
 
   useEffect(() => {
@@ -40,7 +52,6 @@ function Layout() {
           : "https://www.jamescarmichael.ca/chords/samples/",
         onload: () => {
           setPianoLoaded(true);
-          console.log("Piano loaded!");
         },
       }
     ).toDestination();
@@ -56,7 +67,6 @@ function Layout() {
       Transport.start();
     }
 
-    // Highlight keys
     highlightKeys(playlist);
   }
 
@@ -69,22 +79,6 @@ function Layout() {
   function pianoAttackRelease(note, duration) {
     pianoLoaded && piano.current.triggerAttackRelease(note, duration);
   }
-
-  // Selected Notes
-  const [selectedNotes, setSelectedNotes] = useState([]);
-
-  // Chord Detection
-  const [chordDetect, setChordDetect] = useState("");
-
-  // Selected Key
-  const [myKey, setMyKey] = useState({ key: {}, note: "", type: "" });
-
-  // to handle playing keys by dragging mouse while mouse is down
-  const [mouseDown, setMouseDown] = useState(false);
-
-  // for auto play keys
-  const autoplayDelay = 0.3;
-  const autoplayLength = "8n";
 
   function setKey(key, note, type) {
     setMyKey({ key: key, note: note, type: type });
@@ -111,22 +105,58 @@ function Layout() {
   document.body.onmousedown = setLeftButtonState;
   document.body.onmouseup = setLeftButtonState;
 
-  // Update selected notes
-  function updateSelected(index, active) {
+  function addNote(note) {
     const list = selectedNotes;
+    list.push(note);
+    setSelectedNotes(Note.sortedNames(list));
+  }
+  function removeNote(note) {
+    const list = selectedNotes;
+    const index = list.indexOf(note);
+    if (index > -1) {
+      list.splice(index, 1);
+    }
+    setSelectedNotes(Note.sortedNames(list));
+  }
 
-    if (active) {
-      list.push(index);
-      list.sort((a, b) => a - b);
+  function pressNote(note) {
+    const list = pressedNotes;
+    list.push(note);
+    setPressedNotes(list);
+  }
+  function unpressNote(note) {
+    const list = pressedNotes;
+    const index = list.indexOf(note);
+    if (index > -1) {
+      list.splice(index, 1);
+    }
+    setPressedNotes(list);
+  }
+
+  // Update selected notes
+  function updateSelected(index) {
+    if (keyboardLocked) return;
+
+    const list = selectedNotes;
+    const note = KeyList[index].note;
+    const enharmonic = KeyList[index].enharmonic;
+
+    if (enharmonic) {
+      if (selectedNotes.includes(note)) {
+        removeNote(note, false);
+        addNote(enharmonic, true);
+      } else if (selectedNotes.includes(enharmonic)) {
+        removeNote(enharmonic, false);
+      } else {
+        addNote(note, true);
+      }
     } else {
-      for (var i = 0; i < list.length; i++) {
-        if (list[i] === index) {
-          list.splice(i, 1);
-        }
+      if (selectedNotes.includes(note)) {
+        removeNote(note, true);
+      } else {
+        addNote(note, true);
       }
     }
-
-    setSelectedNotes(list);
 
     // Predict chords
     const chords = ChordDetect.detect(selectedToNotes(list));
@@ -138,34 +168,24 @@ function Layout() {
     setChordDetect("");
   }
 
-  const [autoplaying, setAutoplaying] = useState(false);
-
   function highlightKeys(playlist) {
     var timeouts = [];
 
     for (let i = 0; i < playlist.length; i++) {
-      const midi = Note.midi(playlist[i].note);
-
-      let keyToPress = document.querySelector(`.key[data-midi='${midi}'`);
-
       setAutoplaying(true);
 
       timeouts.push(
         setTimeout(() => {
-          keyToPress.classList.add("highlighted");
+          console.log("pressing note: " + playlist[i].note);
+          setPressedNotes(playlist[i].note);
         }, autoplayDelay * i * 1000)
       );
 
       timeouts.push(
         setTimeout(function () {
-          keyToPress.classList.remove("highlighted");
-        }, autoplayDelay * i * 1000 + autoplayDelay * 1000)
-      );
-
-      timeouts.push(
-        setTimeout(function () {
           setAutoplaying(false);
-        }, autoplayDelay * playlist.length * 1000 + autoplayDelay * 1000)
+          setPressedNotes([]);
+        }, autoplayDelay * playlist.length * 1000)
       );
     }
   }
@@ -247,18 +267,23 @@ function Layout() {
         </div> */}
         <div className="layout-keyboard">
           <Staff selectedNotes={selectedNotes} myKey={myKey} />
+
           <Keyboard
+            keyboardLocked={keyboardLocked}
+            setKeyboardLocked={setKeyboardLocked}
             pianoAttack={pianoAttack}
             pianoRelease={pianoRelease}
             pianoAttackRelease={pianoAttackRelease}
             mouseDown={mouseDown}
+            pressedNotes={pressedNotes}
+            pressNote={pressNote}
+            unpressNote={unpressNote}
             selectedNotes={selectedNotes}
             updateSelected={updateSelected}
             clearSelected={clearSelected}
             playSelectedKeys={playSelectedKeys}
             autoplaying={autoplaying}
           />
-          <Selected selectedNotes={selectedNotes} />
 
           <div className="wheel-and-chart">
             <Wheel
@@ -269,6 +294,7 @@ function Layout() {
             />
             <KeyChart myKey={myKey} />
           </div>
+
           <Chords chordDetect={chordDetect} />
         </div>
       </div>

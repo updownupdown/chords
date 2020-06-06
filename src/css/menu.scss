@@ -27,14 +27,4 @@
     width: 100%;
     max-width: $max-layout-width;
   }
-  &-left {
-    button:not(:first-child) {
-      margin-left: 12px;
-    }
-  }
-  &-right {
-    button:not(:last-child) {
-      margin-right: 12px;
-    }
-  }
 }

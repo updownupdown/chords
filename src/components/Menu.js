@@ -9,9 +9,22 @@ export const Menu = (props) => {
           <h2>Piano Chords</h2>
         </div>
         <div className="menu-right">
-          <button disabled>Info</button>
-          <button disabled>Help</button>
-          <button disabled>Settings</button>
+          <div className="button-group">
+            <button
+              className="outline"
+              onClick={() => {
+                window.open("https://github.com/updownupdown/chords", "_blank");
+              }}
+            >
+              About
+            </button>
+            <button className="outline" disabled>
+              Help
+            </button>
+            <button className="outline" disabled>
+              Settings
+            </button>
+          </div>
         </div>
       </div>
     </div>

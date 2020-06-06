@@ -5,7 +5,6 @@ Bugs:
 
 Technical:
 
-- E# (and similar) not showing; select D# minor key. add enharmonic to KeyList directly instead and make key.js more efficient when referring to enharmonics.
 - Smoother loading screen
 - review var/let/const
 - use context?

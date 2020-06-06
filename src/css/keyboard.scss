@@ -11,18 +11,19 @@
     display: block;
     width: 100%;
     overflow-x: auto;
+    padding-top: 80px; // for shortcut helpers
+    padding-bottom: 12px; // keep box shadows visible
 
     .keyboard-keys {
       min-width: $key-white-width * 7 * 3;
       display: flex;
       align-items: flex-start;
       justify-content: center;
-      margin-top: 80px;
       height: 200px;
 
       border-radius: $key-border-radius;
       background: $K100;
-      box-shadow: 1px 2px 4px $K200;
+      // box-shadow: 1px 2px 4px $K200;
     }
   }
 
@@ -31,17 +32,13 @@
     display: flex;
     width: 100%;
     justify-content: flex-end;
-    margin-top: 20px;
-
-    button:not(:last-child) {
-      margin-right: 12px;
-    }
+    margin-bottom: 24px;
   }
 }
 
 // Individual Keys
 .key {
-  transition: 0.1s ease background-color;
+  transition: 0.1s ease background-color, 0.1s ease box-shadow;
 
   cursor: pointer;
   position: relative;
@@ -53,51 +50,55 @@
 
   padding: 0;
 
-  border: 0;
   border-bottom-left-radius: $key-border-radius;
   border-bottom-right-radius: $key-border-radius;
 
   // White Key
-  &:not(:disabled).key-white {
-    z-index: 1;
-    width: $key-white-width;
-    height: 100%;
+  &:not(:disabled) {
+    &.key-white {
+      z-index: 1;
+      width: $key-white-width;
+      height: 100%;
 
-    background: $white;
-    box-shadow: inset 0 0 0 1px $K200;
+      border: 1px solid $K200;
+      background: $white;
+      box-shadow: 1px 2px 3px $K100;
 
-    &.pressed,
-    &:hover {
-      background: $K200;
+      &:hover {
+        background: $K200;
+      }
+
+      &:active,
+      &.pressed {
+        background: $K300;
+        box-shadow: 0 0 1px $K100;
+      }
     }
 
-    &.highlighted {
-      background: $orange;
+    // Black Key
+    &.key-black {
+      z-index: 2;
+      width: $key-black-width;
+      height: $key-black-height;
+      margin: 0 (-$key-black-width/2);
+
+      border: 0;
+      background: $K800;
+      box-shadow: 1px 2px 3px rgba($K800, 0.2);
+
+      &:hover {
+        background: $K700;
+      }
+      &:active,
+      &.pressed {
+        background: $K600;
+        box-shadow: 0 1px 1px rgba($K800, 0.1);
+      }
     }
-  }
 
-  // Black Key
-  &:not(:disabled).key-black {
-    z-index: 2;
-    width: $key-black-width;
-    height: $key-black-height;
-    margin: 0 (-$key-black-width/2);
-
-    background: $K900;
-    box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.2);
-
-    &.pressed,
-    &:hover {
-      background: $K700;
+    &:focus {
+      outline: none;
     }
-
-    &.highlighted {
-      background: $orange;
-    }
-  }
-
-  &:focus {
-    outline: none;
   }
 
   // Labels
@@ -138,25 +139,26 @@
     //   border-bottom-right-radius: 0;
     // }
 
-    &.sharp:before,
-    &.flat:after {
-      pointer-events: none;
-      content: "";
-      position: absolute;
-      top: 0;
-      width: 4px;
-      height: 100%;
-    }
-    &.sharp:before {
-      left: 0;
-    }
-    &.flat:after {
-      right: 0;
-    }
+    // Left/right indicators
+    // &.sharp:before,
+    // &.flat:after {
+    //   pointer-events: none;
+    //   content: "";
+    //   position: absolute;
+    //   top: 0;
+    //   width: 4px;
+    //   height: 100%;
+    // }
+    // &.sharp:before {
+    //   left: 0;
+    // }
+    // &.flat:after {
+    //   right: 0;
+    // }
 
     // White label
     .key-white:hover & {
-      color: $K800;
+      color: $K600;
     }
 
     // Black label
@@ -169,6 +171,10 @@
     .key-black &.active {
       background: $orange;
       color: $white;
+
+      .locked & {
+        background: $locked;
+      }
 
       &:before,
       &:after {

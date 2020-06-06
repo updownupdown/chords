@@ -17,39 +17,124 @@ code {
   font-family: $monoFont, monospace;
 }
 
+// Buttons
 button {
-  transition: 0.2s ease background-color;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   padding: 8px 14px;
 
-  border: 0;
   border-radius: 4px;
-  background: $orange;
-  box-shadow: 1px 2px 4px $K100;
 
   font-family: $headingFont;
   font-size: 16px;
-  color: $white;
   font-weight: 600;
 
-  &:hover {
-    background: darken($orange, 10%);
-  }
-
-  &:disabled {
-    opacity: 0.5;
-    background: $K200;
-    color: $K500;
-
-    svg path {
-      fill: $K500;
-    }
+  svg {
+    width: 24px;
+    height: 24px;
+    margin: 0 8px 0 -4px;
   }
 
   &:not(:disabled) {
     cursor: pointer;
+  }
 
-    &:hover {
-      background: darken($orange, 10%);
+  // Full button
+  &.full {
+    transition: 0.2s ease background-color;
+    border: 0;
+    background: $orange;
+    box-shadow: 1px 2px 4px $K100;
+
+    color: $white;
+
+    svg path {
+      fill: $white;
+    }
+
+    &:not(:disabled) {
+      &:hover,
+      &:focus {
+        background: darken($orange, 10%);
+      }
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      background: $K200;
+      color: $K500;
+
+      svg path {
+        fill: $K500;
+      }
+    }
+  }
+
+  // Outlined button
+  &.outline {
+    transition: 0.2s ease background, 0.2s ease color;
+    border: 0;
+    background: transparent;
+
+    &:not(:disabled) {
+      color: $orange;
+
+      svg path {
+        transition: 0.2s ease fill;
+        fill: $orange;
+      }
+
+      &:hover,
+      &:focus,
+      &.active {
+        background: rgba($orangeHover, 0.05);
+        color: $orangeHover;
+
+        svg path {
+          fill: $orangeHover;
+        }
+      }
+
+      &:focus {
+        outline: none;
+      }
+
+      &.locked {
+        color: $locked;
+
+        svg path {
+          fill: $locked;
+        }
+      }
+    }
+
+    &:disabled {
+      color: $K300;
+
+      svg path {
+        fill: $K300;
+      }
+    }
+  }
+}
+.button-group {
+  display: flex;
+  flex-direction: row;
+
+  &:not(.touching) {
+    &:not(:first-child) {
+      margin-left: 12px;
+    }
+  }
+  &.touching {
+    button:not(:first-child) {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+    button:not(:last-child) {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
     }
   }
 }
@@ -237,6 +322,7 @@ button {
   border-radius: 50%;
 
   svg {
+    margin: 0;
     width: 70%;
     height: 70%;
 
