@@ -49,13 +49,7 @@ function Layout() {
   }, []);
 
   function playPlaylist(playlist) {
-    // Cancel/reset key highlights
-    cancelTimeouts();
-
     if (pianoLoaded) {
-      // Cancel play in progress
-      Transport.cancel(0);
-
       new Part(function (time, note) {
         piano.current.triggerAttackRelease(note.note, note.duration, time);
       }, playlist).start();
@@ -76,8 +70,8 @@ function Layout() {
     pianoLoaded && piano.current.triggerAttackRelease(note, duration);
   }
 
-  // Selected Keys (notes)
-  const [selectedMidi, setSelectedMidi] = useState([]);
+  // Selected Notes
+  const [selectedNotes, setSelectedNotes] = useState([]);
 
   // Chord Detection
   const [chordDetect, setChordDetect] = useState("");
@@ -95,16 +89,7 @@ function Layout() {
   function setKey(key, note, type) {
     setMyKey({ key: key, note: note, type: type });
 
-    var scale = pitchedScale(key, type);
-    var selected = [];
-
-    for (var i = 0; i < scale.length; i++) {
-      var midi = Note.midi(scale[i]);
-
-      selected.push(midi);
-    }
-
-    setSelectedMidi(selected);
+    setSelectedNotes(pitchedScale(key, type));
   }
 
   function findKey(note, type) {
@@ -128,7 +113,7 @@ function Layout() {
 
   // Update selected notes
   function updateSelected(index, active) {
-    const list = selectedMidi;
+    const list = selectedNotes;
 
     if (active) {
       list.push(index);
@@ -141,7 +126,7 @@ function Layout() {
       }
     }
 
-    setSelectedMidi(list);
+    setSelectedNotes(list);
 
     // Predict chords
     const chords = ChordDetect.detect(selectedToNotes(list));
@@ -149,26 +134,21 @@ function Layout() {
   }
 
   function clearSelected() {
-    setSelectedMidi([]);
+    setSelectedNotes([]);
     setChordDetect("");
   }
 
-  var timeouts = [];
-
-  function cancelTimeouts() {
-    for (var i = 0; i < timeouts.length; i++) {
-      clearTimeout(timeouts[i]);
-    }
-    timeouts = [];
-
-    document.querySelector(".key").classList.remove("pressed");
-  }
+  const [autoplaying, setAutoplaying] = useState(false);
 
   function highlightKeys(playlist) {
+    var timeouts = [];
+
     for (let i = 0; i < playlist.length; i++) {
-      var midi = Note.midi(playlist[i].note);
+      const midi = Note.midi(playlist[i].note);
 
       let keyToPress = document.querySelector(`.key[data-midi='${midi}'`);
+
+      setAutoplaying(true);
 
       timeouts.push(
         setTimeout(() => {
@@ -180,6 +160,12 @@ function Layout() {
         setTimeout(function () {
           keyToPress.classList.remove("highlighted");
         }, autoplayDelay * i * 1000 + autoplayDelay * 1000)
+      );
+
+      timeouts.push(
+        setTimeout(function () {
+          setAutoplaying(false);
+        }, autoplayDelay * playlist.length * 1000 + autoplayDelay * 1000)
       );
     }
   }
@@ -211,13 +197,13 @@ function Layout() {
   }
 
   function playSelectedKeys() {
-    if (selectedMidi.length === 0) return;
+    if (autoplaying || selectedNotes.length === 0) return;
 
     const playlist = [];
-    for (var i = 0; i < selectedMidi.length; i++) {
+    for (var i = 0; i < selectedNotes.length; i++) {
       playlist.push({
         time: i * autoplayDelay,
-        note: Note.fromMidi(selectedMidi[i]),
+        note: selectedNotes[i],
         duration: autoplayLength,
       });
     }
@@ -247,7 +233,7 @@ function Layout() {
   return (
     <>
       <Menu
-        selectedMidi={selectedMidi}
+        selectedNotes={selectedNotes}
         clearSelected={clearSelected}
         playSelectedKeys={playSelectedKeys}
       />
@@ -260,22 +246,29 @@ function Layout() {
           </div>
         </div> */}
         <div className="layout-keyboard">
-          <div className="wheel-and-chart">
-            <Wheel playScale={playScale} findKey={findKey} myKey={myKey} />
-            <KeyChart myKey={myKey} />
-          </div>
-          <Staff selectedMidi={selectedMidi} myKey={myKey} />
+          <Staff selectedNotes={selectedNotes} myKey={myKey} />
           <Keyboard
             pianoAttack={pianoAttack}
             pianoRelease={pianoRelease}
             pianoAttackRelease={pianoAttackRelease}
             mouseDown={mouseDown}
-            selectedMidi={selectedMidi}
+            selectedNotes={selectedNotes}
             updateSelected={updateSelected}
             clearSelected={clearSelected}
             playSelectedKeys={playSelectedKeys}
+            autoplaying={autoplaying}
           />
-          <Selected selectedMidi={selectedMidi} />
+          <Selected selectedNotes={selectedNotes} />
+
+          <div className="wheel-and-chart">
+            <Wheel
+              playScale={playScale}
+              findKey={findKey}
+              myKey={myKey}
+              autoplaying={autoplaying}
+            />
+            <KeyChart myKey={myKey} />
+          </div>
           <Chords chordDetect={chordDetect} />
         </div>
       </div>

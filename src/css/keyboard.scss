@@ -101,46 +101,83 @@
   }
 
   // Labels
+  &-labels {
+    display: flex;
+    margin-bottom: 10px;
+
+    .key-white & {
+      flex-direction: column-reverse;
+    }
+    .key-black & {
+      flex-direction: column;
+    }
+  }
   &-label {
-    transition: 0.2s ease color;
+    user-select: none;
     display: flex;
     align-items: center;
     justify-content: center;
     width: $key-label-diameter;
     height: $key-label-diameter;
 
-    margin-bottom: 10px;
-
-    border-radius: 50%;
-
     font-family: $font;
     font-size: 13px;
     font-weight: 600;
-    user-select: none;
+    line-height: 1;
+    color: transparent;
+
+    border-radius: 50%;
+
+    // Sharp/flat accents
+    // &.sharp {
+    //   border-top-left-radius: 0;
+    //   border-bottom-left-radius: 0;
+    // }
+    // &.flat {
+    //   border-top-right-radius: 0;
+    //   border-bottom-right-radius: 0;
+    // }
+
+    &.sharp:before,
+    &.flat:after {
+      pointer-events: none;
+      content: "";
+      position: absolute;
+      top: 0;
+      width: 4px;
+      height: 100%;
+    }
+    &.sharp:before {
+      left: 0;
+    }
+    &.flat:after {
+      right: 0;
+    }
 
     // White label
-    .key-white & {
-      color: $K400;
-    }
     .key-white:hover & {
-      background: $K200;
-    }
-    .key-white.active & {
-      background: $orange;
-      color: $white;
+      color: $K800;
     }
 
     // Black label
-    .key-black & {
-      color: $K700;
-    }
     .key-black:hover & {
-      background: $K600;
+      color: $K200;
     }
-    .key-black.active & {
+
+    // White/Black label
+    .key-white &.active,
+    .key-black &.active {
       background: $orange;
       color: $white;
+
+      &:before,
+      &:after {
+        background: rgba($K400, 0.4);
+      }
     }
+  }
+  &:hover .key-label {
+    transition: 0.3s ease color;
   }
 
   // Shortcuts
@@ -195,26 +232,5 @@
   &.pressed .key-shortcut .key-shortcut-btn {
     background: $K200;
     color: $K600;
-  }
-
-  // Pitch
-  &-pitch {
-    user-select: none;
-    pointer-events: none;
-    overflow: hidden;
-    position: absolute;
-    bottom: 100%;
-    left: 0;
-    width: 1px;
-    margin-top: 4px;
-    height: 30px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    background: linear-gradient(180deg, $white, $K200);
-
-    font-size: 0;
   }
 }

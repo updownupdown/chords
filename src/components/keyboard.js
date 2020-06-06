@@ -1,7 +1,6 @@
 import React from "react";
 import { Note } from "@tonaljs/tonal";
-import { KeyboardMap } from "./KeyboardMap";
-import { KeysList } from "./notes";
+import { KeyShortcuts, KeyList } from "./KeyList";
 import { Key } from "./Key";
 import "../css/keyboard.scss";
 
@@ -26,30 +25,30 @@ export const Keyboard = (props) => {
     }
 
     // Don't both with irrelevant keys
-    if (!(e.key in KeyboardMap) && e.key !== " ") return;
+    if (!(e.key in KeyShortcuts) && e.key !== " ") return;
 
     // If key already pressed + now pressing spacebar, toggle that key
     if (keyDown && e.key === " ") {
-      for (var i = 0; i < KeysList.length; i++) {
-        if (KeysList[i].shortcut === keyDown) {
+      for (var i = 0; i < KeyList.length; i++) {
+        if (KeyList[i].shortcut === keyDown) {
           props.updateSelected(
-            KeysList[i].midi,
-            !props.selectedMidi.includes(KeysList[i].midi)
+            KeyList[i].note,
+            !props.selectedNotes.includes(KeyList[i].note)
           );
           break;
         }
       }
     }
 
-    if (e.key in KeyboardMap) {
+    if (e.key in KeyShortcuts) {
       // Add key indicator highlight
-      var key = document.querySelector(`[data-note='${KeyboardMap[e.key]}']`);
+      var key = document.querySelector(`[data-note='${KeyShortcuts[e.key]}']`);
       if (key !== undefined) {
         key.classList.add("pressed");
       }
 
       // Start sound
-      props.pianoAttack(KeyboardMap[e.key]);
+      props.pianoAttack(KeyShortcuts[e.key]);
     }
 
     // Store for spacebar toggling
@@ -59,15 +58,15 @@ export const Keyboard = (props) => {
 
   // Key Up
   document.body.onkeyup = function (e) {
-    if (e.key in KeyboardMap) {
+    if (e.key in KeyShortcuts) {
       // Remove key indicator highlight
-      var key = document.querySelector(`[data-note='${KeyboardMap[e.key]}']`);
+      var key = document.querySelector(`[data-note='${KeyShortcuts[e.key]}']`);
       if (key !== undefined) {
         key.classList.remove("pressed");
       }
 
       // Stop sound
-      props.pianoRelease(KeyboardMap[e.key]);
+      props.pianoRelease(KeyShortcuts[e.key]);
     }
 
     // Store for spacebar toggling
@@ -79,20 +78,20 @@ export const Keyboard = (props) => {
     <div className="keyboard">
       <div className="keyboard-keys-wrap">
         <div className="keyboard-keys">
-          {KeysList.map((key) => (
+          {KeyList.map((key, i) => (
             <Key
-              key={key.index}
-              index={key.index}
+              key={i}
               color={key.color}
-              label={key.label}
               note={key.note}
+              enharmonic={key.enharmonic}
+              label={key.label}
+              enharmoniclabel={key.enharmoniclabel}
               midi={Note.midi(key.note)}
-              pitch={key.pitch}
               shortcut={key.shortcut}
               pianoAttack={props.pianoAttack}
               pianoRelease={props.pianoRelease}
               pianoAttackRelease={props.pianoAttackRelease}
-              selectedMidi={props.selectedMidi}
+              selectedNotes={props.selectedNotes}
               updateSelected={props.updateSelected}
               mouseDown={props.mouseDown}
             />
@@ -105,7 +104,7 @@ export const Keyboard = (props) => {
           onClick={() => {
             props.playSelectedKeys();
           }}
-          disabled={props.selectedMidi.length === 0}
+          disabled={props.autoplaying || props.selectedNotes.length === 0}
         >
           Play Selected
         </button>
@@ -113,7 +112,7 @@ export const Keyboard = (props) => {
           onClick={() => {
             props.clearSelected();
           }}
-          disabled={props.selectedMidi.length === 0}
+          disabled={props.selectedNotes.length === 0}
         >
           Clear Selection
         </button>

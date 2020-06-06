@@ -1,10 +1,11 @@
 Bugs:
 
 - prevent AudioContext warnings
-- playing scales twice fast will not cancel previous highlights
+- note + spacebar may update key but doesn't cycle through enharmonicsf
 
 Technical:
 
+- E# (and similar) not showing; select D# minor key. add enharmonic to KeyList directly instead and make key.js more efficient when referring to enharmonics.
 - Smoother loading screen
 - review var/let/const
 - use context?
@@ -28,6 +29,7 @@ High Priority:
 
 Medium Priority:
 
+- when holding shift, don't select/deselect keys. add lock icon that does the same, with an info icon about the shift key
 - show enharmonics on black key labels
 - show enharmonics in wheel
 - make wheel rotate by drag and drop
@@ -50,6 +52,7 @@ Low Priority
 - invert chords? transpose keys?
 
 Very Low Priority
+- chord progression
 - guitar tabs
 - quizzes to learn notes on staff, chords, keys, etc.
 - app to record key strokes, edit staff and add notes and auto play, export/import to save/load compositions

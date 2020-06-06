@@ -77,7 +77,9 @@ export const Wheel = (props) => {
           onClick={
             Object.keys(props.myKey.key).length !== 0 ? props.playScale : null
           }
-          disabled={Object.keys(props.myKey.key).length === 0}
+          disabled={
+            props.autoplaying || Object.keys(props.myKey.key).length === 0
+          }
         >
           <Play />
         </button>

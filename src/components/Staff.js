@@ -4,7 +4,7 @@ import Bass from "../icons/bass";
 import Sharp from "../icons/sharp";
 import Flat from "../icons/flat";
 import Whole from "../icons/whole";
-import { Note } from "@tonaljs/tonal";
+// import { Note } from "@tonaljs/tonal";
 import "../css/staff.scss";
 
 export const Staff = (props) => {
@@ -44,11 +44,15 @@ export const Staff = (props) => {
           <span></span>
         </div>
         <div className="notes bass">
-          {props.selectedMidi.map((note) => (
+          {props.selectedNotes.map((note) => (
             <span
               key={note}
-              className={`note bass note-${Note.fromMidi(note)}`}
+              className={`note bass note-${note
+                .replace("#", "")
+                .replace("b", "")} note-${note.replace("#", "s")}`}
             >
+              {note.includes("b") && <Flat />}
+              {note.includes("#") && <Sharp />}
               <Whole />
             </span>
           ))}
@@ -67,11 +71,15 @@ export const Staff = (props) => {
           <span></span>
         </div>
         <div className="notes treble">
-          {props.selectedMidi.map((note) => (
+          {props.selectedNotes.map((note) => (
             <span
               key={note}
-              className={`note treble note-${Note.fromMidi(note)}`}
+              className={`note treble note-${note
+                .replace("#", "")
+                .replace("b", "")} note-${note.replace("#", "s")}`}
             >
+              {note.includes("b") && <Flat />}
+              {note.includes("#") && <Sharp />}
               <Whole />
             </span>
           ))}

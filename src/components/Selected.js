@@ -1,5 +1,5 @@
 import React from "react";
-import { selectedToNotesSimple, selectedToNotesComplex } from "./Utils";
+// import { selectedToNotesSimple, selectedToNotesComplex } from "./Utils";
 
 export const Selected = (props) => {
   return (
@@ -9,27 +9,27 @@ export const Selected = (props) => {
           <span className="list-label">Selected keys:</span>
           <span
             className={`list ${
-              props.selectedMidi.length > 0 ? "not-empty" : "empty"
+              props.selectedNotes.length > 0 ? "not-empty" : "empty"
             }`}
           >
-            {props.selectedMidi.length
-              ? selectedToNotesSimple(props.selectedMidi)
+            {props.selectedNotes.length
+              ? props.selectedNotes.join(", ")
               : "no keys selected..."}
           </span>
         </span>
-        <span className="selected-full">
+        {/* <span className="selected-full">
           <span
             className={`list ${
-              props.selectedMidi.length > 0 ? "not-empty" : "empty"
+              props.selectedNotes.length > 0 ? "not-empty" : "empty"
             }`}
           >
-            {props.selectedMidi.length > 0 ? (
-              selectedToNotesComplex(props.selectedMidi)
+            {props.selectedNotes.length > 0 ? (
+              selectedToNotesComplex(props.selectedNotes)
             ) : (
               <span>&nbsp;</span>
             )}
           </span>
-        </span>
+        </span> */}
       </div>
     </div>
   );

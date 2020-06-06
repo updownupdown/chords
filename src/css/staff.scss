@@ -3,8 +3,7 @@
 .staffs {
   display: flex;
   flex-direction: row;
-
-  padding: 70px 0;
+  justify-content: center;
 }
 
 .staff {
@@ -12,9 +11,9 @@
   position: relative;
   display: flex;
   flex-shrink: 0;
-  width: $staff-height * 8;
-  height: $staff-height;
-  margin: $staff-height * 0.7 0 $staff-height * 0.45;
+  width: 400px;
+  height: 50px;
+  margin: 30px 0;
 
   &:not(:first-child) {
     margin-left: 40px;
@@ -73,22 +72,22 @@
 
     // Treble
     &-treble {
-      top: -$staff-height * 0.38;
-      left: -$staff-height * 0.4;
+      top: -19px;
+      left: -20px;
 
       svg {
-        width: $staff-height * 1.8;
-        height: $staff-height * 1.8;
+        width: 90px;
+        height: 90px;
       }
     }
     // Bass
     &-bass {
-      top: $staff-height * 0.01;
-      left: $staff-height * 0.04;
+      top: 0;
+      left: 2px;
 
       svg {
-        width: $staff-height * 0.85;
-        height: $staff-height * 0.85;
+        width: 42px;
+        height: 42px;
       }
     }
   }
@@ -99,7 +98,7 @@
     z-index: 3;
     top: 0;
     left: 0;
-    width: $staff-height * 3;
+    width: 150px;
     height: 100%;
 
     span {
@@ -107,13 +106,13 @@
 
       @for $i from 1 through 7 {
         &:nth-child(#{$i}) {
-          left: $i * 12 + $staff-height * 0.6;
+          left: $i * 12 + 30px;
         }
       }
 
       svg {
-        width: $staff-height * 0.6;
-        height: $staff-height * 0.6;
+        width: 30px;
+        height: 30px;
 
         path {
           fill: $K900;
@@ -131,53 +130,53 @@
     }
 
     &.bass span {
-      margin-top: $staff-height * 0.26;
+      margin-top: 13px;
     }
 
     .sharp {
       &:nth-child(1) {
-        top: -30%;
+        top: -15px;
       }
       &:nth-child(2) {
-        top: 8%;
+        top: 4px;
       }
       &:nth-child(3) {
-        top: -44%;
+        top: -21px;
       }
       &:nth-child(4) {
-        top: -5%;
+        top: -2px;
       }
       &:nth-child(5) {
-        top: 33%;
+        top: 16px;
       }
       &:nth-child(6) {
-        top: -19%;
+        top: -9px;
       }
       &:nth-child(7) {
-        top: 20%;
+        top: 10px;
       }
     }
     .flat {
       &:nth-child(1) {
-        top: 7%;
+        top: 4px;
       }
       &:nth-child(2) {
-        top: -31%;
+        top: -15px;
       }
       &:nth-child(3) {
-        top: 20%;
+        top: 10px;
       }
       &:nth-child(4) {
-        top: -17%;
+        top: -8px;
       }
       &:nth-child(5) {
-        top: 33%;
+        top: 17px;
       }
       &:nth-child(6) {
-        top: -3%;
+        top: -3px;
       }
       &:nth-child(7) {
-        top: 46%;
+        top: 22px;
       }
     }
   }
@@ -187,8 +186,8 @@
     position: absolute;
     z-index: 3;
     top: 0;
-    left: $staff-height * 3;
-    width: $staff-height;
+    left: 200px;
+    width: 50px;
     height: 100%;
 
     &:before,
@@ -197,15 +196,15 @@
       position: absolute;
 
       left: 0;
-      width: $staff-height * 0.5;
+      width: 25px;
       height: 1px;
       background: $K900;
     }
     &:before {
-      top: -$staff-height * 0.25;
+      top: -12px;
     }
     &:after {
-      top: $staff-height * 1.25;
+      top: 62px;
     }
 
     &.bass:after {
@@ -214,87 +213,93 @@
 
     .note {
       position: absolute;
-      left: $staff-height * 0.08;
-      width: $staff-height * 0.25 * 1.5;
-      height: $staff-height * 0.25;
+      left: 4px;
+      width: 20px;
+      height: 12px;
 
-      svg {
+      .svg-icon.whole {
         display: block;
-        width: $staff-height * 0.25 * 1.5;
-        height: $staff-height * 0.25;
+        width: 20px;
+        height: 12px;
 
         path {
           fill: $K900;
         }
       }
 
+      .svg-icon.sharp,
+      .svg-icon.flat {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+      }
+
+      .svg-icon.sharp {
+        left: -48px;
+        margin-top: -4px;
+      }
+      .svg-icon.flat {
+        left: -58px;
+        margin-top: -8px;
+      }
+
+      $odd-note-offset: 24px;
+
       // Treble
       &.treble {
         &.note-C3,
         &.note-D3,
-        &.note-Db3,
         &.note-E3,
-        &.note-Eb3,
         &.note-F3,
         &.note-G3,
-        &.note-Gb3,
         &.note-A3,
-        &.note-Ab3 {
+        &.note-C6 {
           display: none;
         }
-        &.note-B3 &.note-Bb3 {
-          top: 126%;
+        &.note-B3 {
+          top: 63px;
         }
         &.note-C4 {
-          top: 112%;
+          top: 56px;
         }
-        &.note-D4,
-        &.note-Db4 {
-          top: 100%;
+        &.note-D4 {
+          top: 51px;
         }
-        &.note-E4 &.note-Eb4 {
-          top: 88%;
+        &.note-E4 {
+          top: 44px;
         }
         &.note-F4 {
-          top: 76%;
+          top: 38px;
         }
-        &.note-G4,
-        &.note-Gb4 {
-          top: 64%;
+        &.note-G4 {
+          top: 32px;
         }
-        &.note-A4,
-        &.note-Ab4 {
-          top: 52%;
+        &.note-A4 {
+          top: 26px;
         }
-        &.note-B4,
-        &.note-Bb4 {
-          top: 40%;
+        &.note-B4 {
+          top: 20px;
         }
         &.note-C5 {
-          top: 28%;
+          top: 13px;
         }
-        &.note-D5,
-        &.note-Db5 {
-          top: 16%;
+        &.note-D5 {
+          top: 7px;
         }
-        &.note-E5,
-        &.note-Eb5 {
-          top: 4%;
+        &.note-E5 {
+          top: 1px;
         }
         &.note-F5 {
-          top: -8%;
+          top: -6px;
         }
-        &.note-G5,
-        &.note-Gb5 {
-          top: -20%;
+        &.note-G5 {
+          top: -12px;
         }
-        &.note-A5,
-        &.note-Ab5 {
-          top: -32%;
+        &.note-A5 {
+          top: -18px;
         }
-        &.note-B5,
-        &.note-Bb5 {
-          top: -44%;
+        &.note-B5 {
+          top: -24px;
         }
 
         &.note-B3,
@@ -305,36 +310,39 @@
         &.note-E5,
         &.note-G5,
         &.note-B5 {
-          margin-left: $staff-height * 0.5;
+          margin-left: $odd-note-offset;
         }
       }
       &.bass {
+        &.note-B2 {
+          top: 33px;
+        }
         &.note-C3 {
-          top: 52%;
+          top: 26px;
         }
         &.note-D3 {
-          top: 40%;
+          top: 19px;
         }
         &.note-E3 {
-          top: 28%;
+          top: 14px;
         }
         &.note-F3 {
-          top: 16%;
+          top: 7px;
         }
         &.note-G3 {
-          top: 4%;
+          top: 1px;
         }
         &.note-A3 {
-          top: -8%;
+          top: -6px;
         }
         &.note-B3 {
-          top: -20%;
+          top: -12px;
         }
         &.note-C4 {
-          top: -32%;
+          top: -18px;
         }
         &.note-D4 {
-          top: -44%;
+          top: -24px;
         }
 
         &.note-E4,
@@ -348,7 +356,8 @@
         &.note-F5,
         &.note-G5,
         &.note-A5,
-        &.note-B5 {
+        &.note-B5,
+        &.note-C6 {
           display: none;
         }
 
@@ -357,7 +366,7 @@
         &.note-G3,
         &.note-B3,
         &.note-D4 {
-          margin-left: $staff-height * 0.5;
+          margin-left: $odd-note-offset;
         }
       }
     }
