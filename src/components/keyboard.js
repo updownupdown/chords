@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Note } from "@tonaljs/tonal";
 import classNames from "classnames";
-import { KeyShortcuts, KeyList } from "./KeyList";
+import { keyShortcuts, keyList } from "./Lists";
 import { Key } from "./Key";
 import Play from "../icons/play";
 import Locked from "../icons/locked";
@@ -33,8 +33,8 @@ export const Keyboard = (props) => {
       // If key already pressed + now pressing spacebar, toggle that key
       case " ":
         if (keyDown) {
-          for (var i = 0; i < KeyList.length; i++) {
-            if (keyDown === KeyList[i].shortcut) {
+          for (var i = 0; i < keyList.length; i++) {
+            if (keyDown === keyList[i].shortcut) {
               props.updateSelected(i);
               break;
             }
@@ -43,11 +43,11 @@ export const Keyboard = (props) => {
         break;
       default:
         // Don't both with irrelevant keys
-        if (!(e.key in KeyShortcuts) && e.key !== " ") return;
+        if (!(e.key in keyShortcuts) && e.key !== " ") return;
 
-        if (e.key in KeyShortcuts) {
-          props.pressNote(KeyShortcuts[e.key]);
-          props.pianoAttack(KeyShortcuts[e.key]);
+        if (e.key in keyShortcuts) {
+          props.pianoAttack(keyShortcuts[e.key]);
+          props.pressNote(keyShortcuts[e.key]);
         }
         break;
     }
@@ -65,9 +65,9 @@ export const Keyboard = (props) => {
         props.setKeyboardLocked(!props.keyboardLocked);
         break;
       default:
-        if (e.key in KeyShortcuts) {
-          props.unpressNote(KeyShortcuts[e.key]);
-          props.pianoRelease(KeyShortcuts[e.key]);
+        if (e.key in keyShortcuts) {
+          props.pianoRelease(keyShortcuts[e.key]);
+          props.unpressNote(keyShortcuts[e.key]);
         }
         break;
     }
@@ -85,7 +85,7 @@ export const Keyboard = (props) => {
     >
       <div className="keyboard-keys-wrap">
         <div className="keyboard-keys">
-          {KeyList.map((key, i) => (
+          {keyList.map((key, i) => (
             <Key
               key={i}
               index={i}

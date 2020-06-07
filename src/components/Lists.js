@@ -1,4 +1,123 @@
-export const KeyShortcuts = {
+export const chordNotes = [
+  "C",
+  "Cb",
+  "C#",
+  "D",
+  "Db",
+  "D#",
+  "E",
+  "Eb",
+  "E#",
+  "F",
+  "Fb",
+  "F#",
+  "G",
+  "Gb",
+  "G#",
+  "A",
+  "Ab",
+  "A#",
+  "B",
+  "Bb",
+  "B#",
+];
+
+export const chordList = [
+  {
+    name: "Triads",
+    value: "triads",
+    options: [
+      {
+        name: "Major",
+        value: "M",
+      },
+      {
+        name: "Minor",
+        value: "m",
+      },
+      {
+        name: "Diminished",
+        value: "dim",
+      },
+      {
+        name: "Augmented",
+        value: "aug",
+      },
+    ],
+  },
+  {
+    name: "Sevenths",
+    value: "sevenths",
+    options: [
+      {
+        name: "Major 7th",
+        value: "M7",
+      },
+      {
+        name: "Minor 7th",
+        value: "m7",
+      },
+      {
+        name: "Dominant 7th",
+        value: "7",
+      },
+      {
+        name: "Diminished 7th",
+        value: "dim7",
+      },
+      {
+        name: "Half Diminished 7th",
+        value: "m7b5",
+      },
+      {
+        name: "Augmented 7th",
+        value: "aug7",
+      },
+      {
+        name: "Augmented Major 7th",
+        value: "maj7#5",
+      },
+    ],
+  },
+  {
+    name: "Extended",
+    value: "extended",
+    options: [
+      {
+        name: "Dominant 9th",
+        value: "9",
+      },
+      {
+        name: "Dominant 11th",
+        value: "11",
+      },
+      {
+        name: "Dominant 13th",
+        value: "13",
+      },
+    ],
+  },
+  {
+    name: "Alterered",
+    value: "alterered",
+    options: [
+      {
+        name: "Seventh Augmented 5th",
+        value: "7b13",
+      },
+      {
+        name: "Seventh Minor 9th",
+        value: "7b9b13",
+      },
+      {
+        name: "Seventh Sharp 9th",
+        value: "7#9",
+      },
+    ],
+  },
+];
+
+export const keyShortcuts = {
   a: "F3",
   w: "F#3",
   s: "G3",
@@ -21,8 +140,7 @@ export const KeyShortcuts = {
   "]": "A#4",
 };
 
-export const KeyList = [
-  // C3
+export const keyList = [
   {
     note: "C3",
     enharmonic: "B#2",
@@ -126,7 +244,6 @@ export const KeyList = [
     midi: 59,
     shortcut: "f",
   },
-  // C4
   {
     note: "C4",
     enharmonic: "B#3",
@@ -235,7 +352,6 @@ export const KeyList = [
     midi: 59,
     shortcut: "'",
   },
-  // C5
   {
     note: "C5",
     enharmonic: "B#4",

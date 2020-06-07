@@ -4,6 +4,10 @@
   display: flex;
   flex-direction: row;
   justify-content: center;
+
+  @media #{$query-max-lg} {
+    display: none;
+  }
 }
 
 .staff {

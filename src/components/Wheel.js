@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import classNames from "classnames";
 import RotateCW from "../icons/rotate-cw";
 import RotateCCW from "../icons/rotate-ccw";
-import Play from "../icons/play";
 import "../css/wheel.scss";
 
 export const Wheel = (props) => {
@@ -73,17 +72,7 @@ export const Wheel = (props) => {
           <div className="inner"></div>
           <div className="center"></div>
         </div>
-        <button
-          className="wheel-play full round-button"
-          onClick={
-            Object.keys(props.myKey.key).length !== 0 ? props.playScale : null
-          }
-          disabled={
-            props.keyboardLocked || Object.keys(props.myKey.key).length === 0
-          }
-        >
-          <Play />
-        </button>
+
         <div className="wheel-highlight">
           <div className="arc"></div>
         </div>

@@ -8,19 +8,21 @@ import { Keyboard } from "./Keyboard";
 import { ChordChart } from "./ChordChart";
 import { Menu } from "./Menu";
 import { Staff } from "./Staff";
-import { KeyList } from "./KeyList";
+import { keyList } from "./Lists";
 
 // Keyboard
 function Layout() {
   const [pianoLoaded, setPianoLoaded] = useState(false);
+  const [mouseDown, setMouseDown] = useState(false);
+
   const [selectedNotes, setSelectedNotes] = useState([]);
   const [pressedNotes, setPressedNotes] = useState([]);
   const [chordDetect, setChordDetect] = useState("");
   const [myKey, setMyKey] = useState({ key: {}, note: "", type: "" });
-  const [mouseDown, setMouseDown] = useState(false);
+  const [chosenChord, setChosenChord] = useState({ chord: {}, name: "" });
+
   const [autoplaying, setAutoplaying] = useState(false);
   const [keyboardLocked, setKeyboardLocked] = useState(false);
-  const [onlyKeySelected, setOnlyKeySelected] = useState(false);
 
   // for auto play keys
   const autoplayDelay = 0.3;
@@ -59,7 +61,23 @@ function Layout() {
     // Tone.context.resume();
   }, []);
 
-  function playPlaylist(playlist) {
+  const firstUpdate = useRef(true);
+
+  function selectChord(chord, name) {
+    setChosenChord({ chord: chord, name: name });
+
+    if (firstUpdate.current) {
+      firstUpdate.current = false;
+    } else {
+      !keyboardLocked && selectChordNotes(chord);
+    }
+  }
+
+  function selectChordNotes(chord) {
+    setSelectedNotes(pitchedNotesFromChord(chord.notes));
+  }
+
+  function playPlaylist(playlist, pressStyle) {
     if (!pianoLoaded) return;
 
     new Part(function (time, note) {
@@ -67,7 +85,7 @@ function Layout() {
     }, playlist).start();
     Transport.start();
 
-    highlightKeys(playlist);
+    highlightKeys(playlist, pressStyle);
   }
 
   function pianoAttack(note) {
@@ -83,12 +101,11 @@ function Layout() {
   function setKey(key, note, type) {
     setMyKey({ key: key, note: note, type: type });
 
-    selectNotesFromKey(key, type);
+    !keyboardLocked && selectNotesFromKey(key, type);
   }
 
   function selectNotesFromKey(key, type) {
-    !keyboardLocked && setSelectedNotes(pitchedScale(key, type));
-    setOnlyKeySelected(true);
+    setSelectedNotes(pitchedScale(key, type));
   }
 
   function findKey(note, type) {
@@ -114,7 +131,6 @@ function Layout() {
     const list = selectedNotes;
     list.push(note);
     setSelectedNotes(Note.sortedNames(list));
-    setOnlyKeySelected(false);
   }
   function removeNote(note) {
     const list = selectedNotes;
@@ -123,7 +139,6 @@ function Layout() {
       list.splice(index, 1);
     }
     setSelectedNotes(Note.sortedNames(list));
-    setOnlyKeySelected(false);
   }
 
   function pressNote(note) {
@@ -144,8 +159,8 @@ function Layout() {
   function updateSelected(index) {
     if (keyboardLocked || autoplaying) return;
 
-    const note = KeyList[index].note;
-    const enharmonic = KeyList[index].enharmonic;
+    const note = keyList[index].note;
+    const enharmonic = keyList[index].enharmonic;
 
     if (enharmonic) {
       if (selectedNotes.includes(note)) {
@@ -172,27 +187,37 @@ function Layout() {
   function clearSelected() {
     setSelectedNotes([]);
     setChordDetect("");
-    setOnlyKeySelected(false);
   }
 
-  function highlightKeys(playlist) {
-    var timeouts = [];
+  function highlightKeys(playlist, pressStyle) {
+    if (pressStyle === "scale") {
+      var timeouts = [];
 
-    for (let i = 0; i < playlist.length; i++) {
+      for (let i = 0; i < playlist.length; i++) {
+        setAutoplaying(true);
+
+        timeouts.push(
+          setTimeout(() => {
+            setPressedNotes(playlist[i].note);
+          }, autoplayDelay * i * 1000)
+        );
+
+        timeouts.push(
+          setTimeout(function () {
+            setPressedNotes([]);
+            setAutoplaying(false);
+          }, autoplayDelay * playlist.length * 1000)
+        );
+      }
+    } else if (pressStyle === "chord") {
       setAutoplaying(true);
 
-      timeouts.push(
-        setTimeout(() => {
-          setPressedNotes(playlist[i].note);
-        }, autoplayDelay * i * 1000)
-      );
+      setPressedNotes(playlist[0].note);
 
-      timeouts.push(
-        setTimeout(function () {
-          setPressedNotes([]);
-          setAutoplaying(false);
-        }, autoplayDelay * playlist.length * 1000)
-      );
+      setTimeout(function () {
+        setPressedNotes([]);
+        setAutoplaying(false);
+      }, 2000);
     }
   }
 
@@ -203,6 +228,22 @@ function Layout() {
       return key.natural.scale;
     }
     return;
+  }
+
+  function pitchedNotesFromChord(notes) {
+    var pitch = 4;
+    var pitched = [];
+
+    for (var i = 0; i < notes.length; i++) {
+      // need to simplify notes to get rid of things like "Bbb"
+      pitched.push(Note.simplify(notes[i]) + pitch.toString());
+
+      if (notes[i].includes("B")) {
+        pitch++;
+      }
+    }
+
+    return pitched;
   }
 
   function pitchedScale(key, type) {
@@ -234,7 +275,27 @@ function Layout() {
       });
     }
 
-    playPlaylist(playlist);
+    playPlaylist(playlist, "scale");
+  }
+
+  function playChord() {
+    if (
+      Object.keys(chosenChord.chord).length === 0 ||
+      chosenChord.chord.notes.length === 0
+    ) {
+      return;
+    }
+
+    const chord = pitchedNotesFromChord(chosenChord.chord.notes);
+
+    var playlist = [
+      {
+        time: 0,
+        note: chord,
+        duration: "1n",
+      },
+    ];
+    playPlaylist(playlist, "chord");
   }
 
   function playScale() {
@@ -253,7 +314,7 @@ function Layout() {
       });
     }
 
-    playPlaylist(playlist);
+    playPlaylist(playlist, "scale");
   }
 
   return (
@@ -282,6 +343,7 @@ function Layout() {
             pianoAttackRelease={pianoAttackRelease}
             mouseDown={mouseDown}
             pressedNotes={pressedNotes}
+            setPressedNotes={setPressedNotes}
             pressNote={pressNote}
             unpressNote={unpressNote}
             selectedNotes={selectedNotes}
@@ -305,9 +367,17 @@ function Layout() {
                 selectNotesFromKey={selectNotesFromKey}
                 playScale={playScale}
                 myKey={myKey}
-                onlyKeySelected={onlyKeySelected}
               />
-              <ChordChart chordDetect={chordDetect} />
+              <ChordChart
+                keyboardLocked={keyboardLocked}
+                autoplaying={autoplaying}
+                selectNotesFromKey={selectNotesFromKey}
+                chosenChord={chosenChord}
+                selectChord={selectChord}
+                chordDetect={chordDetect}
+                playChord={playChord}
+                selectChordNotes={selectChordNotes}
+              />
             </div>
           </div>
         </div>

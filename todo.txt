@@ -1,5 +1,6 @@
 Bugs:
 
+- improper pitched notes for D Augmented Major 7th
 - prevent AudioContext warnings
 
 Technical:
@@ -12,6 +13,9 @@ Technical:
 
 High Priority:
 
+- in key info, turn "Chord" list into radio buttons to select chord. will need to move chosenChord up to Layout.
+- add chord finder in chord chart (select inputs?)
+
 - chord finder/selector with series of dropdowns
 - after playing a chord, play all of them at once (playChord function doesn't exist yet)
 - decouple "piano" into a component, and all the play functions are used by importing it into whatever component needs it. selected notes would be managed by Keyboard? Layout? global?
@@ -22,6 +26,7 @@ High Priority:
 
 Medium Priority:
 
+- ctrl + click to unselect key entirely and skip enharmonics?
 - Flesh out menu: help (modal to explain), settings (?), keyboard shortcut guide (esp. for delete, enter, key + space to select)
 - show enharmonics in wheel
 - make wheel rotate by drag and drop

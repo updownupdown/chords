@@ -19,6 +19,7 @@ code {
 
 // Buttons
 button {
+  user-select: none;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -149,15 +150,29 @@ button {
   }
 }
 
+// Selects
+select {
+  padding: 8px;
+
+  border-radius: 4px;
+  border: 1px solid $K200;
+}
+.select-group {
+  select:not(:first-child) {
+    margin-left: 8px;
+  }
+}
+
 // Layout
 .layout {
   display: flex;
   flex-direction: column;
-  width: 100vw;
+  width: 100%;
+  overflow-y: auto;
 
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: 20px 20px 40px;
 
   &-center {
     width: 100%;
@@ -180,10 +195,23 @@ button {
       margin-top: 40px;
     }
   }
+
+  // Wheel and Charts
+  &-bottom {
+    display: flex;
+    justify-content: center;
+
+    width: 100%;
+
+    @media #{$query-max-md} {
+      flex-direction: column;
+    }
+  }
 }
 
 // Radio Group
 .radio-group {
+  user-select: none;
   display: flex;
 
   .radio-item {
@@ -324,17 +352,5 @@ button {
     &.black {
       width: $key-black-width;
     }
-  }
-}
-
-// Wheel and Key Chart
-.layout-bottom {
-  display: flex;
-  justify-content: center;
-
-  width: 100%;
-
-  @media #{$query-max-md} {
-    flex-direction: column;
   }
 }

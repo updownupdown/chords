@@ -232,34 +232,4 @@
       }
     }
   }
-
-  // Play Key
-  .wheel-play {
-    $play-size: $rad-outer * 0.4;
-
-    position: absolute;
-    z-index: 11;
-    top: 50%;
-    left: 50%;
-    margin-top: -$play-size/2;
-    margin-left: -$play-size/2;
-    width: $play-size;
-    height: $play-size;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 50%;
-
-    svg {
-      margin: 0;
-      width: 70%;
-      height: 70%;
-
-      path {
-        fill: $white;
-      }
-    }
-  }
 }

@@ -161,7 +161,6 @@ export const KeyChart = (props) => {
             disabled={
               props.autoplaying ||
               props.keyboardLocked ||
-              props.onlyKeySelected ||
               Object.keys(props.myKey.key).length === 0
             }
           >
