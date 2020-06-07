@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Note } from "@tonaljs/tonal";
-import classNames from "classnames";
 import { keyShortcuts, keyList } from "./Lists";
 import { Key } from "./Key";
 import Play from "../icons/play";
@@ -79,9 +78,9 @@ export const Keyboard = (props) => {
 
   return (
     <div
-      className={classNames("keyboard", {
-        locked: props.keyboardLocked,
-      })}
+      className={`keyboard theme-${props.selNotesType} ${
+        props.keyboardLocked && "theme-locked"
+      }`}
     >
       <div className="keyboard-keys-wrap">
         <div className="keyboard-keys">
@@ -110,7 +109,7 @@ export const Keyboard = (props) => {
       <div className="keyboard-buttons">
         <div className="button-group touching">
           <button
-            className={`outline ${props.keyboardLocked && "locked"}`}
+            className={`outline ${props.keyboardLocked && "theme-locked"}`}
             onClick={() => {
               props.setKeyboardLocked(!props.keyboardLocked);
             }}

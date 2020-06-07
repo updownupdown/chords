@@ -8,6 +8,7 @@ $K150: lighten($base, 7.5%);
 $K200: lighten($base, 5%);
 $K250: lighten($base, 2.5%);
 $K300: $base;
+$K350: darken($base, 5%);
 $K400: darken($base, 10%);
 $K450: darken($base, 17%);
 $K500: darken($base, 25%);
@@ -17,13 +18,19 @@ $K700: darken($base, 50%);
 $K800: darken($base, 65%);
 $K900: darken($base, 75%);
 
-$orange: #ffc107;
-$orangeHover: darken($orange, 10%);
-$locked: #f67f10;
+$button-color: $K700;
+$button-color-hover: darken($button-color, 10%);
 
-$blue: #36c0d8;
-$blueHover: darken($blue, 10%);
-$green: #4dc0b5;
+$note-color: #ffc107;
+$note-color-hover: darken($note-color, 10%);
 
-// may want to use letter for red felt...?
-$red: #bf1125;
+$key-color: #1fc7b6;
+$key-color-hover: darken($key-color, 10%);
+
+$chord-color: #4455e9;
+$chord-color-hover: darken($chord-color, 10%);
+
+$locked-color: #bf1125;
+$locked-color-hover: darken($locked-color, 10%);
+
+// $orange: #f67f10;

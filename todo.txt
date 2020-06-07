@@ -1,10 +1,10 @@
 Bugs:
 
-- improper pitched notes for D Augmented Major 7th
 - prevent AudioContext warnings
 
 Technical:
 
+- review all chords, advanced ones are broken or off screen; simplify to one drop down, drop complex ones?
 - Reactivate loading screen but make it smoother
 - review var/let/const
 - use context?
@@ -13,19 +13,20 @@ Technical:
 
 High Priority:
 
+- option to rotate the CoF or not (relative vs. absolute visualization)
 - in key info, turn "Chord" list into radio buttons to select chord. will need to move chosenChord up to Layout.
-- add chord finder in chord chart (select inputs?)
-
-- chord finder/selector with series of dropdowns
-- after playing a chord, play all of them at once (playChord function doesn't exist yet)
-- decouple "piano" into a component, and all the play functions are used by importing it into whatever component needs it. selected notes would be managed by Keyboard? Layout? global?
-- "Help" stuff may be distributed along with elements, rather than just at the top. Use help icons throughout with tooltips? Toggle to hide Help icons, also hides keyboard labels?
-- Add volume slider and mute in menu
-- in key info, better show "functional harmony" with tonic, dominant, and subdominant, like on pianolit.com, but more interactive
+- for chords, draw lines between note in the CoF when selecting a chord to show the shape of the chord
+- add back the thing above the CoF that shows related notes
 - clearer indicators of selected items in wheel
+
+
+- in key info, better show "functional harmony" with tonic, dominant, and subdominant, like on pianolit.com, but more interactive
 
 Medium Priority:
 
+- chord builder instead of picker: start with a note, and add intervals
+- decouple "piano" into a component, and all the play functions are used by importing it into whatever component needs it. selected notes would be managed by Keyboard? Layout? global?
+- Add volume slider and mute in menu
 - ctrl + click to unselect key entirely and skip enharmonics?
 - Flesh out menu: help (modal to explain), settings (?), keyboard shortcut guide (esp. for delete, enter, key + space to select)
 - show enharmonics in wheel
@@ -35,6 +36,7 @@ Medium Priority:
 - add metronome with adjustable beats
 
 Low Priority
+- "Help" stuff may be distributed along with elements, rather than just at the top. Use help icons throughout with tooltips? Toggle to hide Help icons, also hides keyboard labels?
 - If layout is too busy, add toggles to show/hide advanced info like keyboard shortcuts, some tabs (simple mode?)
 - TAB: show info about single notes, maybe as another tab in the key/chord area
 - TAB: show sine waves of selected keys or just chord, add up waves: https://www.youtube.com/watch?v=G3H621_EdOM

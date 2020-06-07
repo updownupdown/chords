@@ -170,11 +170,17 @@
     // White/Black label
     .key-white &.active,
     .key-black &.active {
-      background: $orange;
+      background: $note-color;
       color: $white;
 
-      .locked & {
-        background: $locked;
+      .theme-locked & {
+        background: $locked-color;
+      }
+      .theme-key & {
+        background: $key-color;
+      }
+      .theme-chord & {
+        background: $chord-color;
       }
 
       &:before,

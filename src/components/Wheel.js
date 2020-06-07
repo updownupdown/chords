@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import classNames from "classnames";
+import { chordNotes } from "./Lists";
+import Related from "../icons/related";
 import RotateCW from "../icons/rotate-cw";
 import RotateCCW from "../icons/rotate-ccw";
 import "../css/wheel.scss";
@@ -63,6 +65,99 @@ export const Wheel = (props) => {
     return;
   }
 
+  var notesCircle = [
+    "A",
+    "E",
+    "B",
+    "F#",
+    "Db",
+    "Ab",
+    "Eb",
+    "Bb",
+    "F",
+    "C",
+    "G",
+    "D",
+  ];
+
+  const intervalsIncrements = {
+    "1P": 0,
+    "2M": 2,
+    "2m": -5,
+    "3M": 4,
+    "3m": -3,
+    "4P": -1,
+    "5P": 1,
+    "5d": 6,
+    "6M": 3,
+    "6m": -4,
+    "7M": 5,
+    "7m": -2,
+    "9M": 5,
+    "9m": -5,
+  };
+
+  function findPoint(angle) {
+    const rad = 320 / 2;
+    const drawRad = rad * 0.7;
+    var cornerRad = (angle * Math.PI) / 180;
+    var nx = Math.cos(cornerRad) * drawRad + rad;
+    var ny = Math.sin(cornerRad) * drawRad + rad;
+
+    return { x: nx, y: ny };
+  }
+
+  function drawShape() {
+    const intervals = props.chosenChord.chord.intervals;
+    const root = props.chosenChord.chord.notes[0];
+    const rootEquiv = chordNotes[root];
+    const rootPos = notesCircle.indexOf(rootEquiv);
+    const dotRad = 6;
+    var points = [];
+    var circles = [];
+
+    var positions = [];
+    for (var i = 0; i < intervals.length; i++) {
+      const increment = intervalsIncrements[intervals[i]];
+      const pos = (rootPos + increment) % 12;
+      positions.push(pos);
+
+      console.log(intervals[i]);
+    }
+
+    function compare(a, b) {
+      if (a > b) return 1;
+      if (b > a) return -1;
+
+      return 0;
+    }
+
+    positions = positions.sort(compare);
+
+    for (var p = 0; p < positions.length; p++) {
+      const point = findPoint(positions[p] * 30);
+
+      circles.push(
+        <circle
+          key={p}
+          cx={point.x}
+          cy={point.y}
+          r={dotRad}
+          className={positions[p] === rootPos ? "root" : "non-root"}
+        />
+      );
+
+      points.push(point.x + " " + point.y);
+    }
+
+    return (
+      <>
+        <polygon points={points.join(", ")} />
+        {circles.map((circle) => circle)}
+      </>
+    );
+  }
+
   return (
     <div className="wheel-wrap">
       <div className="wheel">
@@ -73,59 +168,66 @@ export const Wheel = (props) => {
           <div className="center"></div>
         </div>
 
-        <div className="wheel-highlight">
-          <div className="arc"></div>
+        <div className="wheel-related">
+          <Related />
         </div>
         <div
-          className="wheel-outer"
+          className="wheel-rotate"
           style={{ transform: `rotate(${rotateDeg}deg)` }}
         >
-          {outer.map((note, i) => (
-            <span key={i} className="note" index={i}>
-              <span
-                className={classNames("note-btn major", {
-                  current:
-                    props.myKey.note === outer[i] &&
-                    props.myKey.type === "major",
-                })}
-                role="button"
-                onClick={() => {
-                  rotateToIndex(i);
-                  props.findKey(outer[i], "major");
-                }}
-              >
-                {outer[i].length > 1 ? (
-                  <>
-                    <span>{outer[i].charAt(0)}</span>
-                    <span>{outer[i].charAt(1)}</span>
-                  </>
-                ) : (
-                  <span>{outer[i]}</span>
-                )}
+          <div className="wheel-lines">
+            <svg className="wheel-lines-svg" height="320" width="320">
+              {props.chosenChord.chord.notes !== undefined && drawShape()}
+            </svg>
+          </div>
+          <div className="wheel-outer">
+            {outer.map((note, i) => (
+              <span key={i} className="note" index={i}>
+                <span
+                  className={classNames("note-btn major", {
+                    current:
+                      props.myKey.note === outer[i] &&
+                      props.myKey.type === "major",
+                  })}
+                  role="button"
+                  onClick={() => {
+                    rotateToIndex(i);
+                    props.findKey(outer[i], "major");
+                  }}
+                >
+                  {outer[i].length > 1 ? (
+                    <>
+                      <span>{outer[i].charAt(0)}</span>
+                      <span>{outer[i].charAt(1)}</span>
+                    </>
+                  ) : (
+                    <span>{outer[i]}</span>
+                  )}
+                </span>
+                <span
+                  className={classNames("note-btn minor", {
+                    current:
+                      props.myKey.note === inner[i] &&
+                      props.myKey.type === "minor",
+                  })}
+                  role="button"
+                  onClick={() => {
+                    rotateToIndex(i);
+                    props.findKey(inner[i], "minor");
+                  }}
+                >
+                  {inner[i].length > 1 ? (
+                    <>
+                      <span>{inner[i].charAt(0)}</span>
+                      <span>{inner[i].charAt(1)}</span>
+                    </>
+                  ) : (
+                    <span>{inner[i]}</span>
+                  )}
+                </span>
               </span>
-              <span
-                className={classNames("note-btn minor", {
-                  current:
-                    props.myKey.note === inner[i] &&
-                    props.myKey.type === "minor",
-                })}
-                role="button"
-                onClick={() => {
-                  rotateToIndex(i);
-                  props.findKey(inner[i], "minor");
-                }}
-              >
-                {inner[i].length > 1 ? (
-                  <>
-                    <span>{inner[i].charAt(0)}</span>
-                    <span>{inner[i].charAt(1)}</span>
-                  </>
-                ) : (
-                  <span>{inner[i]}</span>
-                )}
-              </span>
-            </span>
-          ))}
+            ))}
+          </div>
         </div>
 
         <span

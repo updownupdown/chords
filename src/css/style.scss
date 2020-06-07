@@ -7,7 +7,7 @@
 body {
   background: $white;
   margin: 0;
-  font-family: $font, sans-serif;
+  font-family: $font;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-weight: normal;
@@ -18,6 +18,44 @@ code {
 }
 
 // Buttons
+@mixin button-theme-full($color, $color-hover) {
+  background: $color;
+
+  &:not(:disabled) {
+    &:hover,
+    &:focus {
+      background: $color-hover;
+    }
+  }
+}
+
+@mixin button-theme-outline($color, $color-hover) {
+  color: $color;
+
+  svg path {
+    fill: $color;
+  }
+
+  &:hover,
+  &:focus,
+  &.active {
+    background: rgba($color-hover, 0.05);
+    color: $color-hover;
+
+    svg path {
+      fill: $color-hover;
+    }
+  }
+}
+
+@mixin button-theme-small($color, $color-hover) {
+  color: $color;
+
+  &:hover {
+    color: $color-hover;
+  }
+}
+
 button {
   user-select: none;
   display: flex;
@@ -56,20 +94,12 @@ button {
   &.full {
     transition: 0.2s ease background-color;
     border: 0;
-    background: $blue;
     box-shadow: 1px 2px 4px $K100;
 
     color: $white;
 
     svg path {
       fill: $white;
-    }
-
-    &:not(:disabled) {
-      &:hover,
-      &:focus {
-        background: $blueHover;
-      }
     }
 
     &:disabled {
@@ -81,6 +111,18 @@ button {
         fill: $K500;
       }
     }
+
+    // Note (default)
+    @include button-theme-full($button-color, $button-color-hover);
+    &.theme-note {
+      @include button-theme-full($note-color, $note-color-hover);
+    }
+    &.theme-key {
+      @include button-theme-full($key-color, $key-color-hover);
+    }
+    &.theme-chord {
+      @include button-theme-full($chord-color, $chord-color-hover);
+    }
   }
 
   // Outlined button
@@ -90,33 +132,22 @@ button {
     background: transparent;
 
     &:not(:disabled) {
-      color: $blue;
-
-      svg path {
-        fill: $blue;
-      }
-
-      &:hover,
-      &:focus,
-      &.active {
-        background: rgba($blueHover, 0.05);
-        color: $blueHover;
-
-        svg path {
-          fill: $blueHover;
-        }
-      }
-
       &:focus {
         outline: none;
       }
 
-      &.locked {
-        color: $locked;
-
-        svg path {
-          fill: $locked;
-        }
+      @include button-theme-outline($button-color, $button-color-hover);
+      &.theme-note {
+        @include button-theme-outline($note-color, $note-color-hover);
+      }
+      &.theme-key {
+        @include button-theme-outline($key-color, $key-color-hover);
+      }
+      &.theme-chord {
+        @include button-theme-outline($chord-color, $chord-color-hover);
+      }
+      &.theme-locked {
+        @include button-theme-outline($locked-color, $locked-color-hover);
       }
     }
 
@@ -126,6 +157,30 @@ button {
       svg path {
         fill: $K300;
       }
+    }
+  }
+
+  // Small Button
+  &.small {
+    transition: 0.2s ease color;
+    padding: 0;
+
+    border: 0;
+    background: transparent;
+
+    @include button-theme-small($button-color, $button-color-hover);
+    &.theme-note {
+      @include button-theme-small($note-color, $note-color-hover);
+    }
+    &.theme-key {
+      @include button-theme-small($key-color, $key-color-hover);
+    }
+    &.theme-chord {
+      @include button-theme-small($chord-color, $chord-color-hover);
+    }
+
+    &:disabled {
+      color: $K300;
     }
   }
 }
@@ -139,11 +194,11 @@ button {
     }
   }
   &.touching {
-    button:not(:first-child) {
+    button.full:not(:first-child) {
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
     }
-    button:not(:last-child) {
+    button.full:not(:last-child) {
       border-top-right-radius: 0;
       border-bottom-right-radius: 0;
     }
@@ -152,6 +207,7 @@ button {
 
 // Selects
 select {
+  font-family: $font;
   padding: 8px;
 
   border-radius: 4px;
@@ -209,6 +265,29 @@ select {
   }
 }
 
+button.radio {
+  transition: 0.3s ease background;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+
+  height: 38px;
+
+  border: 1px solid $chord-color;
+  background: none;
+
+  font-family: $headingFont;
+  font-size: 14px;
+  font-weight: 700;
+  color: $chord-color;
+  line-height: 1;
+
+  &:hover {
+    background: rgba($chord-color, 0.1);
+  }
+}
+
 // Radio Group
 .radio-group {
   user-select: none;
@@ -227,15 +306,22 @@ select {
     label {
       transition: 0.3s ease background;
       cursor: pointer;
-      padding: 8px 10px;
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
 
-      border: 1px solid $blue;
+      height: 38px;
 
+      border: 1px solid $chord-color;
+
+      font-family: $headingFont;
+      font-size: 14px;
       font-weight: 700;
-      color: $blue;
+      color: $chord-color;
+      line-height: 1;
 
       &:hover {
-        background: rgba($blue, 0.1);
+        background: rgba($chord-color, 0.1);
       }
     }
 
@@ -243,8 +329,8 @@ select {
       z-index: 2;
 
       label {
-        border-color: $blue;
-        background: $blue;
+        border-color: $chord-color;
+        background: $chord-color;
         color: $white;
       }
     }
@@ -298,7 +384,7 @@ select {
       height: 10px;
       margin: -5px 0 0;
       border-radius: 50%;
-      background: $green;
+      background: $key-color;
       animation: loader 1.2s infinite alternate;
       animation-timing-function: ease-in-out;
     }

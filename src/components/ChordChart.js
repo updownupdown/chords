@@ -1,12 +1,13 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Chord } from "@tonaljs/tonal";
+import React, { useState } from "react";
 import { chordNotes, chordList } from "./Lists";
 import Sound from "../icons/sound";
 import "../css/charts.scss";
 import "../css/chords.scss";
 
 export const ChordChart = (props) => {
-  const [pickNote, setPickNote] = useState(chordNotes[0]);
+  const [pickNote, setPickNote] = useState(
+    chordNotes[Object.keys(chordNotes)[0]]
+  );
   const [pickType, setPickType] = useState(chordList[0].value);
   const [pickTypeIndex, setPickTypeIndex] = useState(0);
   const [pickChord, setPickChord] = useState(chordList[0].options[0].value);
@@ -14,14 +15,6 @@ export const ChordChart = (props) => {
   function trimChordRoot(name) {
     const chordName = name.split("/");
     return chordName[0];
-  }
-
-  function getChord(name) {
-    const chord = Chord.get(name);
-
-    if (chord.empty) return;
-
-    props.selectChord(chord, name);
   }
 
   function getChordList(index) {
@@ -34,14 +27,13 @@ export const ChordChart = (props) => {
     ));
   }
 
-  useEffect(() => {
-    getChord(`${pickNote}${pickChord}`);
-  }, [pickNote, pickType, pickChord]);
+  // useEffect(() => {
+  //   getChord(`${pickNote}${pickChord}`);
+  // }, [pickNote, pickType, pickChord]);
 
   return (
     <div className="chart">
       <div className="chart-select chord-picker">
-        <span className="chart-select-label">Chord Picker:</span>
         <div className="select-group">
           <select
             className="chord-note"
@@ -50,7 +42,7 @@ export const ChordChart = (props) => {
             }}
             value={pickNote}
           >
-            {chordNotes.map((note, i) => (
+            {Object.entries(chordNotes).map(([note, equiv], i) => (
               <option key={i} value={note}>
                 {note}
               </option>
@@ -83,6 +75,31 @@ export const ChordChart = (props) => {
             {getChordList(pickTypeIndex)}
           </select>
         </div>
+
+        <span className="radio-group">
+          <div className="radio-group">
+            <div
+              className={`radio-item ${
+                props.chosenChord.name === pickNote + pickChord && "checked"
+              }`}
+            >
+              <input
+                type="radio"
+                id={`chord-radio-${pickNote}-${pickChord}`}
+                name="chord-radio"
+                value={`${pickNote}${pickChord}`}
+                checked={props.chosenChord.name === pickNote + pickChord}
+                onChange={(e) => {
+                  props.getChord(e.currentTarget.value);
+                }}
+              />
+              <label htmlFor={`chord-radio-${pickNote}-${pickChord}`}>
+                {pickNote}
+                {pickChord}
+              </label>
+            </div>
+          </div>
+        </span>
       </div>
       <div className="chart-select chord-predictions">
         <span className="chart-select-label">Predicted chords:</span>
@@ -107,7 +124,7 @@ export const ChordChart = (props) => {
                     value={trimChordRoot(chord)}
                     checked={props.chosenChord === trimChordRoot(chord)}
                     onChange={(e) => {
-                      getChord(e.currentTarget.value);
+                      props.getChord(e.currentTarget.value);
                     }}
                   />
                   <label htmlFor={`chord-radio-${trimChordRoot(chord)}`}>
@@ -127,15 +144,17 @@ export const ChordChart = (props) => {
       <div className="chart-title">
         <span className="chart-title-label">
           {Object.keys(props.chosenChord.chord).length === 0 ? (
-            <span className="empty">No chord selected...</span>
+            <span className="empty">Chord</span>
           ) : (
-            <span>{props.chosenChord.chord.name}</span>
+            <span className="color-theme-chord">
+              {props.chosenChord.chord.symbol}
+            </span>
           )}
         </span>
 
         <div className="button-group touching">
           <button
-            className="outline play-chord"
+            className="outline theme-chord play-chord"
             onClick={() => {
               props.playChord();
             }}
@@ -147,7 +166,7 @@ export const ChordChart = (props) => {
             <Sound />
           </button>
           <button
-            className="outline select-chord"
+            className="outline theme-chord select-chord"
             onClick={() => {
               if (Object.keys(props.chosenChord.chord).length !== 0) {
                 props.selectChordNotes(props.chosenChord.chord);
@@ -175,53 +194,62 @@ export const ChordChart = (props) => {
   );
 };
 
-function chordInfo(chord) {
-  const infos = [
-    {
-      label: "Full Name",
-      info: "name",
-    },
-    {
-      label: "Symbol",
-      info: "symbol",
-    },
-    {
-      label: "Tonic",
-      info: "tonic",
-    },
-    {
-      label: "Aliases",
-      info: "aliases",
-      object: true,
-    },
-    {
-      label: "Chroma",
-      info: "chroma",
-    },
-    {
-      label: "Intervals",
-      info: "intervals",
-      object: true,
-    },
-    {
-      label: "Notes",
-      info: "notes",
-      object: true,
-    },
-  ];
+const intQuality = {
+  P: "Perfect",
+  M: "Major",
+  m: "Minor",
+  d: "Diminished",
+  A: "Augmented",
+};
 
+const intNumber = {
+  "1": "unison",
+  "2": "second",
+  "3": "third",
+  "4": "fourth",
+  "5": "fifth",
+  "6": "sixth",
+  "7": "seventh",
+  "8": "octave",
+  "9": "ninth",
+  "10": "tenth",
+  "11": "eleventh",
+  "12": "twelfth",
+  "13": "thirteenth",
+  "14": "fourteenth",
+  "15": "fifteenth",
+};
+
+function intervalName(interval) {
+  if (interval === "1P") return "Perfect unison";
+
+  const quality = interval.charAt(1);
+  const number = interval.charAt(0);
+
+  return intQuality[quality] + " " + intNumber[number];
+}
+
+function chordInfo(chord) {
   return (
-    <>
-      {infos.map((info, i) => (
-        <div key={i} className="detail">
-          <span className="label">{info.label}: </span>
-          <span className="value">
-            {info.object === true
-              ? chord[info.info].join(", ")
-              : chord[info.info]}
-          </span>
-        </div>
-      ))}
-    </>
+    <div className="chord-details">
+      <div className="chord-name">
+        <span className="name">{chord.name}</span>
+        <span className="aliases">Aliases: {chord["aliases"].join(", ")}</span>
+      </div>
+      <span className="chord-notes">
+        {chord["notes"].length === chord["intervals"].length &&
+          chord["notes"].map((note, i) => (
+            <span key={i} className="pair">
+              <span
+                className="interval"
+                title={intervalName(chord["intervals"][i])}
+              >
+                {chord["intervals"][i]}
+              </span>
+              <span className="note">{note}</span>
+            </span>
+          ))}
+      </span>
+    </div>
   );
 }

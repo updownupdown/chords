@@ -53,17 +53,23 @@
     &-label {
       margin-right: auto;
       font-family: $headingFont;
+      font-size: 22px;
+
+      span.empty {
+        font-weight: 400;
+        color: $K350;
+      }
 
       span:not(.empty) {
         font-weight: 600;
-        font-size: 22px;
         color: $K900;
-      }
 
-      span.empty {
-        font-size: 16px;
-        font-weight: 400;
-        color: $K400;
+        &.color-theme-key {
+          color: $key-color;
+        }
+        &.color-theme-chord {
+          color: $chord-color;
+        }
       }
     }
 
@@ -82,6 +88,11 @@
       padding-top: 6px;
     }
 
+    .empty {
+      font-size: 14px;
+      color: $K300;
+    }
+
     .label {
       display: inline-block;
       width: 120px;
@@ -90,6 +101,11 @@
     .value {
       color: $K900;
       font-weight: 600;
+
+      .button-group,
+      button {
+        display: inline-block;
+      }
     }
   }
 }

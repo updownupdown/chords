@@ -25,25 +25,29 @@
     height: calc(100vw - 40px);
   }
 
-  // Highlight
-  .wheel-highlight {
+  // Related highlight
+  .wheel-related {
     pointer-events: none;
     opacity: 0.7;
-    position: relative;
+    position: absolute;
+    top: -3.8%;
+    left: 0;
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
     z-index: 10;
 
-    // .arc {
-    //   position: absolute;
-    //   top: -$highglight-overflow/2;
-    //   left: -$highglight-overflow/2;
-    //   width: $dia-outer + $highglight-overflow;
-    //   height: $dia-outer + $highglight-overflow;
-    //   border-radius: 50%;
-    //   border: $rad-outer - $rad-center + $highglight-overflow solid;
+    svg {
+      width: 74.7%;
+      height: auto;
 
-    //   border-color: transparent transparent transparent rgba($K400, 0.4);
-    //   transform: rotate(90deg);
-    // }
+      path {
+        fill: rgba($K700, 0.08);
+        stroke: rgba($K700, 0.15);
+        stroke-width: 1px;
+      }
+    }
   }
 
   // Wheel
@@ -53,6 +57,48 @@
     width: 100%;
     height: 100%;
     margin: auto;
+
+    // Lines
+    &-lines {
+      pointer-events: none;
+      position: absolute;
+      z-index: 10;
+      width: 100%;
+      height: 100%;
+
+      &-svg {
+        position: absolute;
+        z-index: 10;
+        width: 100%;
+        height: 100%;
+
+        polygon {
+          position: relative;
+          z-index: 1;
+          fill: rgba($chord-color, 0.1);
+          stroke: $chord-color;
+          stroke-width: 3px;
+        }
+
+        circle {
+          position: relative;
+          z-index: 2;
+          fill: $chord-color;
+
+          &.root {
+            fill: $note-color;
+            stroke: $chord-color;
+            stroke-width: 4px;
+            stroke-alignment: outsite;
+          }
+        }
+      }
+
+      // .line1 {
+      //   width: 100px;
+      //   border-bottom: 1px solid $K800;
+      // }
+    }
 
     // Backgrounds
     &-background {
@@ -98,9 +144,18 @@
     }
   }
 
+  // Rotate
+  .wheel-rotate {
+    transition: 1s ease transform;
+    position: absolute;
+    z-index: 2;
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
   // Outer
   .wheel-outer {
-    transition: 1s ease transform;
     position: absolute;
     z-index: 2;
     display: block;
@@ -179,10 +234,10 @@
         }
 
         &.current {
-          color: $blue;
+          color: $key-color;
         }
         &:hover {
-          color: $blueHover;
+          color: $key-color-hover;
         }
       }
     }

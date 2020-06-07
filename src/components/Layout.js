@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Sampler, Part, Transport } from "tone";
-import { Note, Key } from "@tonaljs/tonal";
+import { Chord, Note, Key } from "@tonaljs/tonal";
 import * as ChordDetect from "@tonaljs/chord-detect";
 import { Wheel } from "./Wheel";
 import { KeyChart } from "./KeyChart";
@@ -23,6 +23,7 @@ function Layout() {
 
   const [autoplaying, setAutoplaying] = useState(false);
   const [keyboardLocked, setKeyboardLocked] = useState(false);
+  const [selNotesType, setSelNotesType] = useState("notes");
 
   // for auto play keys
   const autoplayDelay = 0.3;
@@ -63,6 +64,14 @@ function Layout() {
 
   const firstUpdate = useRef(true);
 
+  function getChord(name) {
+    const chord = Chord.get(name);
+
+    if (chord.empty) return;
+
+    selectChord(chord, name);
+  }
+
   function selectChord(chord, name) {
     setChosenChord({ chord: chord, name: name });
 
@@ -75,6 +84,7 @@ function Layout() {
 
   function selectChordNotes(chord) {
     setSelectedNotes(pitchedNotesFromChord(chord.notes));
+    setSelNotesType("chord");
   }
 
   function playPlaylist(playlist, pressStyle) {
@@ -106,6 +116,7 @@ function Layout() {
 
   function selectNotesFromKey(key, type) {
     setSelectedNotes(pitchedScale(key, type));
+    setSelNotesType("key");
   }
 
   function findKey(note, type) {
@@ -131,6 +142,7 @@ function Layout() {
     const list = selectedNotes;
     list.push(note);
     setSelectedNotes(Note.sortedNames(list));
+    setSelNotesType("notes");
   }
   function removeNote(note) {
     const list = selectedNotes;
@@ -139,6 +151,7 @@ function Layout() {
       list.splice(index, 1);
     }
     setSelectedNotes(Note.sortedNames(list));
+    setSelNotesType("notes");
   }
 
   function pressNote(note) {
@@ -187,6 +200,7 @@ function Layout() {
   function clearSelected() {
     setSelectedNotes([]);
     setChordDetect("");
+    setSelNotesType("notes");
   }
 
   function highlightKeys(playlist, pressStyle) {
@@ -234,13 +248,20 @@ function Layout() {
     var pitch = 4;
     var pitched = [];
 
-    for (var i = 0; i < notes.length; i++) {
-      // need to simplify notes to get rid of things like "Bbb"
-      pitched.push(Note.simplify(notes[i]) + pitch.toString());
+    const octave = ["C", "D", "E", "F", "G", "A", "B"];
+    var oldIndex = 0;
 
-      if (notes[i].includes("B")) {
-        pitch++;
-      }
+    for (var i = 0; i < notes.length; i++) {
+      // increment after octave increases
+      var newIndex = octave.indexOf(notes[i].charAt(0));
+      if (newIndex < oldIndex) pitch++;
+      oldIndex = newIndex;
+
+      const simplified =
+        notes[i].length > 2 ? Note.simplify(notes[i]) : notes[i];
+
+      // need to simplify notes to get rid of things like "Bbb"
+      pitched.push(simplified + pitch.toString());
     }
 
     return pitched;
@@ -351,6 +372,7 @@ function Layout() {
             clearSelected={clearSelected}
             playSelectedKeys={playSelectedKeys}
             autoplaying={autoplaying}
+            selNotesType={selNotesType}
           />
 
           <div className="layout-bottom">
@@ -359,21 +381,24 @@ function Layout() {
               findKey={findKey}
               myKey={myKey}
               autoplaying={autoplaying}
+              chosenChord={chosenChord}
             />
             <div className="layout-charts">
               <KeyChart
                 keyboardLocked={keyboardLocked}
                 autoplaying={autoplaying}
                 selectNotesFromKey={selectNotesFromKey}
+                getChord={getChord}
                 playScale={playScale}
                 myKey={myKey}
+                findKey={findKey}
               />
               <ChordChart
                 keyboardLocked={keyboardLocked}
                 autoplaying={autoplaying}
                 selectNotesFromKey={selectNotesFromKey}
                 chosenChord={chosenChord}
-                selectChord={selectChord}
+                getChord={getChord}
                 chordDetect={chordDetect}
                 playChord={playChord}
                 selectChordNotes={selectChordNotes}
