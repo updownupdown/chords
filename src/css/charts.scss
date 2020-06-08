@@ -20,9 +20,17 @@
     padding: 20px;
 
     background: $K50;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-    border-bottom: 1px solid $K200;
+
+    &-top {
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+      border-bottom: 1px solid $K200;
+    }
+    &-bottom {
+      border-bottom-left-radius: 8px;
+      border-bottom-right-radius: 8px;
+      border-top: 1px solid $K200;
+    }
 
     &-label {
       margin-right: auto;

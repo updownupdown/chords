@@ -69,7 +69,6 @@ function Layout() {
 
   function selectChord(chord, name) {
     if (chord.empty) {
-      console.log("setting to empty chord");
       setChosenChord({ chord: {}, name: "" });
 
       if (selNotesType === "chord") {
@@ -410,11 +409,13 @@ function Layout() {
                 playScale={playScale}
                 myKey={myKey}
                 findKey={findKey}
+                selNotesType={selNotesType}
               />
               <ChordChart
                 keyboardLocked={keyboardLocked}
                 autoplaying={autoplaying}
                 selectNotesFromKey={selectNotesFromKey}
+                selNotesType={selNotesType}
                 chosenChord={chosenChord}
                 getChord={getChord}
                 chordDetect={chordDetect}

@@ -1,6 +1,7 @@
 import React from "react";
 import { Key } from "@tonaljs/tonal";
 import Sound from "../icons/sound";
+import Keyboard from "../icons/keyboard";
 import Clear from "../icons/clear";
 import "../css/charts.scss";
 
@@ -106,17 +107,6 @@ export const KeyChart = (props) => {
 
         <div className="button-group touching">
           <button
-            className="outline theme-key play-key"
-            onClick={
-              Object.keys(props.myKey.key).length !== 0 ? props.playScale : null
-            }
-            disabled={
-              props.autoplaying || Object.keys(props.myKey.key).length === 0
-            }
-          >
-            <Sound />
-          </button>
-          <button
             className="outline theme-key select-key"
             onClick={() => {
               if (Object.keys(props.myKey.key).length !== 0) {
@@ -126,10 +116,24 @@ export const KeyChart = (props) => {
             disabled={
               props.autoplaying ||
               props.keyboardLocked ||
+              props.selNotesType === "key" ||
               Object.keys(props.myKey.key).length === 0
             }
           >
+            <Keyboard />
             <span className="text">Select</span>
+          </button>
+          <button
+            className="outline theme-key play-key"
+            onClick={
+              Object.keys(props.myKey.key).length !== 0 ? props.playScale : null
+            }
+            disabled={
+              props.autoplaying || Object.keys(props.myKey.key).length === 0
+            }
+          >
+            <Sound />
+            <span className="text">Play</span>
           </button>
           <button
             className="outline theme-key"

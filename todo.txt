@@ -1,5 +1,9 @@
 Bugs:
 
+- selecting a chord doesn't draw the lines right away, at least in the first instance? maybe online only
+- selecting a chord doesn't draw the lines right away
+- selecting a chord doesn't draw the lines right away
+- selecting a chord doesn't draw the lines right away
 - prevent AudioContext warnings
 
 Technical:
@@ -14,6 +18,7 @@ Technical:
 
 High Priority:
 
+- key/chord selection/prediction: combine name with pickers, move prediction to bottom?
 - option to rotate the CoF or not (relative vs. absolute visualization)
 - show I II III IV... on wheel
 - in key info, pair I II III IV... to chords.

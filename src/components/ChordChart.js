@@ -3,6 +3,7 @@ import { Interval } from "@tonaljs/tonal";
 import { chordList } from "./Lists";
 import { Picker } from "./Picker";
 import Sound from "../icons/sound";
+import Keyboard from "../icons/keyboard";
 import Clear from "../icons/clear";
 import "../css/charts.scss";
 import "../css/chords.scss";
@@ -84,7 +85,7 @@ export const ChordChart = (props) => {
 
   return (
     <div className="chart">
-      <div className="chart-select chord-picker">
+      <div className="chart-select  chart-select-top chord-picker">
         <div className="picker-group">
           <Picker className="picker-notes" selected={chordNote}>
             <div className="picker-notes-menu">{noteChoices}</div>
@@ -118,7 +119,74 @@ export const ChordChart = (props) => {
           </div>
         </div>
       </div>
-      <div className="chart-select chord-predictions">
+
+      <div className="chart-title">
+        <span className="chart-title-label">
+          {Object.keys(props.chosenChord.chord).length === 0 ? (
+            <span className="empty">Chord</span>
+          ) : (
+            <span className="color-theme-chord">
+              {props.chosenChord.chord.symbol}
+            </span>
+          )}
+        </span>
+
+        <div className="button-group touching">
+          <button
+            className="outline theme-chord"
+            onClick={() => {
+              if (Object.keys(props.chosenChord.chord).length !== 0) {
+                props.selectChordNotes(props.chosenChord.chord);
+              }
+            }}
+            disabled={
+              props.autoplaying ||
+              props.keyboardLocked ||
+              props.selNotesType === "chord" ||
+              Object.keys(props.chosenChord.chord).length === 0
+            }
+          >
+            <Keyboard />
+            <span className="text">Select</span>
+          </button>
+          <button
+            className="outline theme-chord"
+            onClick={() => {
+              props.playChord();
+            }}
+            disabled={
+              props.autoplaying ||
+              Object.keys(props.chosenChord.chord).length === 0
+            }
+          >
+            <Sound />
+            <span className="text">Play</span>
+          </button>
+          <button
+            className="outline theme-chord"
+            onClick={() => {
+              props.getChord("");
+            }}
+            disabled={
+              props.autoplaying ||
+              Object.keys(props.chosenChord.chord).length === 0
+            }
+          >
+            <Clear />
+            <span className="text">Clear</span>
+          </button>
+        </div>
+      </div>
+
+      <div className="chart-details">
+        {Object.keys(props.chosenChord.chord).length === 0 ? (
+          <span className="empty">No chord selected.</span>
+        ) : (
+          chordInfo(props.chosenChord.chord)
+        )}
+      </div>
+
+      <div className="chart-select chart-select-bottom">
         <span className="chart-select-label">Predicted chords:</span>
         <div>
           {props.chordDetect.length > 0 ? (
@@ -152,69 +220,6 @@ export const ChordChart = (props) => {
             </span>
           )}
         </div>
-      </div>
-
-      <div className="chart-title">
-        <span className="chart-title-label">
-          {Object.keys(props.chosenChord.chord).length === 0 ? (
-            <span className="empty">Chord</span>
-          ) : (
-            <span className="color-theme-chord">
-              {props.chosenChord.chord.symbol}
-            </span>
-          )}
-        </span>
-
-        <div className="button-group touching">
-          <button
-            className="outline theme-chord"
-            onClick={() => {
-              props.playChord();
-            }}
-            disabled={
-              props.autoplaying ||
-              Object.keys(props.chosenChord.chord).length === 0
-            }
-          >
-            <Sound />
-          </button>
-          <button
-            className="outline theme-chord"
-            onClick={() => {
-              if (Object.keys(props.chosenChord.chord).length !== 0) {
-                props.selectChordNotes(props.chosenChord.chord);
-              }
-            }}
-            disabled={
-              props.autoplaying ||
-              props.keyboardLocked ||
-              Object.keys(props.chosenChord.chord).length === 0
-            }
-          >
-            <span className="text">Select</span>
-          </button>
-          <button
-            className="outline theme-chord"
-            onClick={() => {
-              props.getChord("");
-            }}
-            disabled={
-              props.autoplaying ||
-              Object.keys(props.chosenChord.chord).length === 0
-            }
-          >
-            <Clear />
-            <span className="text">Clear</span>
-          </button>
-        </div>
-      </div>
-
-      <div className="chart-details">
-        {Object.keys(props.chosenChord.chord).length === 0 ? (
-          <span className="empty">No chord selected.</span>
-        ) : (
-          chordInfo(props.chosenChord.chord)
-        )}
       </div>
     </div>
   );

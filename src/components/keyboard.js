@@ -3,7 +3,7 @@ import classNames from "classnames";
 import { Note } from "@tonaljs/tonal";
 import { keyList } from "./Lists";
 import { Key } from "./Key";
-import Play from "../icons/play";
+import Sound from "../icons/sound";
 import Locked from "../icons/locked";
 import Unlocked from "../icons/unlocked";
 import Clear from "../icons/clear";
@@ -127,7 +127,7 @@ export const Keyboard = (props) => {
             }}
             disabled={props.keyboardLocked || props.selectedNotes.length === 0}
           >
-            <Play />
+            <Sound />
             <span className="text">Play</span>
           </button>
           <button
