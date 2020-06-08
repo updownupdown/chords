@@ -20,18 +20,18 @@ $K800: darken($base, 65%);
 $K900: darken($base, 75%);
 
 $button-color: $K700;
-$button-color-hover: darken($button-color, 10%);
+$button-color-hover: darken($button-color, 15%);
 
 $note-color: #ffc107;
-$note-color-hover: darken($note-color, 10%);
+$note-color-hover: darken($note-color, 15%);
 
 $key-color: #1fc7b6;
 $key-color-hover: darken($key-color, 10%);
 
 $chord-color: #4455e9;
-$chord-color-hover: darken($chord-color, 10%);
+$chord-color-hover: darken($chord-color, 20%);
 
 $locked-color: #bf1125;
-$locked-color-hover: darken($locked-color, 10%);
+$locked-color-hover: darken($locked-color, 15%);
 
 // $orange: #f67f10;

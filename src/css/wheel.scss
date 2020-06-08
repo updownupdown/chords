@@ -39,10 +39,29 @@
       height: auto;
 
       path {
-        fill: rgba($K700, 0.08);
+        fill: rgba($K700, 0.1);
         stroke: rgba($K700, 0.15);
         stroke-width: 1px;
       }
+    }
+  }
+
+  // Top Indicator
+  .wheel-indicator {
+    pointer-events: none;
+    opacity: 0.7;
+    position: absolute;
+    top: -3px;
+    left: 50%;
+    width: 56px;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    z-index: 10;
+    margin-left: -28px;
+
+    svg path {
+      fill: $K450;
     }
   }
 
@@ -85,7 +104,6 @@
             fill: $note-color;
             stroke: $chord-color;
             stroke-width: 4px;
-            stroke-alignment: outsite;
           }
         }
       }

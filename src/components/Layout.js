@@ -398,7 +398,11 @@ function Layout() {
                 autoplaying={autoplaying}
                 chosenChord={chosenChord}
               />
-              <Staff selectedNotes={selectedNotes} myKey={myKey} />
+              <Staff
+                selectedNotes={selectedNotes}
+                selNotesType={selNotesType}
+                myKey={myKey}
+              />
             </div>
             <div className="layout-bottom-right">
               <KeyChart

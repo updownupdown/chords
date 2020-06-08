@@ -5,8 +5,9 @@
   flex-direction: column;
 
   border-radius: 8px;
-  border: 1px solid $K100;
-  box-shadow: 1px 2px 12px $K100;
+  border: 1px solid $K200;
+  box-shadow: 1px 2px 8px rgba($K500, 0.1), 2px 4px 28px rgba($K400, 0.1);
+  background: white;
 
   &:not(:first-child) {
     margin-top: 20px;
@@ -17,22 +18,25 @@
     display: flex;
     align-items: center;
     width: 100%;
-    padding: 20px;
+    padding: 12px 20px;
 
     background: $K50;
 
     &-top {
       border-top-left-radius: 8px;
       border-top-right-radius: 8px;
-      border-bottom: 1px solid $K200;
+      border-bottom: 1px solid $K150;
     }
     &-bottom {
       border-bottom-left-radius: 8px;
       border-bottom-right-radius: 8px;
-      border-top: 1px solid $K200;
+      border-top: 1px solid $K150;
     }
 
     &-label {
+      display: flex;
+      align-items: center;
+      height: $input-height;
       margin-right: auto;
 
       font-family: $headingFont;
@@ -42,6 +46,10 @@
     }
 
     &-text {
+      display: flex;
+      align-items: center;
+      height: $input-height;
+
       font-size: 14px;
 
       &.empty {
@@ -134,6 +142,7 @@
   display: flex;
   max-width: 100%;
   overflow-x: auto;
+  padding: 10px 0; // for mobile overflow scroll
 
   .pair {
     $note-width: 44px;
@@ -210,9 +219,9 @@
     .grade {
       margin-bottom: 10px;
 
-      font-size: 20px;
-      font-weight: 400;
-      color: $K600;
+      font-size: 18px;
+      font-weight: 600;
+      color: $K400;
     }
 
     // Chord

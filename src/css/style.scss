@@ -11,6 +11,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-weight: normal;
+
+  background: $K50;
 }
 
 code {
@@ -61,7 +63,8 @@ button {
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: 8px;
+  padding: 0 8px;
+  height: $input-height;
 
   border-radius: 4px;
 
@@ -217,8 +220,11 @@ button {
   &-center {
     width: 100%;
     max-width: $max-layout-width;
+    padding: 40px $layout-side-padding;
 
-    padding: 20px $layout-side-padding 40px;
+    @media #{$query-max-lg} {
+      padding-top: 20px;
+    }
   }
 
   // Bottom
@@ -262,7 +268,7 @@ button.radio {
   align-items: center;
   padding: 0 10px;
 
-  height: 38px;
+  height: $input-height;
 
   border: 1px solid $chord-color;
   background: none;
@@ -300,7 +306,7 @@ button.radio {
       align-items: center;
       padding: 0 10px;
 
-      height: 38px;
+      height: $input-height;
 
       border: 1px solid $chord-color;
 

@@ -11,9 +11,11 @@ import "../css/keyboard.scss";
 
 export const Keyboard = (props) => {
   const [keyDown, setKeyDown] = useState(false);
+  const [showShortcuts, setShowShortcuts] = useState(false);
 
   // Key Down
   document.body.onkeydown = function (e) {
+    console.log(e.key);
     switch (e.key) {
       // Prevent repeat key presses
       case keyDown:
@@ -82,20 +84,31 @@ export const Keyboard = (props) => {
       className={classNames("keyboard", {
         [`theme-${props.selNotesType}`]: true,
         "theme-locked": props.keyboardLocked,
+        "show-shortcuts": showShortcuts,
       })}
     >
+      {!showShortcuts && (
+        <button
+          className="outline view-keyboard-shortcuts"
+          onClick={() => {
+            setShowShortcuts(true);
+          }}
+        >
+          View Keyboard Shortcuts
+        </button>
+      )}
       <div className="keyboard-buttons">
-        <div className="button-group touching">
-          <button
-            className={`outline ${props.keyboardLocked && "theme-locked"}`}
-            onClick={() => {
-              props.setKeyboardLocked(!props.keyboardLocked);
-            }}
-          >
-            {props.keyboardLocked ? <Locked /> : <Unlocked />}
+        <button
+          className={`outline ${props.keyboardLocked && "theme-locked"}`}
+          onClick={() => {
+            props.setKeyboardLocked(!props.keyboardLocked);
+          }}
+        >
+          {props.keyboardLocked ? <Locked /> : <Unlocked />}
 
-            <span className="text">Lock</span>
-          </button>
+          <span className="text">Lock</span>
+        </button>
+        <div className="button-group touching">
           <button
             className="play outline"
             onClick={() => {
@@ -147,24 +160,24 @@ export const Keyboard = (props) => {
 };
 
 const keyShortcuts = {
-  a: "F3",
-  w: "F#3",
-  s: "G3",
-  e: "G#3",
-  d: "A3",
-  r: "A#3",
-  f: "B3",
-  g: "C4",
-  y: "C#4",
-  h: "D4",
-  u: "D#4",
-  j: "E4",
-  k: "F4",
-  o: "F#4",
-  l: "G4",
-  p: "G#4",
-  ";": "A4",
-  "[": "A#4",
-  "'": "B4",
-  "]": "A#4",
+  q: "G#3",
+  a: "A3",
+  w: "A#3",
+  s: "B3",
+  d: "C4",
+  r: "C#4",
+  f: "D4",
+  t: "D#4",
+  g: "E4",
+  h: "F4",
+  u: "F#4",
+  j: "G4",
+  i: "G#4",
+  k: "A4",
+  o: "A#4",
+  l: "B4",
+  ";": "C5",
+  "[": "C#5",
+  "'": "D5",
+  "]": "D#5",
 };

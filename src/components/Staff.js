@@ -1,11 +1,11 @@
 import React from "react";
+import classNames from "classnames";
 import Braces from "../icons/braces";
 import Treble from "../icons/treble";
 import Bass from "../icons/bass";
 import Sharp from "../icons/sharp";
 import Flat from "../icons/flat";
 import Whole from "../icons/whole";
-// import { Note } from "@tonaljs/tonal";
 import "../css/staff.scss";
 
 export const Staff = (props) => {
@@ -32,7 +32,11 @@ export const Staff = (props) => {
   }
 
   return (
-    <div className="staffs">
+    <div
+      className={classNames("staffs", {
+        [`theme-${props.selNotesType}`]: true,
+      })}
+    >
       <div className="staffs-braces">
         <Braces />
       </div>

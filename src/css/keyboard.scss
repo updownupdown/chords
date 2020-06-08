@@ -2,25 +2,45 @@
 
 // Keyboard
 .keyboard {
+  position: relative;
   display: flex;
   flex-direction: column;
   width: 100%;
+
+  // View Shortcuts Button
+  button.outline.view-keyboard-shortcuts {
+    position: absolute;
+    z-index: 3;
+    top: 0px;
+    left: 50%;
+    width: 210px;
+    margin-left: -105px;
+    justify-content: center;
+
+    @media #{$query-max-lg} {
+      display: none;
+    }
+
+    &:not(:disabled) {
+      font-size: 14px;
+      font-weight: 400;
+      color: $K400;
+
+      &:hover {
+        color: $K700;
+      }
+    }
+  }
 
   // Keyboard Buttons
   .keyboard-buttons {
     position: relative;
     z-index: 2;
     display: flex;
+    justify-content: space-between;
     width: 100%;
 
     margin-bottom: 14px;
-
-    @media #{$query-min-lg} {
-      justify-content: flex-end;
-    }
-    @media #{$query-max-lg} {
-      justify-content: center;
-    }
   }
 
   // Keyboard Keys
@@ -44,16 +64,18 @@
       margin-bottom: 30px;
     }
 
+    // Keyboard Keys
     .keyboard-keys {
-      min-width: $key-white-width * 7 * 3;
+      position: relative;
+      z-index: 1;
       display: flex;
       align-items: flex-start;
       justify-content: center;
+      min-width: $key-white-width * 7 * 3;
       height: 200px;
 
-      border-radius: $key-border-radius;
-      background: $K100;
-      // box-shadow: 1px 2px 4px $K200;
+      border-radius: 6px;
+      background: $K150;
     }
   }
 }
@@ -72,8 +94,10 @@
 
   padding: 0;
 
-  border-bottom-left-radius: $key-border-radius;
-  border-bottom-right-radius: $key-border-radius;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
 
   // White Key
   &:not(:disabled) {
@@ -152,33 +176,6 @@
 
     border-radius: 50%;
 
-    // Sharp/flat accents
-    // &.sharp {
-    //   border-top-left-radius: 0;
-    //   border-bottom-left-radius: 0;
-    // }
-    // &.flat {
-    //   border-top-right-radius: 0;
-    //   border-bottom-right-radius: 0;
-    // }
-
-    // Left/right indicators
-    // &.sharp:before,
-    // &.flat:after {
-    //   pointer-events: none;
-    //   content: "";
-    //   position: absolute;
-    //   top: 0;
-    //   width: 4px;
-    //   height: 100%;
-    // }
-    // &.sharp:before {
-    //   left: 0;
-    // }
-    // &.flat:after {
-    //   right: 0;
-    // }
-
     // White label
     .key-white:hover & {
       color: $K600;
@@ -224,9 +221,13 @@
     bottom: 100%;
     width: 100%;
 
-    display: flex;
+    display: none;
     align-items: flex-start;
     justify-content: center;
+
+    .show-shortcuts & {
+      display: flex;
+    }
 
     @media #{$query-max-lg} {
       display: none;
@@ -250,10 +251,10 @@
       height: 22px;
 
       border-radius: 4px;
-      background: $K50;
+      background: $K100;
 
       font-size: 12px;
-      color: $K400;
+      color: $K450;
       text-transform: uppercase;
     }
 
@@ -264,7 +265,7 @@
       left: 50%;
       width: 1px;
       height: 100%;
-      background: $K100;
+      background: $K150;
     }
   }
 

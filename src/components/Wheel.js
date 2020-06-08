@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import classNames from "classnames";
 import Related from "../icons/related";
+import TopIndicator from "../icons/topindicator";
 import RotateCW from "../icons/rotate-cw";
 import RotateCCW from "../icons/rotate-ccw";
 import "../css/wheel.scss";
@@ -211,6 +212,9 @@ export const Wheel = (props) => {
           className="wheel-rotate"
           style={{ transform: `rotate(${rotateDeg}deg)` }}
         >
+          <div className="wheel-indicator">
+            <TopIndicator />
+          </div>
           <div className="wheel-lines">
             <svg
               className="wheel-lines-svg"

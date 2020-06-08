@@ -31,7 +31,6 @@ Wheel
 
 - option to rotate the CoF or not (relative vs. absolute visualization) - maybe don't auto select key on rotate wheel?
 - show enharmonics in wheel
-- show top of wheel
 - make wheel rotate by drag and drop
 -------------------------
 -------------------------
@@ -49,6 +48,7 @@ Menu
 -------------------------
 Medium Priority
 
+- caps lock to lock all keys, review keyboard shortcut mapping
 - key/chord selection/prediction: combine name with pickers, move prediction to bottom?
 - pressing "ALT" (or Shift?) on keyboard will allow selection of CHORDS on wheel. change colour of wheel letters on shift. draw line between key/chord boxes to center of wheel, and on ALT, change which line is coloured vs. palegrey
 - tooltips?
