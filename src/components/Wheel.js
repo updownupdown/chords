@@ -1,6 +1,5 @@
 import React, { useState, useRef } from "react";
 import classNames from "classnames";
-import { chordNotes } from "./Lists";
 import Related from "../icons/related";
 import RotateCW from "../icons/rotate-cw";
 import RotateCCW from "../icons/rotate-ccw";
@@ -140,7 +139,7 @@ export const Wheel = (props) => {
 
     const intervals = props.chosenChord.chord.intervals;
     const root = props.chosenChord.chord.notes[0];
-    const rootEquiv = chordNotes[root];
+    const rootEquiv = wheelEquivalents[root];
     const rootPos = notesCircle.indexOf(rootEquiv);
     const dotRad = 6;
     var points = [];
@@ -300,4 +299,28 @@ export const Wheel = (props) => {
       </div>
     </div>
   );
+};
+
+const wheelEquivalents = {
+  C: "C",
+  Cb: "B",
+  "C#": "Db",
+  D: "D",
+  Db: "Db",
+  "D#": "Eb",
+  E: "E",
+  Eb: "Eb",
+  "E#": "F",
+  F: "F",
+  Fb: "E",
+  "F#": "F#",
+  G: "G",
+  Gb: "F#",
+  "G#": "Ab",
+  A: "A",
+  Ab: "Ab",
+  "A#": "Bb",
+  B: "B",
+  Bb: "Bb",
+  "B#": "C",
 };

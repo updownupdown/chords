@@ -68,19 +68,12 @@ function Layout() {
     if (chord.empty) return;
 
     selectChord(chord, name);
-
-    // console.log("getting chord");
   }
 
-  // const firstUpdate = useRef(true);
   function selectChord(chord, name) {
     setChosenChord({ chord: chord, name: name });
 
-    // if (firstUpdate.current) {
-    //   firstUpdate.current = false;
-    // } else {
     !keyboardLocked && selectChordNotes(chord);
-    // }
   }
 
   function selectChordNotes(chord) {

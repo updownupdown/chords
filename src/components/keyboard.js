@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import classNames from "classnames";
 import { Note } from "@tonaljs/tonal";
-import { keyShortcuts, keyList } from "./Lists";
+import { keyList } from "./Lists";
 import { Key } from "./Key";
 import Play from "../icons/play";
 import Locked from "../icons/locked";
@@ -144,4 +144,27 @@ export const Keyboard = (props) => {
       </div>
     </div>
   );
+};
+
+const keyShortcuts = {
+  a: "F3",
+  w: "F#3",
+  s: "G3",
+  e: "G#3",
+  d: "A3",
+  r: "A#3",
+  f: "B3",
+  g: "C4",
+  y: "C#4",
+  h: "D4",
+  u: "D#4",
+  j: "E4",
+  k: "F4",
+  o: "F#4",
+  l: "G4",
+  p: "G#4",
+  ";": "A4",
+  "[": "A#4",
+  "'": "B4",
+  "]": "A#4",
 };

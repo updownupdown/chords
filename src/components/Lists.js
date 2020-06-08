@@ -1,144 +1,93 @@
-export const chordNotes = {
-  C: "C",
-  Cb: "B",
-  "C#": "Db",
-  D: "D",
-  Db: "Db",
-  "D#": "Eb",
-  E: "E",
-  Eb: "Eb",
-  "E#": "F",
-  F: "F",
-  Fb: "E",
-  "F#": "F#",
-  G: "G",
-  Gb: "F#",
-  "G#": "Ab",
-  A: "A",
-  Ab: "Ab",
-  "A#": "Bb",
-  B: "B",
-  Bb: "Bb",
-  "B#": "C",
-};
-
 export const chordList = [
   {
     name: "Triads",
-    value: "triads",
     options: [
       {
         name: "Major",
-        value: "M",
+        formula: "M",
       },
       {
         name: "Minor",
-        value: "m",
+        formula: "m",
       },
       {
         name: "Diminished",
-        value: "dim",
+        formula: "dim",
       },
       {
         name: "Augmented",
-        value: "aug",
+        formula: "aug",
       },
     ],
   },
   {
     name: "Sevenths",
-    value: "sevenths",
     options: [
       {
         name: "Major 7th",
-        value: "M7",
+        formula: "M7",
       },
       {
         name: "Minor 7th",
-        value: "m7",
+        formula: "m7",
       },
       {
         name: "Dominant 7th",
-        value: "7",
+        formula: "7",
       },
       {
         name: "Diminished 7th",
-        value: "dim7",
+        formula: "dim7",
       },
       {
         name: "Half Diminished 7th",
-        value: "m7b5",
+        formula: "m7b5",
       },
       {
         name: "Augmented 7th",
-        value: "aug7",
+        formula: "aug7",
       },
       {
         name: "Augmented Major 7th",
-        value: "maj7#5",
+        formula: "maj7#5",
       },
     ],
   },
   {
     name: "Extended",
-    value: "extended",
     options: [
       {
         name: "Dominant 9th",
-        value: "9",
+        formula: "9",
       },
       {
         name: "Dominant 11th",
-        value: "11",
+        formula: "11",
       },
       {
         name: "Dominant 13th",
-        value: "13",
+        formula: "13",
       },
     ],
   },
   {
     name: "Alterered",
-    value: "alterered",
     options: [
       {
         name: "Seventh Augmented 5th",
-        value: "7b13",
+        formula: "7b13",
       },
       {
         name: "Seventh Minor 9th",
-        value: "7b9b13",
+        formula: "7b9b13",
       },
       {
         name: "Seventh Sharp 9th",
-        value: "7#9",
+        formula: "7#9",
       },
     ],
   },
 ];
-
-export const keyShortcuts = {
-  a: "F3",
-  w: "F#3",
-  s: "G3",
-  e: "G#3",
-  d: "A3",
-  r: "A#3",
-  f: "B3",
-  g: "C4",
-  y: "C#4",
-  h: "D4",
-  u: "D#4",
-  j: "E4",
-  k: "F4",
-  o: "F#4",
-  l: "G4",
-  p: "G#4",
-  ";": "A4",
-  "[": "A#4",
-  "'": "B4",
-  "]": "A#4",
-};
 
 export const keyList = [
   {

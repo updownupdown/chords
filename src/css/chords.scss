@@ -10,6 +10,144 @@
   justify-content: space-between;
 }
 
+// Picker Element
+.picker {
+  position: relative;
+
+  font-family: $headingFont;
+
+  // Header (toggle)
+  &-header {
+    cursor: pointer;
+    display: flex;
+    padding: 8px 12px;
+
+    border-radius: 4px;
+    border: 1px solid $K200;
+    background: white;
+
+    &:hover {
+      box-shadow: 1px 2px 4px $K200;
+    }
+  }
+
+  // Menu (dropdown)
+  &-menu {
+    position: absolute;
+    z-index: 50;
+    top: 100%;
+    display: flex;
+    margin-top: 4px;
+    margin-bottom: 30px;
+
+    border-radius: 4px;
+    border: 1px solid $K200;
+    background: white;
+    box-shadow: 1px 2px 4px rgba($K400, 0.1);
+  }
+}
+
+.picker-group {
+  display: flex;
+
+  .picker:not(:first-child) {
+    margin-left: 8px;
+  }
+}
+
+// Notes Picker
+.picker-notes {
+  .picker-header {
+    min-width: 60px;
+  }
+
+  .picker-notes-menu {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    // width: 200px;
+
+    .note {
+      display: flex;
+
+      button {
+        transition: 0.2s ease background-color, 0.2s ease color;
+        padding: 8px;
+        width: 60px;
+
+        border-radius: 0;
+        border: 0;
+        background: transparent;
+
+        color: $chord-color;
+        text-align: center;
+
+        &:hover {
+          background: $K100;
+          color: $chord-color-hover;
+        }
+
+        &.natural {
+          font-size: 16px;
+        }
+        &.flat,
+        &.sharp {
+          font-size: 14px;
+        }
+      }
+    }
+  }
+}
+
+// Chord Picker
+.picker-chords {
+  .picker-header {
+    min-width: 200px;
+  }
+  &-menu {
+    display: flex;
+    flex-wrap: wrap;
+    overflow-y: auto;
+    width: 450px;
+    height: 300px;
+
+    .type-group {
+      display: flex;
+      flex-direction: column;
+      width: 50%;
+
+      &-title {
+        padding: 8px;
+        border-bottom: 1px solid $K100;
+
+        font-size: 16px;
+      }
+      &-options {
+        display: flex;
+        flex-direction: column;
+
+        button {
+          transition: 0.2s ease background-color, 0.2s ease color;
+          padding: 8px;
+          text-align: left;
+
+          border-radius: 0;
+          border: 0;
+          background: transparent;
+
+          font-size: 14px;
+          color: $chord-color;
+
+          &:hover {
+            background: $K100;
+            color: $chord-color-hover;
+          }
+        }
+      }
+    }
+  }
+}
+
 // Chord Details
 .chord-details {
   display: flex;
