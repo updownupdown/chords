@@ -38,6 +38,7 @@
       font-family: $headingFont;
       font-size: 16px;
       color: $K700;
+      font-weight: 500;
     }
 
     &-text {
@@ -65,6 +66,10 @@
       font-size: 22px;
       font-weight: 600;
 
+      @media #{$query-max-md} {
+        font-size: 20px;
+      }
+
       span.empty {
         color: $K350;
       }
@@ -78,6 +83,12 @@
         &.color-theme-chord {
           color: $chord-color;
         }
+      }
+    }
+
+    @media #{$query-max-md} {
+      button .text {
+        display: none;
       }
     }
 

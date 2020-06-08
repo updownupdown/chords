@@ -1,7 +1,7 @@
 import React from "react";
 import { Key } from "@tonaljs/tonal";
 import Sound from "../icons/sound";
-import Keyboard from "../icons/keyboard";
+import Piano from "../icons/piano";
 import Clear from "../icons/clear";
 import "../css/charts.scss";
 
@@ -120,7 +120,7 @@ export const KeyChart = (props) => {
               Object.keys(props.myKey.key).length === 0
             }
           >
-            <Keyboard />
+            <Piano />
             <span className="text">Select</span>
           </button>
           <button

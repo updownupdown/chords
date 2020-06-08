@@ -3,7 +3,7 @@ import { Interval } from "@tonaljs/tonal";
 import { chordList } from "./Lists";
 import { Picker } from "./Picker";
 import Sound from "../icons/sound";
-import Keyboard from "../icons/keyboard";
+import Piano from "../icons/piano";
 import Clear from "../icons/clear";
 import "../css/charts.scss";
 import "../css/chords.scss";
@@ -146,7 +146,7 @@ export const ChordChart = (props) => {
               Object.keys(props.chosenChord.chord).length === 0
             }
           >
-            <Keyboard />
+            <Piano />
             <span className="text">Select</span>
           </button>
           <button
@@ -282,6 +282,17 @@ function chordInfo(chord) {
 
   return (
     <div className="chord-details">
+      <div className="chord-name">
+        <span className="name">{chord.name}</span>
+        <span className="aliases">
+          {chord["aliases"].map((alias, i) => {
+            if (alias === "") return;
+            var formatted = i !== 0 ? ", " : "";
+            formatted += chord["notes"][0] + alias;
+            return formatted;
+          })}
+        </span>
+      </div>
       <span className="chord-notes">
         {notes.map((note, i) => (
           <span key={i} className="pair">
@@ -303,10 +314,6 @@ function chordInfo(chord) {
           </span>
         ))}
       </span>
-      <div className="chord-name">
-        <span className="name">{chord.name}</span>
-        <span className="aliases">Aliases: {chord["aliases"].join(", ")}</span>
-      </div>
     </div>
   );
 }

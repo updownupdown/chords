@@ -212,7 +212,12 @@ export const Wheel = (props) => {
           style={{ transform: `rotate(${rotateDeg}deg)` }}
         >
           <div className="wheel-lines">
-            <svg className="wheel-lines-svg" height="320" width="320">
+            <svg
+              className="wheel-lines-svg"
+              height="320"
+              width="320"
+              viewBox="0 0 320 320"
+            >
               {props.chosenChord.chord.notes !== undefined && drawShape()}
             </svg>
           </div>

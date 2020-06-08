@@ -79,6 +79,8 @@
 
 .picker-group {
   display: flex;
+  flex: 1;
+  padding-right: 12px;
 
   .picker:not(:first-child) {
     margin-left: 8px;
@@ -88,7 +90,7 @@
 // Notes Picker
 .picker-notes {
   .picker-toggle {
-    width: 66px;
+    max-width: 66px;
   }
 
   .picker-notes-menu {
@@ -125,23 +127,39 @@
 
 // Chord Picker
 .picker-chords {
+  flex: 1;
+
   .picker-toggle {
-    width: 240px;
+    max-width: 240px;
   }
   &-menu {
     display: flex;
     flex-wrap: wrap;
     overflow-y: auto;
-    width: 520px;
+
     max-width: 90vw;
     height: 400px;
     padding: 10px;
 
+    @media #{$query-min-lg} {
+      width: 520px;
+    }
+    @media #{$query-max-lg} {
+      width: 100%;
+    }
+
     .type-group {
       display: flex;
       flex-direction: column;
-      width: 50%;
+
       padding: 10px;
+
+      @media #{$query-min-lg} {
+        width: 50%;
+      }
+      @media #{$query-max-lg} {
+        width: 100%;
+      }
 
       &-title {
         padding: 8px;
@@ -153,8 +171,6 @@
       &-options {
         display: flex;
         flex-direction: column;
-
-        // button {        }
       }
     }
   }
@@ -166,6 +182,25 @@
   flex-direction: column;
 
   font-family: $headingFont;
+
+  // Chord Name
+  .chord-name {
+    display: flex;
+    justify-content: space-between;
+    margin-top: -6px;
+    margin-bottom: 16px;
+
+    .name {
+      font-size: 16px;
+      font-weight: 600;
+      color: $K900;
+    }
+    .aliases {
+      font-size: 14px;
+      font-weight: 400;
+      color: $K600;
+    }
+  }
 
   // Chord Notes
   .chord-notes {
@@ -192,6 +227,7 @@
           // box-shadow: inset 0 0 0 1px green;
         }
         .root-interval {
+          user-select: none;
           font-size: 14px;
           font-weight: 400;
           color: $K500;
@@ -227,27 +263,12 @@
         }
       }
 
+      &:first-child .root-interval {
+        visibility: hidden;
+      }
       &:last-child .relative-interval {
         display: none;
       }
-    }
-  }
-
-  // Chord Name
-  .chord-name {
-    display: flex;
-    flex-direction: column;
-    margin-top: 30px;
-
-    .name {
-      font-size: 17px;
-      font-weight: 600;
-      color: $K900;
-    }
-    .aliases {
-      font-size: 15px;
-      font-weight: 400;
-      color: $K600;
     }
   }
 }

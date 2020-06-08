@@ -18,16 +18,19 @@ Technical:
 
 High Priority:
 
-- key/chord selection/prediction: combine name with pickers, move prediction to bottom?
+-----------------
 - option to rotate the CoF or not (relative vs. absolute visualization)
 - show I II III IV... on wheel
 - in key info, pair I II III IV... to chords.
 - in key info, better show "functional harmony" with tonic, dominant, and subdominant, like on pianolit.com, but more interactive
+-----------------
+- key/chord selection/prediction: combine name with pickers, move prediction to bottom?
 
 
 Medium Priority:
 
-- pressing "ALT" (or Shift?) on keyboard will allow selection of CHORDS on wheel. change colour of wheel letters on shift.
+- pressing "ALT" (or Shift?) on keyboard will allow selection of CHORDS on wheel. change colour of wheel letters on shift. draw line between key/chord boxes to center of wheel, and on ALT, change which line is coloured vs. palegrey
+- tooltips?
 - chord builder instead of picker: start with a note, and add intervals
 - decouple "piano" into a component, and all the play functions are used by importing it into whatever component needs it. selected notes would be managed by Keyboard? Layout? global?
 - Add volume slider and mute in menu
