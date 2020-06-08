@@ -3,6 +3,7 @@ import { Interval } from "@tonaljs/tonal";
 import { chordList } from "./Lists";
 import { Picker } from "./Picker";
 import Sound from "../icons/sound";
+import Clear from "../icons/clear";
 import "../css/charts.scss";
 import "../css/chords.scss";
 
@@ -31,20 +32,20 @@ export const ChordChart = (props) => {
   const noteChoices = octave.map((note, i) => (
     <span key={i} className="note">
       <button
-        className="flat"
-        onClick={() => {
-          setChordNote(note + "b");
-        }}
-      >
-        {note}b
-      </button>
-      <button
         className="natural"
         onClick={() => {
           setChordNote(note);
         }}
       >
         {note}
+      </button>
+      <button
+        className="flat"
+        onClick={() => {
+          setChordNote(note + "b");
+        }}
+      >
+        {note}b
       </button>
       <button
         className="sharp"
@@ -166,7 +167,7 @@ export const ChordChart = (props) => {
 
         <div className="button-group touching">
           <button
-            className="outline theme-chord play-chord"
+            className="outline theme-chord"
             onClick={() => {
               props.playChord();
             }}
@@ -178,7 +179,7 @@ export const ChordChart = (props) => {
             <Sound />
           </button>
           <button
-            className="outline theme-chord select-chord"
+            className="outline theme-chord"
             onClick={() => {
               if (Object.keys(props.chosenChord.chord).length !== 0) {
                 props.selectChordNotes(props.chosenChord.chord);
@@ -192,12 +193,25 @@ export const ChordChart = (props) => {
           >
             <span className="text">Select</span>
           </button>
+          <button
+            className="outline theme-chord"
+            onClick={() => {
+              props.getChord("");
+            }}
+            disabled={
+              props.autoplaying ||
+              Object.keys(props.chosenChord.chord).length === 0
+            }
+          >
+            <Clear />
+            <span className="text">Clear</span>
+          </button>
         </div>
       </div>
 
       <div className="chart-details">
         {Object.keys(props.chosenChord.chord).length === 0 ? (
-          <span className="empty">No chord info to show.</span>
+          <span className="empty">No chord selected.</span>
         ) : (
           chordInfo(props.chosenChord.chord)
         )}

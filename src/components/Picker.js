@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import ArrowDown from "../icons/arrowdown";
 import classNames from "classnames";
 
 export const Picker = (props) => {
@@ -11,10 +12,11 @@ export const Picker = (props) => {
   return (
     <div ref={ref} className={classNames("picker", props.className)}>
       <div
-        className="picker-header"
+        className="picker-toggle"
         onClick={() => setIsComponentVisible(!isComponentVisible)}
       >
-        {props.selected}
+        <span>{props.selected}</span>
+        <ArrowDown />
       </div>
       {isComponentVisible && (
         <div

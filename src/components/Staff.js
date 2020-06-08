@@ -1,4 +1,5 @@
 import React from "react";
+import Braces from "../icons/braces";
 import Treble from "../icons/treble";
 import Bass from "../icons/bass";
 import Sharp from "../icons/sharp";
@@ -32,6 +33,9 @@ export const Staff = (props) => {
 
   return (
     <div className="staffs">
+      <div className="staffs-braces">
+        <Braces />
+      </div>
       <div className="staff staff-treble">
         <div className="clef clef-treble">
           <Treble />

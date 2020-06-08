@@ -52,16 +52,16 @@
 
     &-label {
       margin-right: auto;
+
       font-family: $headingFont;
       font-size: 22px;
+      font-weight: 600;
 
       span.empty {
-        font-weight: 400;
         color: $K350;
       }
 
       span:not(.empty) {
-        font-weight: 600;
         color: $K900;
 
         &.color-theme-key {

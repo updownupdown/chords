@@ -1,6 +1,7 @@
 import React from "react";
 import { Key } from "@tonaljs/tonal";
 import Sound from "../icons/sound";
+import Clear from "../icons/clear";
 import "../css/charts.scss";
 
 export const KeyChart = (props) => {
@@ -130,10 +131,28 @@ export const KeyChart = (props) => {
           >
             <span className="text">Select</span>
           </button>
+          <button
+            className="outline theme-key"
+            onClick={() => {
+              props.findKey("", "");
+            }}
+            disabled={
+              props.autoplaying || Object.keys(props.myKey.key).length === 0
+            }
+          >
+            <Clear />
+            <span className="text">Clear</span>
+          </button>
         </div>
       </div>
 
-      <div className="chart-details">{props.myKey.note && keyInfo()}</div>
+      <div className="chart-details">
+        {Object.keys(props.myKey.key).length === 0 ? (
+          <span className="empty">No key selected.</span>
+        ) : (
+          props.myKey.note && keyInfo()
+        )}
+      </div>
     </div>
   );
 };

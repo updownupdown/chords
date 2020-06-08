@@ -1,18 +1,48 @@
 @import "./vars";
 
+$staff-color: $K750;
+
 .staffs {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
 
-  margin-top: 30px;
+  margin-top: 40px;
+
+  &:before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 1px;
+    height: 100px;
+    margin-top: -50px;
+    background: $staff-color;
+  }
+
+  &-braces {
+    position: absolute;
+    top: 50%;
+    left: -16px;
+    margin-top: -80px;
+
+    svg {
+      height: 160px;
+      width: auto;
+
+      path {
+        fill: $staff-color;
+      }
+    }
+  }
 }
 
 .staff {
   position: relative;
   display: flex;
   flex-shrink: 0;
-  width: 320px;
+  width: 270px;
   height: 50px;
   margin: 30px 0;
 
@@ -24,20 +54,20 @@
     content: "";
     position: absolute;
     top: 0;
-    left: -8px;
-    width: 4px;
+    left: 0;
+    width: 1px;
     height: calc(100% + 1px);
-    background: $K900;
+    background: $staff-color;
   }
 
   &:after {
     content: "";
     position: absolute;
     top: 0;
-    left: 0;
+    right: 0;
     width: 1px;
     height: calc(100% + 1px);
-    background: $K900;
+    background: $staff-color;
   }
 
   // Lines
@@ -52,7 +82,7 @@
       left: 0;
       width: 100%;
       height: 1px;
-      background: $K900;
+      background: $staff-color;
 
       @for $i from 1 through 5 {
         &:nth-child(#{$i}) {
@@ -68,7 +98,7 @@
     z-index: 2;
 
     svg path {
-      fill: $K900;
+      fill: $staff-color;
     }
 
     // Treble
@@ -116,7 +146,7 @@
         height: 30px;
 
         path {
-          fill: $K900;
+          fill: $staff-color;
         }
       }
 
@@ -195,25 +225,27 @@
       left: 180px;
     }
 
-    &:before,
-    &:after {
-      content: "";
-      position: absolute;
-
-      left: 0;
-      width: 25px;
-      height: 1px;
-      background: $K900;
-    }
-    &:before {
-      top: -12px;
-    }
-    &:after {
-      top: 62px;
+    svg path {
+      fill: $staff-color;
     }
 
-    &.bass:after {
-      display: none;
+    &.treble {
+      &:before,
+      &:after {
+        content: "";
+        position: absolute;
+
+        left: 0;
+        width: 25px;
+        height: 1px;
+        background: $staff-color;
+      }
+      &:before {
+        top: -12px;
+      }
+      &:after {
+        top: 62px;
+      }
     }
 
     .note {
@@ -228,7 +260,7 @@
         height: 12px;
 
         path {
-          fill: $K900;
+          fill: $staff-color;
         }
       }
 
@@ -248,7 +280,7 @@
         margin-top: -8px;
       }
 
-      $odd-note-offset: 24px;
+      $odd-note-offset: 20px;
 
       // Treble
       &.treble {
@@ -350,6 +382,9 @@
           top: -24px;
         }
 
+        &.note-B3,
+        &.note-C4,
+        &.note-D4,
         &.note-E4,
         &.note-F4,
         &.note-G4,

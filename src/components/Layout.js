@@ -64,13 +64,20 @@ function Layout() {
 
   function getChord(name) {
     const chord = Chord.get(name);
-
-    if (chord.empty) return;
-
     selectChord(chord, name);
   }
 
   function selectChord(chord, name) {
+    if (chord.empty) {
+      console.log("setting to empty chord");
+      setChosenChord({ chord: {}, name: "" });
+
+      if (selNotesType === "chord") {
+        setSelectedNotes([]);
+      }
+
+      return;
+    }
     setChosenChord({ chord: chord, name: name });
 
     !keyboardLocked && selectChordNotes(chord);
@@ -103,6 +110,16 @@ function Layout() {
   }
 
   function setKey(key, note, type) {
+    if (!key || !note || !type) {
+      setMyKey({ key: {}, note: "", type: "" });
+
+      if (selNotesType === "key") {
+        setSelectedNotes([]);
+      }
+
+      return;
+    }
+
     setMyKey({ key: key, note: note, type: type });
 
     !keyboardLocked && selectNotesFromKey(key, type);
@@ -114,7 +131,13 @@ function Layout() {
   }
 
   function findKey(note, type) {
+    if (!note || !type) {
+      setKey({}, "", "");
+      return;
+    }
+
     var key = {};
+
     if (type === "major") {
       key = Key.majorKey(note);
     } else if (type === "minor") {
@@ -347,7 +370,7 @@ function Layout() {
             <span></span>
           </div>
         </div> */}
-        <div className="layout-top">
+        <div className="layout-center">
           <Keyboard
             keyboardLocked={keyboardLocked}
             setKeyboardLocked={setKeyboardLocked}
