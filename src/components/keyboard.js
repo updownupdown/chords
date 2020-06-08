@@ -84,30 +84,6 @@ export const Keyboard = (props) => {
         "theme-locked": props.keyboardLocked,
       })}
     >
-      <div className="keyboard-keys-wrap">
-        <div className="keyboard-keys">
-          {keyList.map((key, i) => (
-            <Key
-              key={i}
-              index={i}
-              color={key.color}
-              note={key.note}
-              enharmonic={key.enharmonic}
-              label={key.label}
-              enharmoniclabel={key.enharmoniclabel}
-              midi={Note.midi(key.note)}
-              shortcut={key.shortcut}
-              pianoAttack={props.pianoAttack}
-              pianoRelease={props.pianoRelease}
-              pianoAttackRelease={props.pianoAttackRelease}
-              selectedNotes={props.selectedNotes}
-              pressedNotes={props.pressedNotes}
-              updateSelected={props.updateSelected}
-              mouseDown={props.mouseDown}
-            />
-          ))}
-        </div>
-      </div>
       <div className="keyboard-buttons">
         <div className="button-group touching">
           <button
@@ -140,6 +116,30 @@ export const Keyboard = (props) => {
             <Clear />
             <span className="text">Clear</span>
           </button>
+        </div>
+      </div>
+      <div className="keyboard-keys-wrap">
+        <div className="keyboard-keys">
+          {keyList.map((key, i) => (
+            <Key
+              key={i}
+              index={i}
+              color={key.color}
+              note={key.note}
+              enharmonic={key.enharmonic}
+              label={key.label}
+              enharmoniclabel={key.enharmoniclabel}
+              midi={Note.midi(key.note)}
+              shortcut={key.shortcut}
+              pianoAttack={props.pianoAttack}
+              pianoRelease={props.pianoRelease}
+              pianoAttackRelease={props.pianoAttackRelease}
+              selectedNotes={props.selectedNotes}
+              pressedNotes={props.pressedNotes}
+              updateSelected={props.updateSelected}
+              mouseDown={props.mouseDown}
+            />
+          ))}
         </div>
       </div>
     </div>

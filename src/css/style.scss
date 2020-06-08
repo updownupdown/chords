@@ -210,16 +210,15 @@ button {
   display: flex;
   flex-direction: column;
   width: 100%;
-  // overflow-y: auto;
-
   align-items: center;
   justify-content: center;
-  padding: 20px 20px 40px;
 
   // Center
   &-center {
     width: 100%;
     max-width: $max-layout-width;
+
+    padding: 20px $layout-side-padding 40px;
   }
 
   // Bottom
@@ -229,7 +228,7 @@ button {
 
     width: 100%;
 
-    @media #{$query-max-md} {
+    @media #{$query-max-lg} {
       flex-direction: column;
     }
 
@@ -246,11 +245,11 @@ button {
       flex-direction: column;
       flex: 1;
 
-      @media #{$query-min-md} {
+      @media #{$query-min-lg} {
         margin-left: 40px;
       }
-      @media #{$query-max-md} {
-        margin-top: 40px;
+      @media #{$query-max-lg} {
+        margin-top: 10px;
       }
     }
   }

@@ -11,18 +11,14 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin-top: 10px;
 
-  @media #{$query-min-md} {
-    width: 320px;
-    height: 320px;
-  }
-  @media #{$query-max-md} {
-    width: 280px;
-    height: 280px;
-  }
-  @media #{$query-max-sm} {
-    width: 240px;
-    height: 240px;
+  width: 320px;
+  height: 320px;
+
+  @media (max-width: 400px) {
+    width: 80vw;
+    height: 80vw;
   }
 
   // Related highlight
@@ -192,34 +188,20 @@
 
         &.major {
           height: ($rad-outer - $rad-gap) * 2;
+          font-size: 32px;
         }
         &.minor {
           margin-top: ($rad-gap - $rad-inner) * 2;
           height: ($rad-inner - $rad-center) * 2;
+          font-size: 22px;
         }
 
-        @media #{$query-min-md} {
+        @media (max-width: 400px) {
           &.major {
-            font-size: 32px;
+            font-size: 8vw;
           }
           &.minor {
-            font-size: 22px;
-          }
-        }
-        @media #{$query-max-md} {
-          &.major {
-            font-size: 30px;
-          }
-          &.minor {
-            font-size: 20px;
-          }
-        }
-        @media #{$query-max-sm} {
-          &.major {
-            font-size: 26px;
-          }
-          &.minor {
-            font-size: 16px;
+            font-size: 5vw;
           }
         }
 

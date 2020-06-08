@@ -6,15 +6,42 @@
   flex-direction: column;
   width: 100%;
 
-  // Keyboard Keys
-  .keyboard-keys-wrap {
-    display: block;
+  // Keyboard Buttons
+  .keyboard-buttons {
+    position: relative;
+    z-index: 2;
+    display: flex;
     width: 100%;
-    overflow-x: auto;
-    padding-bottom: 12px; // keep box shadows visible
+
+    margin-bottom: 14px;
 
     @media #{$query-min-lg} {
+      justify-content: flex-end;
+    }
+    @media #{$query-max-lg} {
+      justify-content: center;
+    }
+  }
+
+  // Keyboard Keys
+  .keyboard-keys-wrap {
+    position: relative;
+    z-index: 1;
+    display: block;
+    overflow-x: auto;
+    padding-bottom: 10px; // keep box shadows visible
+
+    @media #{$query-min-lg} {
+      width: 100%;
+      margin-top: -56px;
       padding-top: 56px; // for shortcut helpers
+      margin-bottom: 20px;
+    }
+    @media #{$query-max-lg} {
+      width: calc(100% + #{$layout-side-padding * 2});
+      margin-left: -$layout-side-padding;
+      margin-right: -$layout-side-padding;
+      margin-bottom: 30px;
     }
 
     .keyboard-keys {
@@ -28,14 +55,6 @@
       background: $K100;
       // box-shadow: 1px 2px 4px $K200;
     }
-  }
-
-  // Keyboard Buttons
-  .keyboard-buttons {
-    display: flex;
-    width: 100%;
-    justify-content: flex-end;
-    margin-bottom: 24px;
   }
 }
 

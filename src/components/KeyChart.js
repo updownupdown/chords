@@ -1,5 +1,6 @@
 import React from "react";
 import { Key } from "@tonaljs/tonal";
+import { notesWithIntervals, chordsWithGrades } from "./Utils";
 import Sound from "../icons/sound";
 import Piano from "../icons/piano";
 import Clear from "../icons/clear";
@@ -27,43 +28,9 @@ export const KeyChart = (props) => {
               )}
             </span>
           </div>
-          <div className="detail">
-            <span className="label">Grades</span>
-            <span className="value">
-              {details["grades"] && details["grades"].join(", ")}
-            </span>
-          </div>
-          <div className="detail">
-            <span className="label">Intervals</span>
-            <span className="value">
-              {details["intervals"] && details["intervals"].join(", ")}
-            </span>
-          </div>
-          <div className="detail">
-            <span className="label">Scale</span>
-            <span className="value">
-              {details["scale"] && details["scale"].join(", ")}
-            </span>
-          </div>
-          <div className="detail">
-            <span className="label">Chords</span>
-            <span className="value">
-              <div className="button-group">
-                {details["chords"] &&
-                  details["chords"].map((chord, i) => (
-                    <button
-                      key={i}
-                      className="small theme-chord"
-                      onClick={() => {
-                        props.getChord(chord);
-                      }}
-                    >
-                      {chord}
-                    </button>
-                  ))}
-              </div>
-            </span>
-          </div>
+
+          {notesWithIntervals(details["scale"], details["intervals"])}
+          {chordsWithGrades(details["chords"], details["grades"])}
         </>
       );
     } else if (props.myKey.type === "minor") {
