@@ -5,29 +5,8 @@ import "../css/charts.scss";
 
 export const KeyChart = (props) => {
   function keyInfo() {
-    const minorInfo = [
-      // {
-      //   label: "Tonic",
-      //   info: "tonic",
-      // },
-      // {
-      //   label: "Type",
-      //   info: "type",
-      // },
-      // {
-      //   label: "Key Signature",
-      //   info: "keySignature",
-      // },
-      {
-        label: "Relative Major",
-        info: "relativeMajor",
-      },
-    ];
-
     if (props.myKey.type === "major") {
       const details = Key.majorKey(props.myKey.note);
-
-      // console.log(details);
 
       return (
         <>
@@ -103,6 +82,7 @@ export const KeyChart = (props) => {
               </button>
             )}
           </span>
+          <p>More minor chord info coming soon...</p>
         </div>
       );
     }

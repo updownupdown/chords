@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import classNames from "classnames";
 import { chordNotes } from "./Lists";
 import Related from "../icons/related";
@@ -82,19 +82,42 @@ export const Wheel = (props) => {
 
   const intervalsIncrements = {
     "1P": 0,
+    "1A": -5,
+    //
     "2M": 2,
     "2m": -5,
+    "2d": 0,
+    "2A": -3,
+    //
     "3M": 4,
     "3m": -3,
+    "3d": 2,
+    "3A": -1,
+    //
     "4P": -1,
+    "4d": 4,
+    "4A": 6,
+    //
     "5P": 1,
     "5d": 6,
+    "5A": -4,
+    //
     "6M": 3,
     "6m": -4,
+    "6d": 1,
+    "6A": 5,
+    //
     "7M": 5,
     "7m": -2,
-    "9M": 5,
-    "9m": -5,
+    "7d": 3,
+    "7A": 0,
+    //
+    "8P": 0,
+    "8d": 5,
+    "8A": -5,
+    //
+    // 9 and up repeat 2 and up
+    //
   };
 
   function findPoint(angle) {
@@ -107,7 +130,14 @@ export const Wheel = (props) => {
     return { x: nx, y: ny };
   }
 
+  const firstUpdate = useRef(true);
+
   function drawShape() {
+    if (firstUpdate.current) {
+      firstUpdate.current = false;
+      return;
+    }
+
     const intervals = props.chosenChord.chord.intervals;
     const root = props.chosenChord.chord.notes[0];
     const rootEquiv = chordNotes[root];
@@ -118,11 +148,18 @@ export const Wheel = (props) => {
 
     var positions = [];
     for (var i = 0; i < intervals.length; i++) {
-      const increment = intervalsIncrements[intervals[i]];
+      // simplify large intervals and get increment on CoF
+      var intervalNum = intervals[i].slice(0, -1);
+      const intervalQual = intervals[i].substr(intervals[i].length - 1);
+
+      if (intervalNum > 8) {
+        intervalNum = (intervalNum % 9) + 2;
+      }
+
+      const interval = intervalNum + intervalQual;
+      const increment = intervalsIncrements[interval];
       const pos = (rootPos + increment) % 12;
       positions.push(pos);
-
-      console.log(intervals[i]);
     }
 
     function compare(a, b) {

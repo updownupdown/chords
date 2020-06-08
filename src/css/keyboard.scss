@@ -173,14 +173,14 @@
       background: $note-color;
       color: $white;
 
-      .theme-locked & {
-        background: $locked-color;
-      }
       .theme-key & {
         background: $key-color;
       }
       .theme-chord & {
         background: $chord-color;
+      }
+      .theme-locked & {
+        background: $locked-color;
       }
 
       &:before,

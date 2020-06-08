@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
+import { Interval } from "@tonaljs/tonal";
 import { chordNotes, chordList } from "./Lists";
 import Sound from "../icons/sound";
 import "../css/charts.scss";
@@ -27,9 +28,15 @@ export const ChordChart = (props) => {
     ));
   }
 
-  // useEffect(() => {
-  //   getChord(`${pickNote}${pickChord}`);
-  // }, [pickNote, pickType, pickChord]);
+  const manualChordSelection = useRef(false);
+
+  function selectChord() {
+    if (manualChordSelection.current) {
+      manualChordSelection.current = true;
+    } else {
+      !props.keyboardLocked && props.getChord(`${pickNote}${pickChord}`);
+    }
+  }
 
   return (
     <div className="chart">
@@ -39,6 +46,7 @@ export const ChordChart = (props) => {
             className="chord-note"
             onChange={(e) => {
               setPickNote(e.target.value);
+              selectChord();
             }}
             value={pickNote}
           >
@@ -55,6 +63,7 @@ export const ChordChart = (props) => {
               setPickType(e.target.value);
               setPickTypeIndex(e.target.selectedIndex);
               setPickChord(chordList[e.target.selectedIndex].options[0].value);
+              selectChord();
             }}
             value={pickType}
           >
@@ -69,6 +78,7 @@ export const ChordChart = (props) => {
             className="chord-chord"
             onChange={(e) => {
               setPickChord(e.target.value);
+              selectChord();
             }}
             value={pickChord}
           >
@@ -76,38 +86,32 @@ export const ChordChart = (props) => {
           </select>
         </div>
 
-        <span className="radio-group">
-          <div className="radio-group">
-            <div
-              className={`radio-item ${
-                props.chosenChord.name === pickNote + pickChord && "checked"
-              }`}
-            >
-              <input
-                type="radio"
-                id={`chord-radio-${pickNote}-${pickChord}`}
-                name="chord-radio"
-                value={`${pickNote}${pickChord}`}
-                checked={props.chosenChord.name === pickNote + pickChord}
-                onChange={(e) => {
-                  props.getChord(e.currentTarget.value);
-                }}
-              />
-              <label htmlFor={`chord-radio-${pickNote}-${pickChord}`}>
-                {pickNote}
-                {pickChord}
-              </label>
-            </div>
+        <div className="radio-group">
+          <div
+            className={`radio-item ${
+              props.chosenChord.name === pickNote + pickChord && "checked"
+            }`}
+          >
+            <input
+              type="radio"
+              id={`chord-radio-${pickNote}-${pickChord}`}
+              name="chord-radio"
+              value={`${pickNote}${pickChord}`}
+              checked={props.chosenChord.name === pickNote + pickChord}
+              onChange={(e) => {
+                props.getChord(e.currentTarget.value);
+              }}
+            />
+            <label htmlFor={`chord-radio-${pickNote}-${pickChord}`}>
+              {pickNote}
+              {pickChord}
+            </label>
           </div>
-        </span>
+        </div>
       </div>
       <div className="chart-select chord-predictions">
         <span className="chart-select-label">Predicted chords:</span>
-        <span
-          className={`radio-group ${
-            props.chordDetect.length > 0 ? "not-empty" : "empty"
-          }`}
-        >
+        <div>
           {props.chordDetect.length > 0 ? (
             <div className="radio-group">
               {props.chordDetect.map((chord, i) => (
@@ -138,7 +142,7 @@ export const ChordChart = (props) => {
               Select notes to detect chords.
             </span>
           )}
-        </span>
+        </div>
       </div>
 
       <div className="chart-title">
@@ -230,26 +234,52 @@ function intervalName(interval) {
 }
 
 function chordInfo(chord) {
+  var notes = [];
+
+  if (chord["notes"].length === chord["intervals"].length) {
+    for (var i = 0; i < chord["notes"].length; i++) {
+      const note = chord["notes"][i];
+      const intRoot = chord["intervals"][i];
+      const intRelative =
+        i === chord["notes"].length
+          ? ""
+          : Interval.distance(chord["notes"][i], chord["notes"][i + 1]);
+
+      notes.push({
+        note: note,
+        intRoot: intRoot,
+        intRelative: intRelative,
+      });
+    }
+  }
+
   return (
     <div className="chord-details">
+      <span className="chord-notes">
+        {notes.map((note, i) => (
+          <span key={i} className="pair">
+            <div className="note-root">
+              <span
+                className="root-interval"
+                title={intervalName(note.intRoot)}
+              >
+                {note.intRoot}
+              </span>
+              <span className="note">{note.note}</span>
+            </div>
+            <span
+              className="relative-interval"
+              title={intervalName(note.intRelative)}
+            >
+              {note.intRelative}
+            </span>
+          </span>
+        ))}
+      </span>
       <div className="chord-name">
         <span className="name">{chord.name}</span>
         <span className="aliases">Aliases: {chord["aliases"].join(", ")}</span>
       </div>
-      <span className="chord-notes">
-        {chord["notes"].length === chord["intervals"].length &&
-          chord["notes"].map((note, i) => (
-            <span key={i} className="pair">
-              <span
-                className="interval"
-                title={intervalName(chord["intervals"][i])}
-              >
-                {chord["intervals"][i]}
-              </span>
-              <span className="note">{note}</span>
-            </span>
-          ))}
-      </span>
     </div>
   );
 }

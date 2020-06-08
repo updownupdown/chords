@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import classNames from "classnames";
 import { Note } from "@tonaljs/tonal";
 import { keyShortcuts, keyList } from "./Lists";
 import { Key } from "./Key";
@@ -78,9 +79,10 @@ export const Keyboard = (props) => {
 
   return (
     <div
-      className={`keyboard theme-${props.selNotesType} ${
-        props.keyboardLocked && "theme-locked"
-      }`}
+      className={classNames("keyboard", {
+        [`theme-${props.selNotesType}`]: true,
+        "theme-locked": props.keyboardLocked,
+      })}
     >
       <div className="keyboard-keys-wrap">
         <div className="keyboard-keys">
