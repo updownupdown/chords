@@ -9,7 +9,7 @@ const Sound = ({ className = "" }) => (
     className={`svg-icon sharp ${className || ""}`}
     xmlns="http://www.w3.org/2000/svg"
   >
-    <g id="sound">
+    <g>
       <path
         fillRule="evenodd"
         clipRule="evenodd"

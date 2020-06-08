@@ -9,7 +9,7 @@ const Locked = ({ className = "" }) => (
     className={`svg-icon ${className || ""}`}
     xmlns="http://www.w3.org/2000/svg"
   >
-    <g id="locked">
+    <g>
       <path
         fillRule="evenodd"
         clipRule="evenodd"

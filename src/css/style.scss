@@ -216,29 +216,13 @@ button {
   justify-content: center;
   padding: 20px 20px 40px;
 
-  &-center {
+  // Top
+  &-top {
     width: 100%;
     max-width: $max-layout-width;
   }
 
-  &-bottom {
-    display: flex;
-  }
-
-  &-charts {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-
-    @media #{$query-min-md} {
-      margin-left: 40px;
-    }
-    @media #{$query-max-md} {
-      margin-top: 40px;
-    }
-  }
-
-  // Wheel and Charts
+  // Bottom
   &-bottom {
     display: flex;
     justify-content: center;
@@ -247,6 +231,27 @@ button {
 
     @media #{$query-max-md} {
       flex-direction: column;
+    }
+
+    // Wheel/Staff
+    &-left {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    // Charts
+    &-right {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+
+      @media #{$query-min-md} {
+        margin-left: 40px;
+      }
+      @media #{$query-max-md} {
+        margin-top: 40px;
+      }
     }
   }
 }

@@ -347,9 +347,7 @@ function Layout() {
             <span></span>
           </div>
         </div> */}
-        <div className="layout-center">
-          <Staff selectedNotes={selectedNotes} myKey={myKey} />
-
+        <div className="layout-top">
           <Keyboard
             keyboardLocked={keyboardLocked}
             setKeyboardLocked={setKeyboardLocked}
@@ -370,14 +368,17 @@ function Layout() {
           />
 
           <div className="layout-bottom">
-            <Wheel
-              playScale={playScale}
-              findKey={findKey}
-              myKey={myKey}
-              autoplaying={autoplaying}
-              chosenChord={chosenChord}
-            />
-            <div className="layout-charts">
+            <div className="layout-bottom-left">
+              <Wheel
+                playScale={playScale}
+                findKey={findKey}
+                myKey={myKey}
+                autoplaying={autoplaying}
+                chosenChord={chosenChord}
+              />
+              <Staff selectedNotes={selectedNotes} myKey={myKey} />
+            </div>
+            <div className="layout-bottom-right">
               <KeyChart
                 keyboardLocked={keyboardLocked}
                 autoplaying={autoplaying}

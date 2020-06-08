@@ -11,8 +11,11 @@
     display: block;
     width: 100%;
     overflow-x: auto;
-    padding-top: 80px; // for shortcut helpers
     padding-bottom: 12px; // keep box shadows visible
+
+    @media #{$query-min-lg} {
+      padding-top: 80px; // for shortcut helpers
+    }
 
     .keyboard-keys {
       min-width: $key-white-width * 7 * 3;
@@ -205,6 +208,10 @@
     display: flex;
     align-items: flex-start;
     justify-content: center;
+
+    @media #{$query-max-lg} {
+      display: none;
+    }
 
     .key-white & {
       height: 36px;

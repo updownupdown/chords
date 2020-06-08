@@ -18,12 +18,12 @@ export const Menu = (props) => {
             >
               About
             </button>
-            <button className="outline" disabled>
+            {/* <button className="outline" disabled>
               Help
             </button>
             <button className="outline" disabled>
               Settings
-            </button>
+            </button> */}
           </div>
         </div>
       </div>

@@ -32,33 +32,6 @@ export const Staff = (props) => {
 
   return (
     <div className="staffs">
-      <div className="staff staff-bass">
-        <div className="clef clef-bass">
-          <Bass />
-        </div>
-        <div className="lines">
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-        <div className="notes bass">
-          {props.selectedNotes.map((note) => (
-            <span
-              key={note}
-              className={`note bass note-${note
-                .replace("#", "")
-                .replace("b", "")} note-${note.replace("#", "s")}`}
-            >
-              {note.includes("b") && <Flat />}
-              {note.includes("#") && <Sharp />}
-              <Whole />
-            </span>
-          ))}
-        </div>
-        <div className="signature bass">{signature && sigList(signature)}</div>
-      </div>
       <div className="staff staff-treble">
         <div className="clef clef-treble">
           <Treble />
@@ -87,6 +60,33 @@ export const Staff = (props) => {
         <div className="signature treble">
           {signature && sigList(signature)}
         </div>
+      </div>
+      <div className="staff staff-bass">
+        <div className="clef clef-bass">
+          <Bass />
+        </div>
+        <div className="lines">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <div className="notes bass">
+          {props.selectedNotes.map((note) => (
+            <span
+              key={note}
+              className={`note bass note-${note
+                .replace("#", "")
+                .replace("b", "")} note-${note.replace("#", "s")}`}
+            >
+              {note.includes("b") && <Flat />}
+              {note.includes("#") && <Sharp />}
+              <Whole />
+            </span>
+          ))}
+        </div>
+        <div className="signature bass">{signature && sigList(signature)}</div>
       </div>
     </div>
   );
