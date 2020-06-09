@@ -53,7 +53,7 @@ function Layout() {
         release: 1.2,
         baseUrl: window.location.hostname.includes("localhost")
           ? process.env.PUBLIC_URL + "/samples/"
-          : "https://www.jamescarmichael.ca/chords/samples/",
+          : "https://updownupdown.github.io/chords/samples/",
         onload: () => {
           setsynthLoaded(true);
         },
