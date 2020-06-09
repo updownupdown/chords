@@ -142,7 +142,7 @@ export const ChordChart = (props) => {
             disabled={
               props.autoplaying ||
               props.keyboardLocked ||
-              props.selNotesType === "chord" ||
+              props.notesSelected.type === "chord" ||
               Object.keys(props.chosenChord.chord).length === 0
             }
           >

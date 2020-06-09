@@ -82,7 +82,7 @@ export const Keyboard = (props) => {
   return (
     <div
       className={classNames("keyboard", {
-        [`theme-${props.selNotesType}`]: true,
+        [`theme-${props.notesSelected.type}`]: true,
         "theme-locked": props.keyboardLocked,
         "show-shortcuts": showShortcuts,
       })}
@@ -114,7 +114,9 @@ export const Keyboard = (props) => {
             onClick={() => {
               props.playSelectedKeys();
             }}
-            disabled={props.keyboardLocked || props.selectedNotes.length === 0}
+            disabled={
+              props.keyboardLocked || props.notesSelected.notes.length === 0
+            }
           >
             <Sound />
             <span className="text">Play</span>
@@ -124,7 +126,9 @@ export const Keyboard = (props) => {
             onClick={() => {
               props.clearSelected();
             }}
-            disabled={props.keyboardLocked || props.selectedNotes.length === 0}
+            disabled={
+              props.keyboardLocked || props.notesSelected.notes.length === 0
+            }
           >
             <Clear />
             <span className="text">Clear</span>
@@ -144,10 +148,8 @@ export const Keyboard = (props) => {
               enharmoniclabel={key.enharmoniclabel}
               midi={Note.midi(key.note)}
               shortcut={key.shortcut}
-              pianoAttack={props.pianoAttack}
-              pianoRelease={props.pianoRelease}
-              pianoAttackRelease={props.pianoAttackRelease}
-              selectedNotes={props.selectedNotes}
+              playPiano={props.playPiano}
+              notesSelected={props.notesSelected}
               pressedNotes={props.pressedNotes}
               updateSelected={props.updateSelected}
               mouseDown={props.mouseDown}

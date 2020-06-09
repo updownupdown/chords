@@ -34,7 +34,7 @@ export const Staff = (props) => {
   return (
     <div
       className={classNames("staffs", {
-        [`theme-${props.selNotesType}`]: true,
+        [`theme-${props.notesSelected.type}`]: true,
       })}
     >
       <div className="staffs-braces">
@@ -52,7 +52,7 @@ export const Staff = (props) => {
           <span></span>
         </div>
         <div className="notes treble">
-          {props.selectedNotes.map((note) => (
+          {props.notesSelected.notes.map((note) => (
             <span
               key={note}
               className={`note treble note-${note
@@ -81,7 +81,7 @@ export const Staff = (props) => {
           <span></span>
         </div>
         <div className="notes bass">
-          {props.selectedNotes.map((note) => (
+          {props.notesSelected.notes.map((note) => (
             <span
               key={note}
               className={`note bass note-${note

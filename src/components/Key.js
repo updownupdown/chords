@@ -6,8 +6,8 @@ export const Key = (props) => {
     <button
       className={classNames(`key key-${props.color}`, {
         active:
-          props.selectedNotes.includes(props.note) ||
-          props.selectedNotes.includes(props.enharmonic),
+          props.notesSelected.notes.includes(props.note) ||
+          props.notesSelected.notes.includes(props.enharmonic),
         pressed:
           props.pressedNotes.includes(props.note) ||
           props.pressedNotes.includes(props.enharmonic),
@@ -16,18 +16,18 @@ export const Key = (props) => {
       data-note={props.note}
       data-shortcut={props.shortcut}
       onMouseDown={() => {
-        props.pianoAttack(props.note);
+        props.playPiano(props.note, "attack");
         props.updateSelected(props.index);
       }}
       onMouseUp={() => {
-        props.pianoRelease(props.note);
+        props.playPiano(props.note, "release");
       }}
       onMouseLeave={() => {
-        props.pianoRelease(props.note);
+        props.playPiano(props.note, "release");
       }}
       onMouseEnter={(e) => {
         if (props.mouseDown) {
-          props.pianoAttackRelease(props.note, "8n");
+          props.playPiano(props.note, "attackrelease");
         }
       }}
     >
@@ -41,7 +41,7 @@ export const Key = (props) => {
       <span className="key-labels">
         <span
           className={classNames(`key-label`, {
-            active: props.selectedNotes.includes(props.note),
+            active: props.notesSelected.notes.includes(props.note),
             flat: props.note.includes("b"),
             sharp: props.note.includes("#"),
           })}
@@ -52,7 +52,7 @@ export const Key = (props) => {
         {props.enharmonic && (
           <span
             className={classNames(`key-label`, {
-              active: props.selectedNotes.includes(props.enharmonic),
+              active: props.notesSelected.notes.includes(props.enharmonic),
               flat: props.enharmonic.includes("b"),
               sharp: props.enharmonic.includes("#"),
             })}

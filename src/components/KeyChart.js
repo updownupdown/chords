@@ -83,7 +83,7 @@ export const KeyChart = (props) => {
             disabled={
               props.autoplaying ||
               props.keyboardLocked ||
-              props.selNotesType === "key" ||
+              props.notesSelected.type === "key" ||
               Object.keys(props.myKey.key).length === 0
             }
           >
