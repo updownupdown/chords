@@ -68,6 +68,7 @@ function Layout() {
   }
 
   function selectChord(chord, name) {
+    // hack to unselect chord
     if (chord.empty) {
       setChosenChord({ chord: {}, name: "" });
 
@@ -77,6 +78,7 @@ function Layout() {
 
       return;
     }
+
     setChosenChord({ chord: chord, name: name });
 
     !keyboardLocked && selectChordNotes(chord);
@@ -371,60 +373,60 @@ function Layout() {
         </div> */}
         <div className="layout-center">
           <Keyboard
-            keyboardLocked={keyboardLocked}
-            setKeyboardLocked={setKeyboardLocked}
+            autoplaying={autoplaying}
+            mouseDown={mouseDown}
+            selectedNotes={selectedNotes}
+            selNotesType={selNotesType}
             pianoAttack={pianoAttack}
             pianoRelease={pianoRelease}
             pianoAttackRelease={pianoAttackRelease}
-            mouseDown={mouseDown}
-            pressedNotes={pressedNotes}
-            setPressedNotes={setPressedNotes}
             pressNote={pressNote}
             unpressNote={unpressNote}
-            selectedNotes={selectedNotes}
             updateSelected={updateSelected}
             clearSelected={clearSelected}
             playSelectedKeys={playSelectedKeys}
-            autoplaying={autoplaying}
-            selNotesType={selNotesType}
+            keyboardLocked={keyboardLocked}
+            setKeyboardLocked={setKeyboardLocked}
+            pressedNotes={pressedNotes}
+            setPressedNotes={setPressedNotes}
           />
 
           <div className="layout-bottom">
             <div className="layout-bottom-left">
               <Wheel
-                playScale={playScale}
-                findKey={findKey}
-                myKey={myKey}
                 autoplaying={autoplaying}
                 chosenChord={chosenChord}
+                myKey={myKey}
+                findKey={findKey}
+                playScale={playScale}
               />
               <Staff
+                myKey={myKey}
                 selectedNotes={selectedNotes}
                 selNotesType={selNotesType}
-                myKey={myKey}
               />
             </div>
             <div className="layout-bottom-right">
               <KeyChart
                 keyboardLocked={keyboardLocked}
                 autoplaying={autoplaying}
+                myKey={myKey}
+                selNotesType={selNotesType}
                 selectNotesFromKey={selectNotesFromKey}
                 getChord={getChord}
-                playScale={playScale}
-                myKey={myKey}
                 findKey={findKey}
-                selNotesType={selNotesType}
+                playScale={playScale}
               />
               <ChordChart
                 keyboardLocked={keyboardLocked}
                 autoplaying={autoplaying}
-                selectNotesFromKey={selectNotesFromKey}
-                selNotesType={selNotesType}
                 chosenChord={chosenChord}
+                selNotesType={selNotesType}
+                selectNotesFromKey={selectNotesFromKey}
                 getChord={getChord}
+                selectChordNotes={selectChordNotes}
                 chordDetect={chordDetect}
                 playChord={playChord}
-                selectChordNotes={selectChordNotes}
               />
             </div>
           </div>
