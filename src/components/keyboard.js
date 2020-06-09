@@ -11,11 +11,18 @@ import "../css/keyboard.scss";
 
 export const Keyboard = (props) => {
   const [keyDown, setKeyDown] = useState(false);
+  const [mouseDown, setMouseDown] = useState(false);
   const [showShortcuts, setShowShortcuts] = useState(false);
+
+  // Handle mouse down state
+  function setLeftButtonState(e) {
+    setMouseDown(e.buttons === undefined ? e.which === 1 : e.buttons === 1);
+  }
+  document.body.onmousedown = setLeftButtonState;
+  document.body.onmouseup = setLeftButtonState;
 
   // Key Down
   document.body.onkeydown = function (e) {
-    console.log(e.key);
     switch (e.key) {
       // Prevent repeat key presses
       case keyDown:
@@ -26,36 +33,24 @@ export const Keyboard = (props) => {
         break;
       // Delete key = Unselect keys
       case "Delete":
-        props.clearSelected();
+        props.setNotesSelected({ notes: [], type: "notes" });
         break;
       // Enter key = play selected
       case "Enter":
-        props.playSelectedKeys();
-        break;
-      // If key already pressed + now pressing spacebar, toggle that key
-      case " ":
-        if (keyDown) {
-          for (var i = 0; i < keyList.length; i++) {
-            if (keyDown === keyList[i].shortcut) {
-              props.updateSelected(i);
-              break;
-            }
-          }
-        }
+        props.playNotes();
         break;
       default:
         // Don't both with irrelevant keys
-        if (!(e.key in keyShortcuts) && e.key !== " ") return;
+        if (!(e.key in keyShortcuts)) return;
 
         if (e.key in keyShortcuts) {
-          props.pianoAttack(keyShortcuts[e.key]);
-          props.pressNote(keyShortcuts[e.key]);
+          props.playPiano(keyShortcuts[e.key], "attack");
+          props.pressNote(keyShortcuts[e.key], "on");
         }
         break;
     }
 
-    // Ommit space key for key+space selection
-    if (e.key !== " ") setKeyDown(e.key);
+    setKeyDown(true);
     return;
   };
 
@@ -67,15 +62,12 @@ export const Keyboard = (props) => {
         props.setKeyboardLocked(!props.keyboardLocked);
         break;
       default:
-        if (e.key in keyShortcuts) {
-          props.pianoRelease(keyShortcuts[e.key]);
-          props.unpressNote(keyShortcuts[e.key]);
-        }
+        props.playPiano(keyShortcuts[e.key], "release");
+        props.pressNote(keyShortcuts[e.key], "off");
         break;
     }
 
-    // Ommit space key for key+space selection
-    if (e.key !== " ") setKeyDown(false);
+    setKeyDown(false);
     return;
   };
 
@@ -112,7 +104,7 @@ export const Keyboard = (props) => {
           <button
             className="play outline"
             onClick={() => {
-              props.playSelectedKeys();
+              props.playNotes();
             }}
             disabled={
               props.keyboardLocked || props.notesSelected.notes.length === 0
@@ -124,7 +116,7 @@ export const Keyboard = (props) => {
           <button
             className="outline"
             onClick={() => {
-              props.clearSelected();
+              props.setNotesSelected({ notes: [], type: "notes" });
             }}
             disabled={
               props.keyboardLocked || props.notesSelected.notes.length === 0
@@ -152,7 +144,7 @@ export const Keyboard = (props) => {
               notesSelected={props.notesSelected}
               pressedNotes={props.pressedNotes}
               updateSelected={props.updateSelected}
-              mouseDown={props.mouseDown}
+              mouseDown={mouseDown}
             />
           ))}
         </div>

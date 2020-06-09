@@ -135,8 +135,8 @@ export const ChordChart = (props) => {
           <button
             className="outline theme-chord"
             onClick={() => {
-              if (Object.keys(props.chosenChord.chord).length !== 0) {
-                props.selectChordNotes(props.chosenChord.chord);
+              if (props.chosenChord.chord.length !== 0) {
+                props.selectNotesFromChord(props.chosenChord.chord.notes);
               }
             }}
             disabled={
