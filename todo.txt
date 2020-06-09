@@ -73,7 +73,15 @@ Low Priority
 -------------------------
 Very Low Priority
 
-- chord progression
+- chord progression, chord inversions
+
+(C has same pattern... could suggest progressions and play them; minor key might have different progressions)
+Common chord progressions in the key of D major are as follows:
+
+I – IV – V (D – G- A)
+I – vi – IV – V (D – Bm – G – A)
+ii – V – I (Em7 – A7 – Dmaj7)
+
 - guitar tabs
 - quizzes to learn notes on staff, chords, keys, etc.
 - app to record key strokes, edit staff and add notes and auto play, export/import to save/load compositions

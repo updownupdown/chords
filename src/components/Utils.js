@@ -1,55 +1,6 @@
 import React from "react";
 import { Interval } from "@tonaljs/tonal";
 
-const gradesMajor = {
-  I: "I",
-  II: "ii",
-  III: "iii",
-  IV: "IV",
-  V: "V",
-  VI: "vi",
-  VII: "vii°",
-};
-
-// const gradesMinorNatural = {
-//   I: "I",
-//   II: "ii",
-//   III: "iii",
-//   IV: "IV",
-//   V: "V",
-//   VI: "vi",
-//   VII: "vii°",
-// };
-
-// 1st: Major triad (I)
-// 2nd: minor triad (ii)
-// 3rd: minor triad (iii)
-// 4th: Major triad (IV)
-// 5th: Major triad (V)
-// 6th: minor triad (vi)
-// 7th: diminished triad (viio)
-
-export function chordsWithGrades(chords, grades) {
-  return (
-    <span className="chords-with-grades">
-      {chords.map((chord, i) => (
-        <div key={i} className="pair">
-          <span className="grade">{gradesMajor[grades[i]]}</span>
-          <button
-            className="small theme-chord"
-            onClick={() => {
-              console.log("need to export getChord in layout");
-              // props.getChord(chord);
-            }}
-          >
-            {chord}
-          </button>
-        </div>
-      ))}
-    </span>
-  );
-}
-
 const intQuality = {
   P: "Perfect",
   M: "Major",

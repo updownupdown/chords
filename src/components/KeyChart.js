@@ -1,15 +1,69 @@
 import React from "react";
 import { Key } from "@tonaljs/tonal";
-import { notesWithIntervals, chordsWithGrades } from "./Utils";
+import { notesWithIntervals } from "./Utils";
 import Sound from "../icons/sound";
 import Piano from "../icons/piano";
 import Clear from "../icons/clear";
 import "../css/charts.scss";
 
 export const KeyChart = (props) => {
+  const gradesMajor = {
+    I: "I",
+    II: "ii",
+    III: "iii",
+    IV: "IV",
+    V: "V",
+    VI: "vi",
+    VII: "vii°",
+  };
+
+  // const gradesMinorNatural = {
+  //   I: "I",
+  //   II: "ii",
+  //   III: "iii",
+  //   IV: "IV",
+  //   V: "V",
+  //   VI: "vi",
+  //   VII: "vii°",
+  // };
+
+  // 1st: Major triad (I)
+  // 2nd: minor triad (ii)
+  // 3rd: minor triad (iii)
+  // 4th: Major triad (IV)
+  // 5th: Major triad (V)
+  // 6th: minor triad (vi)
+  // 7th: diminished triad (viio)
+
+  // Chords with grades
+  function chordsWithGrades(chords, grades, harmonicFunction) {
+    return (
+      <span className="chords-with-grades">
+        {chords.map((chord, i) => (
+          <div key={i} className="pair">
+            <span className="harmonic-function">({harmonicFunction[i]})</span>
+            <span className="grade">{gradesMajor[grades[i]]}</span>
+            <button
+              className="small theme-chord"
+              onClick={() => {
+                // console.log("need to export getChord in layout");
+                props.getChord(chord);
+              }}
+            >
+              {chord}
+            </button>
+          </div>
+        ))}
+      </span>
+    );
+  }
+
+  // Key info
   function keyInfo() {
     if (props.myKey.type === "major") {
       const details = Key.majorKey(props.myKey.note);
+
+      console.log(details);
 
       return (
         <>
@@ -30,7 +84,11 @@ export const KeyChart = (props) => {
           </div>
 
           {notesWithIntervals(details["scale"], details["intervals"])}
-          {chordsWithGrades(details["chords"], details["grades"])}
+          {chordsWithGrades(
+            details["chords"],
+            details["grades"],
+            details["chordsHarmonicFunction"]
+          )}
         </>
       );
     } else if (props.myKey.type === "minor") {

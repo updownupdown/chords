@@ -108,6 +108,9 @@
         }
       }
     }
+    &.theme-key .wheel-lines {
+      display: none;
+    }
 
     // Backgrounds
     &-background {

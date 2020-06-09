@@ -4,15 +4,14 @@ import { Chord, Note, Key } from "@tonaljs/tonal";
 import * as ChordDetect from "@tonaljs/chord-detect";
 import { Wheel } from "./Wheel";
 import { KeyChart } from "./KeyChart";
-import { Keyboard } from "./Keyboard";
+import { Piano } from "./Piano";
 import { ChordChart } from "./ChordChart";
 import { Menu } from "./Menu";
 import { Staff } from "./Staff";
 import { keyList } from "./Lists";
 
-// Keyboard
 function Layout() {
-  const [pianoLoaded, setPianoLoaded] = useState(false);
+  const [synthLoaded, setsynthLoaded] = useState(false);
 
   const [notesSelected, setNotesSelected] = useState({
     notes: [],
@@ -22,11 +21,7 @@ function Layout() {
   const [pressedNotes, setPressedNotes] = useState([]);
   const [chordDetect, setChordDetect] = useState("");
   const [myKey, setMyKey] = useState({ key: {}, note: "", type: "" });
-  const [chosenChord, setChosenChord] = useState({
-    chord: {},
-    name: "",
-    notes: [],
-  });
+  const [chosenChord, setChosenChord] = useState({ chord: {}, name: "" });
 
   const [autoplaying, setAutoplaying] = useState(false);
   const [keyboardLocked, setKeyboardLocked] = useState(false);
@@ -35,10 +30,10 @@ function Layout() {
   const autoplayDelay = 0.3;
   const autoplayLength = "8n";
 
-  const piano = useRef(null);
+  const synth = useRef(null);
 
   useEffect(() => {
-    piano.current = new Sampler(
+    synth.current = new Sampler(
       {
         C3: "C3v8.mp3",
         C4: "C4v8.mp3",
@@ -60,11 +55,11 @@ function Layout() {
           ? process.env.PUBLIC_URL + "/samples/"
           : "https://www.jamescarmichael.ca/chords/samples/",
         onload: () => {
-          setPianoLoaded(true);
+          setsynthLoaded(true);
         },
       }
     ).toDestination();
-    // piano.current.volume.value = -5;
+    // synth.current.volume.value = -5;
     // Tone.context.resume();
   }, []);
 
@@ -83,7 +78,7 @@ function Layout() {
       return;
     }
 
-    setChosenChord({ chord: chord, name: name, notes: chord.notes });
+    setChosenChord({ chord: chord, name: name });
 
     selectNotesFromChord(chord.notes);
   }
@@ -102,29 +97,29 @@ function Layout() {
 
   // Play playlist
   function playPlaylist(playlist, pressStyle) {
-    if (!pianoLoaded) return;
+    if (!synthLoaded) return;
 
     new Part(function (time, note) {
-      piano.current.triggerAttackRelease(note.note, note.duration, time);
+      synth.current.triggerAttackRelease(note.note, note.duration, time);
     }, playlist).start();
     Transport.start();
 
     highlightKeys(playlist, pressStyle);
   }
 
-  // Play piano
+  // Play synth
   function playPiano(note, action, duration = "8n") {
-    if (!pianoLoaded) return;
+    if (!synthLoaded) return;
 
     switch (action) {
       case "attack":
-        piano.current.triggerAttack(note);
+        synth.current.triggerAttack(note);
         break;
       case "release":
-        piano.current.triggerRelease(note);
+        synth.current.triggerRelease(note);
         break;
       case "attackrelease":
-        piano.current.triggerAttackRelease(note, duration);
+        synth.current.triggerAttackRelease(note, duration);
       default:
         break;
     }
@@ -376,7 +371,7 @@ function Layout() {
     <>
       <Menu />
       <div className="layout">
-        {/* <div className={`loader ${pianoLoaded ? "loaded" : "loading"}`}>
+        {/* <div className={`loader ${synthLoaded ? "loaded" : "loading"}`}>
           <div className="loading">
             <span></span>
             <span></span>
@@ -384,7 +379,7 @@ function Layout() {
           </div>
         </div> */}
         <div className="layout-center">
-          <Keyboard
+          <Piano
             autoplaying={autoplaying}
             notesSelected={notesSelected}
             setNotesSelected={setNotesSelected}
@@ -405,6 +400,7 @@ function Layout() {
                 chosenChord={chosenChord}
                 myKey={myKey}
                 findKey={findKey}
+                notesSelected={notesSelected}
               />
               <Staff myKey={myKey} notesSelected={notesSelected} />
             </div>
@@ -416,6 +412,7 @@ function Layout() {
                 notesSelected={notesSelected}
                 selectNotesFromKey={selectNotesFromKey}
                 findKey={findKey}
+                getChord={getChord}
                 playScale={playScale}
               />
               <ChordChart

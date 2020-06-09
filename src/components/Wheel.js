@@ -197,7 +197,11 @@ export const Wheel = (props) => {
 
   return (
     <div className="wheel-wrap">
-      <div className="wheel">
+      <div
+        className={classNames("wheel", {
+          [`theme-${props.notesSelected.type}`]: true,
+        })}
+      >
         <div className="wheel-background">
           <div className="outer"></div>
           <div className="gap"></div>
