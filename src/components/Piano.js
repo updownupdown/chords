@@ -4,15 +4,19 @@ import { Note } from "@tonaljs/tonal";
 import { keyList } from "./Lists";
 import { Key } from "./Key";
 import Sound from "../icons/sound";
+import Mute from "../icons/mute";
 import Locked from "../icons/locked";
 import Unlocked from "../icons/unlocked";
 import Clear from "../icons/clear";
-import "../css/keyboard.scss";
+import "../css/piano.scss";
 
 export const Piano = (props) => {
   const [keyDown, setKeyDown] = useState(false);
   const [mouseDown, setMouseDown] = useState(false);
   const [showShortcuts, setShowShortcuts] = useState(false);
+
+  const minVolume = -20;
+  const maxVolume = 0;
 
   // Handle mouse down state
   function setLeftButtonState(e) {
@@ -23,35 +27,37 @@ export const Piano = (props) => {
 
   // Key Down
   document.body.onkeydown = function (e) {
+    // Prevent repeat key presses
+    if (keyDown) return;
+
     switch (e.key) {
-      // Prevent repeat key presses
-      case keyDown:
-        return;
       // Shift key temporarily (un)locks keyboard
       case "Shift":
-        props.setKeyboardLocked(!props.keyboardLocked);
+        props.setPianoLocked(!props.pianoLocked);
+        break;
+      // Change key locked
+      case "CapsLock":
+        props.setPianoLocked(!props.pianoLocked);
         break;
       // Delete key = Unselect keys
       case "Delete":
-        props.setNotesSelected({ notes: [], type: "notes" });
+        !props.pianoLocked &&
+          props.setNotesSelected({ notes: [], type: "notes" });
         break;
       // Enter key = play selected
       case "Enter":
         props.playNotes();
         break;
       default:
-        // Don't both with irrelevant keys
-        if (!(e.key in keyShortcuts)) return;
-
-        if (e.key in keyShortcuts) {
-          props.playPiano(keyShortcuts[e.key], "attack");
-          props.pressNote(keyShortcuts[e.key], "on");
+        // Play keys if it's a shortcut
+        if (e.key.toLowerCase() in keyShortcuts) {
+          props.playPiano(keyShortcuts[e.key.toLowerCase()], "attack");
+          props.pressNote(keyShortcuts[e.key.toLowerCase()], "on");
         }
         break;
     }
 
     setKeyDown(true);
-    return;
   };
 
   // Key Up
@@ -59,29 +65,28 @@ export const Piano = (props) => {
     switch (e.key) {
       // Shift key temporarily (un)locks keyboard
       case "Shift":
-        props.setKeyboardLocked(!props.keyboardLocked);
+        props.setPianoLocked(!props.pianoLocked);
         break;
       default:
-        props.playPiano(keyShortcuts[e.key], "release");
-        props.pressNote(keyShortcuts[e.key], "off");
+        props.playPiano(keyShortcuts[e.key.toLowerCase()], "release");
+        props.pressNote(keyShortcuts[e.key.toLowerCase()], "off");
         break;
     }
 
     setKeyDown(false);
-    return;
   };
 
   return (
     <div
-      className={classNames("keyboard", {
+      className={classNames("piano", {
         [`theme-${props.notesSelected.type}`]: true,
-        "theme-locked": props.keyboardLocked,
+        "theme-locked": props.pianoLocked,
         "show-shortcuts": showShortcuts,
       })}
     >
       {!showShortcuts && (
         <button
-          className="outline view-keyboard-shortcuts"
+          className="outline view-piano-shortcuts"
           onClick={() => {
             setShowShortcuts(true);
           }}
@@ -89,25 +94,51 @@ export const Piano = (props) => {
           View Keyboard Shortcuts
         </button>
       )}
-      <div className="keyboard-buttons">
-        <button
-          className={`outline ${props.keyboardLocked && "theme-locked"}`}
-          onClick={() => {
-            props.setKeyboardLocked(!props.keyboardLocked);
-          }}
+      <div className="piano-buttons">
+        <div
+          className={classNames("piano-volume", {
+            mute: props.mute,
+          })}
         >
-          {props.keyboardLocked ? <Locked /> : <Unlocked />}
+          <button
+            className="outline"
+            onClick={() => {
+              props.setMute(!props.mute);
+            }}
+          >
+            {props.mute ? <Mute /> : <Sound />}
+          </button>
+          <input
+            type="range"
+            min={minVolume}
+            max={maxVolume}
+            className="piano-volume-slider"
+            value={props.volume}
+            onChange={(e) => {
+              props.setMute(false);
+              props.setVolume(e.target.value);
+            }}
+          />
+        </div>
 
-          <span className="text">Lock</span>
-        </button>
         <div className="button-group touching">
+          <button
+            className={`outline ${props.pianoLocked && "theme-locked"}`}
+            onClick={() => {
+              props.setPianoLocked(!props.pianoLocked);
+            }}
+          >
+            {props.pianoLocked ? <Locked /> : <Unlocked />}
+
+            <span className="text">Lock</span>
+          </button>
           <button
             className="play outline"
             onClick={() => {
               props.playNotes();
             }}
             disabled={
-              props.keyboardLocked || props.notesSelected.notes.length === 0
+              props.pianoLocked || props.notesSelected.notes.length === 0
             }
           >
             <Sound />
@@ -119,16 +150,15 @@ export const Piano = (props) => {
               props.setNotesSelected({ notes: [], type: "notes" });
             }}
             disabled={
-              props.keyboardLocked || props.notesSelected.notes.length === 0
+              props.pianoLocked || props.notesSelected.notes.length === 0
             }
           >
             <Clear />
-            <span className="text">Clear</span>
           </button>
         </div>
       </div>
-      <div className="keyboard-keys-wrap">
-        <div className="keyboard-keys">
+      <div className="piano-keys-wrap">
+        <div className="piano-keys">
           {keyList.map((key, i) => (
             <Key
               key={i}

@@ -1,6 +1,5 @@
 import React, { useState, useRef } from "react";
 import classNames from "classnames";
-import Related from "../icons/related";
 import TopIndicator from "../icons/topindicator";
 import RotateCW from "../icons/rotate-cw";
 import RotateCCW from "../icons/rotate-ccw";
@@ -138,8 +137,8 @@ export const Wheel = (props) => {
       return;
     }
 
-    const intervals = props.chosenChord.chord.intervals;
-    const root = props.chosenChord.chord.notes[0];
+    const intervals = props.myChord.chord.intervals;
+    const root = props.myChord.chord.notes[0];
     const rootEquiv = wheelEquivalents[root];
     const rootPos = notesCircle.indexOf(rootEquiv);
     const dotRad = 6;
@@ -209,9 +208,6 @@ export const Wheel = (props) => {
           <div className="center"></div>
         </div>
 
-        <div className="wheel-related">
-          <Related />
-        </div>
         <div
           className="wheel-rotate"
           style={{ transform: `rotate(${rotateDeg}deg)` }}
@@ -220,59 +216,34 @@ export const Wheel = (props) => {
             <TopIndicator />
           </div>
           <div className="wheel-lines">
-            <svg
-              className="wheel-lines-svg"
-              height="320"
-              width="320"
-              viewBox="0 0 320 320"
-            >
-              {props.chosenChord.chord.notes !== undefined && drawShape()}
-            </svg>
+            {props.showChord && (
+              <svg
+                className="wheel-lines-svg"
+                height="320"
+                width="320"
+                viewBox="0 0 320 320"
+              >
+                {props.myChord.chord.notes !== undefined && drawShape()}
+              </svg>
+            )}
           </div>
           <div className="wheel-outer">
             {outer.map((note, i) => (
               <span key={i} className="note" index={i}>
                 <span
                   className={classNames("note-btn major", {
-                    current:
-                      props.myKey.note === outer[i] &&
-                      props.myKey.type === "major",
+                    current: props.showKey && props.myKey.root === outer[i],
                   })}
                   role="button"
                   onClick={() => {
                     rotateToIndex(i);
-                    props.findKey(outer[i], "major");
+                    props.getKey(outer[i], "major");
                   }}
                 >
-                  {outer[i].length > 1 ? (
-                    <>
-                      <span>{outer[i].charAt(0)}</span>
-                      <span>{outer[i].charAt(1)}</span>
-                    </>
-                  ) : (
-                    <span>{outer[i]}</span>
-                  )}
+                  <span>{outer[i]}</span>
                 </span>
-                <span
-                  className={classNames("note-btn minor", {
-                    current:
-                      props.myKey.note === inner[i] &&
-                      props.myKey.type === "minor",
-                  })}
-                  role="button"
-                  onClick={() => {
-                    rotateToIndex(i);
-                    props.findKey(inner[i], "minor");
-                  }}
-                >
-                  {inner[i].length > 1 ? (
-                    <>
-                      <span>{inner[i].charAt(0)}</span>
-                      <span>{inner[i].charAt(1)}</span>
-                    </>
-                  ) : (
-                    <span>{inner[i]}</span>
-                  )}
+                <span className="note-btn minor" role="button">
+                  <span>{inner[i]}</span>
                 </span>
               </span>
             ))}
@@ -286,7 +257,7 @@ export const Wheel = (props) => {
             const rotateTo = rotateIndex === 0 ? 11 : rotateIndex - 1;
             const type = props.myKey.type ? props.myKey.type : "major";
             rotateToIndex(rotateTo);
-            props.findKey(
+            props.getKey(
               type === "major" ? outer[rotateTo] : inner[rotateTo],
               type
             );
@@ -301,7 +272,7 @@ export const Wheel = (props) => {
             const rotateTo = rotateIndex === 11 ? 0 : rotateIndex + 1;
             const type = props.myKey.type ? props.myKey.type : "major";
             rotateToIndex(rotateTo);
-            props.findKey(
+            props.getKey(
               type === "major" ? outer[rotateTo] : inner[rotateTo],
               type
             );

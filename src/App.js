@@ -1,10 +1,9 @@
 import React from "react";
-// import { ChordsProvider } from "./contexts/ChordsContext";
-import Layout from "./components/Layout";
+import Main from "./components/Main";
 import "./css/style.scss";
 
 function App() {
-  return <Layout />;
+  return <Main />;
 }
 
 export default App;

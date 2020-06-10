@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { chordList } from "./Lists";
 import { Picker } from "./Picker";
-import { notesWithIntervals } from "./Utils";
+import { notesWithIntervals, getChordRoot, trimChordRoot } from "./Utils";
 import Sound from "../icons/sound";
 import Piano from "../icons/piano";
 import Clear from "../icons/clear";
@@ -9,24 +9,12 @@ import "../css/charts.scss";
 import "../css/chords.scss";
 
 export const ChordChart = (props) => {
-  const [chordNote, setChordNote] = useState("C");
-  const [chordType, setChordType] = useState({ name: "Major", formula: "M" });
-
-  function trimChordRoot(name) {
-    const chordName = name.split("/");
-    return chordName[0];
-  }
-
-  const manualChordSelection = useRef(false);
+  const [chordRoot, setChordRoot] = useState("C");
+  const [chordFormula, setChordFormula] = useState("M");
 
   useEffect(() => {
-    if (!manualChordSelection.current) {
-      manualChordSelection.current = true;
-    } else {
-      !props.keyboardLocked &&
-        props.getChord(`${chordNote}${chordType.formula}`);
-    }
-  }, [chordNote, chordType]);
+    !props.pianoLocked && props.getChord(chordRoot, chordFormula);
+  }, [chordRoot, chordFormula]);
 
   const octave = ["C", "D", "E", "F", "G", "A", "B"];
 
@@ -35,7 +23,7 @@ export const ChordChart = (props) => {
       <button
         className="natural"
         onClick={() => {
-          setChordNote(note);
+          setChordRoot(note);
         }}
       >
         {note}
@@ -43,7 +31,7 @@ export const ChordChart = (props) => {
       <button
         className="flat"
         onClick={() => {
-          setChordNote(note + "b");
+          setChordRoot(note + "b");
         }}
       >
         {note}b
@@ -51,7 +39,7 @@ export const ChordChart = (props) => {
       <button
         className="sharp"
         onClick={() => {
-          setChordNote(note + "#");
+          setChordRoot(note + "#");
         }}
       >
         {note}#
@@ -70,7 +58,7 @@ export const ChordChart = (props) => {
                 <button
                   key={i}
                   onClick={() => {
-                    setChordType({ name: chord.name, formula: chord.formula });
+                    setChordFormula(chord.formula);
                   }}
                 >
                   {chord.name}
@@ -83,106 +71,138 @@ export const ChordChart = (props) => {
     </>
   );
 
+  function isolateFormula(chord) {
+    const root = chord.root ? chord.root : chord.notes[0];
+    const formula = trimChordRoot(chord.symbol).substring(root.length);
+
+    console.log("Isolated formula: " + formula);
+
+    return formula;
+  }
+
+  const chordSubs = {
+    second: "2nd",
+    third: "3rd",
+    fourth: "4th",
+    fifth: "5th",
+    sixth: "6th",
+    seventh: "7th",
+    eight: "8th",
+    ninth: "9th",
+    eleventh: "11th",
+    twelfth: "12th",
+    thirteenth: "13th",
+  };
+
+  function replaceAll(str, mapObj) {
+    var re = new RegExp(Object.keys(mapObj).join("|"), "gi");
+
+    return str.replace(re, function (matched) {
+      return mapObj[matched.toLowerCase()];
+    });
+  }
+
+  function formatChordType(type) {
+    const formattedType = replaceAll(type, chordSubs);
+    return formattedType;
+  }
+
+  // console.log(props.myChord.chord);
+  // console.log(props.myChord.formula);
+
   return (
     <div className="chart">
-      <div className="chart-select  chart-select-top chord-picker">
-        <div className="picker-group">
-          <Picker className="picker-notes" selected={chordNote}>
+      <div className="chart-title">
+        <div className="picker-group theme-chord">
+          <Picker className="picker-notes" selected={props.myChord.root}>
             <div className="picker-notes-menu">{noteChoices}</div>
           </Picker>
-          <Picker className="picker-chords" selected={chordType.name}>
+          <Picker
+            className="picker-chords"
+            selected={
+              // formula may be working, but not being shown in the picker? should show weird strings like "mb6b9" if needed
+              // formula may be working, but not being shown in the picker? should show weird strings like "mb6b9" if needed
+              // formula may be working, but not being shown in the picker? should show weird strings like "mb6b9" if needed
+              // formula may be working, but not being shown in the picker? should show weird strings like "mb6b9" if needed
+              // formula may be working, but not being shown in the picker? should show weird strings like "mb6b9" if needed
+              // formula may be working, but not being shown in the picker? should show weird strings like "mb6b9" if needed
+              // need to set chords by passing root and formulas separately (from the autodetect), then they should be accessible
+              // in a predicted way, and can be always kept separate. setChord has one variable, it should have two: root, formula
+              props.myChord.chord.type
+                ? formatChordType(props.myChord.chord.type)
+                : formatChordType(props.myChord.formula)
+            }
+          >
             <div className="picker-chords-menu">{chordChoices}</div>
           </Picker>
         </div>
 
-        <div className="radio-group">
-          <div
-            className={`radio-item ${
-              props.chosenChord.name === chordNote + chordType.formula &&
-              "checked"
-            }`}
-          >
-            <input
-              type="radio"
-              id={`chord-radio-${chordNote}-${chordType.formula}`}
-              name="chord-radio"
-              value={`${chordNote}${chordType.formula}`}
-              checked={props.chosenChord.name === chordNote + chordType.formula}
-              onChange={(e) => {
-                props.getChord(e.currentTarget.value);
-              }}
-            />
-            <label htmlFor={`chord-radio-${chordNote}-${chordType.formula}`}>
-              {chordNote}
-              {chordType.formula}
-            </label>
-          </div>
-        </div>
-      </div>
-
-      <div className="chart-title">
-        <span className="chart-title-label">
-          {Object.keys(props.chosenChord.chord).length === 0 ? (
-            <span className="empty">Chord</span>
-          ) : (
-            <span className="color-theme-chord">
-              {props.chosenChord.chord.symbol}
-            </span>
-          )}
-        </span>
-
         <div className="button-group touching">
           <button
-            className="outline theme-chord"
+            className="outline"
             onClick={() => {
-              if (props.chosenChord.chord.length !== 0) {
-                props.selectNotesFromChord(props.chosenChord.chord.notes);
-              }
+              props.getChord(props.myChord.root, props.myChord.formula);
             }}
             disabled={
               props.autoplaying ||
-              props.keyboardLocked ||
-              props.notesSelected.type === "chord" ||
-              Object.keys(props.chosenChord.chord).length === 0
+              props.pianoLocked ||
+              (props.notesSelected.type === "chord" &&
+                Object.keys(props.myChord.chord).length !== 0)
             }
           >
             <Piano />
             <span className="text">Select</span>
           </button>
           <button
-            className="outline theme-chord"
+            className="outline"
             onClick={() => {
               props.playChord();
             }}
             disabled={
-              props.autoplaying ||
-              Object.keys(props.chosenChord.chord).length === 0
+              props.autoplaying || Object.keys(props.myChord.chord).length === 0
             }
           >
             <Sound />
             <span className="text">Play</span>
           </button>
           <button
-            className="outline theme-chord"
+            className="outline"
             onClick={() => {
-              props.getChord("");
+              props.hideChord();
             }}
             disabled={
+              !props.showChord ||
               props.autoplaying ||
-              Object.keys(props.chosenChord.chord).length === 0
+              Object.keys(props.myChord.chord).length === 0
             }
           >
             <Clear />
-            <span className="text">Clear</span>
           </button>
         </div>
       </div>
 
       <div className="chart-details">
-        {Object.keys(props.chosenChord.chord).length === 0 ? (
+        {!props.showChord || Object.keys(props.myChord.chord).length === 0 ? (
           <span className="empty">No chord selected.</span>
         ) : (
-          chordInfo(props.chosenChord.chord)
+          <div className="chord-details">
+            <div className="chord-name">
+              <span className="name">{props.myChord.chord.name}</span>
+              <span className="aliases">
+                {props.myChord.chord["aliases"].map((alias, i) => {
+                  if (alias === "") return "";
+                  var formatted = i !== 0 ? ", " : "";
+                  formatted += props.myChord.chord["notes"][0] + alias;
+                  return formatted;
+                })}
+              </span>
+            </div>
+
+            {notesWithIntervals(
+              props.myChord.chord["notes"],
+              props.myChord.chord["intervals"]
+            )}
+          </div>
         )}
       </div>
 
@@ -194,22 +214,43 @@ export const ChordChart = (props) => {
               {props.chordDetect.map((chord, i) => (
                 <div
                   className={`radio-item ${
-                    props.chosenChord.name === trimChordRoot(chord) && "checked"
+                    props.myChord.name === trimChordRoot(chord) && "checked"
                   }`}
                   key={i}
                 >
                   <input
                     type="radio"
-                    id={`chord-radio-${trimChordRoot(chord)}`}
+                    id={`chord-radio-${i}`}
                     name="chord-radio"
-                    value={trimChordRoot(chord)}
-                    checked={props.chosenChord === trimChordRoot(chord)}
-                    onChange={(e) => {
-                      props.getChord(e.currentTarget.value);
+                    value={chord}
+                    // checked={props.myChord.name === trimChordRoot(chord)}
+                    onChange={() => {
+                      // need to find a way to isolate formula from here
+                      // need to find a way to isolate formula from here
+                      // need to find a way to isolate formula from here
+                      // need to find a way to isolate formula from here
+                      // need to find a way to isolate formula from here
+                      // need to find a way to isolate formula from here
+                      /* prediction doesn't always have a root...
+                      sometimes:
+                      AMb6
+                      somtimes: 
+                      C#Mb6/A
+                      */
+                      // props.getChord(e.currentTarget.value);
+                      console.log("change from pred");
+                      console.log(chord);
+                      console.log(getChordRoot(chord));
+                      console.log(isolateFormula(chord));
+                      // props.getChord(
+                      //   getChordRoot(chord),
+                      //   isolateFormula(chord)
+                      // );
                     }}
                   />
-                  <label htmlFor={`chord-radio-${trimChordRoot(chord)}`}>
-                    {trimChordRoot(chord)}
+                  <label htmlFor={`chord-radio-${i}`}>
+                    {/* {trimChordRoot(chord)} */}
+                    {chord}
                   </label>
                 </div>
               ))}
@@ -224,23 +265,3 @@ export const ChordChart = (props) => {
     </div>
   );
 };
-
-function chordInfo(chord) {
-  return (
-    <div className="chord-details">
-      <div className="chord-name">
-        <span className="name">{chord.name}</span>
-        <span className="aliases">
-          {chord["aliases"].map((alias, i) => {
-            if (alias === "") return;
-            var formatted = i !== 0 ? ", " : "";
-            formatted += chord["notes"][0] + alias;
-            return formatted;
-          })}
-        </span>
-      </div>
-
-      {notesWithIntervals(chord["notes"], chord["intervals"])}
-    </div>
-  );
-}

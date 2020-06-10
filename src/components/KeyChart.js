@@ -1,155 +1,234 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Key } from "@tonaljs/tonal";
 import { notesWithIntervals } from "./Utils";
+import { Picker } from "./Picker";
 import Sound from "../icons/sound";
 import Piano from "../icons/piano";
 import Clear from "../icons/clear";
 import "../css/charts.scss";
+import "../css/keys.scss";
 
 export const KeyChart = (props) => {
-  const gradesMajor = {
-    I: "I",
-    II: "ii",
-    III: "iii",
-    IV: "IV",
-    V: "V",
-    VI: "vi",
-    VII: "vii°",
+  const [keyNote, setKeyNote] = useState(props.myKey.root);
+  const [keyType, setKeyType] = useState(props.myKey.type);
+  const [keySubtype, setKeySubtype] = useState("");
+
+  const manualKeySelection = useRef(false);
+
+  useEffect(() => {
+    if (!manualKeySelection.current) {
+      manualKeySelection.current = true;
+    } else {
+      !props.pianoLocked && props.getKey(keyNote, keyType, keySubtype);
+    }
+  }, [keyNote, keyType, keySubtype]);
+
+  const gradesNumerals = {
+    major: ["I", "ii", "iii", "IV", "V", "vi", "vii°"],
+    natural: ["i", "ii°", "III", "iv", "v", "VI", "VII"],
+    harmonic: ["i", "ii°", "III+", "iv", "V", "VI", "vii°"],
+    melodic: ["i", "ii", "III+", "IV", "V", "vi°", "vii°"],
   };
 
-  // const gradesMinorNatural = {
-  //   I: "I",
-  //   II: "ii",
-  //   III: "iii",
-  //   IV: "IV",
-  //   V: "V",
-  //   VI: "vi",
-  //   VII: "vii°",
-  // };
+  const harmonicName = {
+    T: "Tonic",
+    SD: "Sub Dom.",
+    D: "Dominant",
+    "-": "-",
+  };
 
-  // 1st: Major triad (I)
-  // 2nd: minor triad (ii)
-  // 3rd: minor triad (iii)
-  // 4th: Major triad (IV)
-  // 5th: Major triad (V)
-  // 6th: minor triad (vi)
-  // 7th: diminished triad (viio)
+  function harmonicLabel(harmonic) {
+    const string = harmonic.substr(1).replace("b", "").replace("#", "");
+    return harmonicName[string];
+  }
 
   // Chords with grades
-  function chordsWithGrades(chords, grades, harmonicFunction) {
+  function chordsWithGrades(type, chords, harmonicFunction) {
     return (
       <span className="chords-with-grades">
         {chords.map((chord, i) => (
           <div key={i} className="pair">
-            <span className="harmonic-function">({harmonicFunction[i]})</span>
-            <span className="grade">{gradesMajor[grades[i]]}</span>
+            <span className="grade">{gradesNumerals[type][i]}</span>
             <button
               className="small theme-chord"
               onClick={() => {
-                // console.log("need to export getChord in layout");
                 props.getChord(chord);
               }}
             >
               {chord}
             </button>
+            <span className="harmonic-function">
+              {harmonicLabel(harmonicFunction[i])}
+            </span>
           </div>
         ))}
       </span>
     );
   }
 
+  function relativeKey(relative, type) {
+    return (
+      <div className="detail">
+        <span className="label">Relative Key</span>
+        <span className="value">
+          <button
+            className="small theme-key"
+            onClick={() => {
+              props.getKey(relative, type, type === "major" ? "" : "natural");
+            }}
+          >
+            {`${relative} ${type}`}
+          </button>
+        </span>
+      </div>
+    );
+  }
+
   // Key info
   function keyInfo() {
     if (props.myKey.type === "major") {
-      const details = Key.majorKey(props.myKey.note);
-
-      console.log(details);
+      const details = Key.majorKey(props.myKey.root);
 
       return (
         <>
-          <div className="detail">
-            <span className="label">Relative Minor</span>
-            <span className="value">
-              {details["minorRelative"] && (
-                <button
-                  className="small theme-key"
-                  onClick={() => {
-                    props.findKey(details["minorRelative"], "minor");
-                  }}
-                >
-                  {details["minorRelative"]} minor
-                </button>
-              )}
-            </span>
-          </div>
-
+          {relativeKey(details["minorRelative"], "minor")}
           {notesWithIntervals(details["scale"], details["intervals"])}
           {chordsWithGrades(
+            "major",
             details["chords"],
-            details["grades"],
             details["chordsHarmonicFunction"]
           )}
         </>
       );
     } else if (props.myKey.type === "minor") {
-      const details = Key.minorKey(props.myKey.note);
+      const details = Key.minorKey(props.myKey.root);
 
       return (
-        <div className="detail">
-          <span className="label">Relative Major</span>
-          <span className="value">
-            {details["relativeMajor"] && (
-              <button
-                className="small theme-key"
-                onClick={() => {
-                  props.findKey(details["relativeMajor"], "major");
-                }}
-              >
-                {details["relativeMajor"]} major
-              </button>
-            )}
-          </span>
-          <p>More minor chord info coming soon...</p>
-        </div>
+        <>
+          {relativeKey(details["relativeMajor"], "major")}
+          {notesWithIntervals(
+            details[props.myKey.subtype]["scale"],
+            details[props.myKey.subtype]["intervals"]
+          )}
+          {chordsWithGrades(
+            props.myKey.subtype,
+            details[props.myKey.subtype]["chords"],
+            details[props.myKey.subtype]["chordsHarmonicFunction"]
+          )}
+        </>
       );
     }
 
     return;
   }
 
+  const octave = ["C", "D", "E", "F", "G", "A", "B"];
+
+  const noteChoices = octave.map((note, i) => (
+    <span key={i} className="note">
+      <button
+        className="natural"
+        onClick={() => {
+          setKeyNote(note);
+        }}
+      >
+        {note}
+      </button>
+      <button
+        className="flat"
+        onClick={() => {
+          setKeyNote(note + "b");
+        }}
+      >
+        {note}b
+      </button>
+      <button
+        className="sharp"
+        onClick={() => {
+          setKeyNote(note + "#");
+        }}
+      >
+        {note}#
+      </button>
+    </span>
+  ));
+
+  const keyChoices = (
+    <>
+      <button
+        onClick={() => {
+          setKeyType("major");
+          setKeySubtype("");
+        }}
+      >
+        Major
+      </button>
+      <button
+        onClick={() => {
+          setKeyType("minor");
+          setKeySubtype("natural");
+        }}
+      >
+        Minor Natural
+      </button>
+      <button
+        onClick={() => {
+          setKeyType("minor");
+          setKeySubtype("harmonic");
+        }}
+      >
+        Minor Harmonic
+      </button>
+      <button
+        onClick={() => {
+          setKeyType("minor");
+          setKeySubtype("melodic");
+        }}
+      >
+        Minor Melodic
+      </button>
+    </>
+  );
+
   return (
-    <div className="chart">
+    <div className="chart chart-key">
       <div className="chart-title">
-        <span className="chart-title-label">
-          {Object.keys(props.myKey.key).length === 0 ? (
-            <span className="empty">Key</span>
-          ) : (
-            <span className="color-theme-key">
-              {props.myKey.key.tonic} {props.myKey.key.type}
-            </span>
-          )}
-        </span>
+        <div className="picker-group theme-key">
+          <Picker className="picker-notes" selected={props.myKey.root}>
+            <div className="picker-notes-menu">{noteChoices}</div>
+          </Picker>
+          <Picker
+            className="picker-keys"
+            selected={`${props.myKey.type} ${
+              props.myKey.subtype ? props.myKey.subtype : ""
+            }`}
+          >
+            <div className="picker-keys-menu">{keyChoices}</div>
+          </Picker>
+        </div>
 
         <div className="button-group touching">
           <button
-            className="outline theme-key select-key"
+            className="outline select-key"
             onClick={() => {
-              if (Object.keys(props.myKey.key).length !== 0) {
-                props.selectNotesFromKey(props.myKey.key, props.myKey.type);
-              }
+              props.getKey(
+                props.myKey.root,
+                props.myKey.type,
+                props.myKey.subtype
+              );
             }}
             disabled={
               props.autoplaying ||
-              props.keyboardLocked ||
-              props.notesSelected.type === "key" ||
-              Object.keys(props.myKey.key).length === 0
+              props.pianoLocked ||
+              (props.notesSelected.type === "key" &&
+                Object.keys(props.myKey.key).length !== 0)
             }
           >
             <Piano />
             <span className="text">Select</span>
           </button>
           <button
-            className="outline theme-key play-key"
+            className="outline"
             onClick={
               Object.keys(props.myKey.key).length !== 0 ? props.playScale : null
             }
@@ -161,25 +240,24 @@ export const KeyChart = (props) => {
             <span className="text">Play</span>
           </button>
           <button
-            className="outline theme-key"
+            className="outline"
             onClick={() => {
-              props.findKey("", "");
+              props.hideKey();
             }}
             disabled={
               props.autoplaying || Object.keys(props.myKey.key).length === 0
             }
           >
             <Clear />
-            <span className="text">Clear</span>
           </button>
         </div>
       </div>
 
       <div className="chart-details">
-        {Object.keys(props.myKey.key).length === 0 ? (
+        {!props.showKey || Object.keys(props.myKey.key).length === 0 ? (
           <span className="empty">No key selected.</span>
         ) : (
-          props.myKey.note && keyInfo()
+          props.myKey.root && keyInfo()
         )}
       </div>
     </div>

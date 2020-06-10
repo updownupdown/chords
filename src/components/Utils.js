@@ -36,6 +36,16 @@ function intervalName(interval) {
   return intQuality[quality] + " " + intNumber[number];
 }
 
+export function trimChordRoot(name) {
+  const chordName = name.split("/");
+  return chordName[0];
+}
+
+export function getChordRoot(name) {
+  const chordName = name.split("/");
+  return chordName[1];
+}
+
 export function notesWithIntervals(notes, absIntervals) {
   var notesList = [];
 

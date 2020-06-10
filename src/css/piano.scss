@@ -1,14 +1,72 @@
 @import "./vars.scss";
 
+@mixin slider {
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+  width: 15px;
+  height: 15px;
+
+  border-radius: 50%;
+  border: 0;
+  background: $K750;
+  box-shadow: 1px 2px 4px rgba($K600, 0.2);
+
+  &:hover,
+  &:active {
+    background: $K900;
+  }
+
+  .mute & {
+    background: $K300;
+    box-shadow: unset;
+  }
+}
+
 // Keyboard
-.keyboard {
+.piano {
   position: relative;
   display: flex;
   flex-direction: column;
   width: 100%;
 
+  // Volume slider
+  &-volume {
+    display: flex;
+    align-items: center;
+
+    &-slider {
+      -webkit-appearance: none;
+      appearance: none;
+      outline: none;
+      transition: opacity 0.2s;
+      width: 80px;
+      height: 6px;
+
+      border-radius: 4px;
+      background: $K250;
+
+      &:hover {
+        opacity: 1;
+      }
+
+      // DO NOT COMBINE these, or it doesn't render properly
+      &::-moz-range-thumb {
+        @include slider();
+      }
+      &::-webkit-slider-thumb {
+        @include slider();
+      }
+    }
+
+    &.mute button.outline:not(:disabled) svg path {
+      fill: $K600;
+    }
+  }
+
   // View Shortcuts Button
-  button.outline.view-keyboard-shortcuts {
+  button.outline.view-piano-shortcuts {
     position: absolute;
     z-index: 3;
     top: 0px;
@@ -33,7 +91,7 @@
   }
 
   // Keyboard Buttons
-  .keyboard-buttons {
+  &-buttons {
     position: relative;
     z-index: 2;
     display: flex;
@@ -44,7 +102,7 @@
   }
 
   // Keyboard Keys
-  .keyboard-keys-wrap {
+  &-keys-wrap {
     position: relative;
     z-index: 1;
     display: block;
@@ -65,7 +123,7 @@
     }
 
     // Keyboard Keys
-    .keyboard-keys {
+    .piano-keys {
       position: relative;
       z-index: 1;
       display: flex;
@@ -251,10 +309,10 @@
       height: 22px;
 
       border-radius: 4px;
-      background: $K100;
+      background: $K150;
 
       font-size: 12px;
-      color: $K450;
+      color: $K600;
       text-transform: uppercase;
     }
 
@@ -265,12 +323,12 @@
       left: 50%;
       width: 1px;
       height: 100%;
-      background: $K150;
+      background: $K200;
     }
   }
 
   &.pressed .key-shortcut .key-shortcut-btn {
-    background: $K200;
-    color: $K600;
+    background: $K300;
+    color: $K800;
   }
 }

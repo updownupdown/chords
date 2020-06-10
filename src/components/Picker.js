@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import ArrowDown from "../icons/arrowdown";
 import classNames from "classnames";
+import "../css/picker.scss";
 
 export const Picker = (props) => {
   const {

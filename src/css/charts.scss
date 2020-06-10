@@ -13,25 +13,17 @@
     margin-top: 20px;
   }
 
-  // Select
+  // Select (currently used for chord predictions, to be deprecated)
   &-select {
     display: flex;
     align-items: center;
     width: 100%;
     padding: 12px 20px;
 
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border-top: 1px solid $K150;
     background: $K50;
-
-    &-top {
-      border-top-left-radius: 8px;
-      border-top-right-radius: 8px;
-      border-bottom: 1px solid $K150;
-    }
-    &-bottom {
-      border-bottom-left-radius: 8px;
-      border-bottom-right-radius: 8px;
-      border-top: 1px solid $K150;
-    }
 
     &-label {
       display: flex;
@@ -62,47 +54,45 @@
   &-title {
     display: flex;
     align-items: center;
-    margin: 0 20px;
-    padding: 12px 0;
+    padding: 12px 20px;
 
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
     border-bottom: 1px solid $K200;
+    background: $K50;
 
-    &-label {
-      margin-right: auto;
+    // &-label {
+    //   margin-right: auto;
 
-      font-family: $headingFont;
-      font-size: 22px;
-      font-weight: 600;
+    //   font-family: $headingFont;
+    //   font-size: 22px;
+    //   font-weight: 600;
 
-      @media #{$query-max-md} {
-        font-size: 20px;
-      }
+    //   @media #{$query-max-md} {
+    //     font-size: 20px;
+    //   }
 
-      span.empty {
-        color: $K350;
-      }
+    //   span.empty {
+    //     color: $K350;
+    //   }
 
-      span:not(.empty) {
-        color: $K900;
+    //   span:not(.empty) {
+    //     color: $K900;
 
-        &.color-theme-key {
-          color: $key-color;
-        }
-        &.color-theme-chord {
-          color: $chord-color;
-        }
-      }
-    }
+    //     &.color-theme-key {
+    //       color: $key-color;
+    //     }
+    //     &.color-theme-chord {
+    //       color: $chord-color;
+    //     }
+    //   }
+    // }
 
-    @media #{$query-max-md} {
-      button .text {
-        display: none;
-      }
-    }
-
-    .select-key {
-      margin-left: auto;
-    }
+    // @media #{$query-max-md} {
+    //   button .text {
+    //     display: none;
+    //   }
+    // }
   }
 
   // Details
@@ -200,33 +190,6 @@
     }
     &:last-child .relative-interval {
       display: none;
-    }
-  }
-}
-
-// Chords with Grades
-.chords-with-grades {
-  display: flex;
-  margin: 40px 0;
-
-  .pair {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 60px;
-
-    // Grade
-    .grade {
-      margin-bottom: 10px;
-
-      font-size: 18px;
-      font-weight: 600;
-      color: $K400;
-    }
-
-    // Chord
-    button {
-      //
     }
   }
 }

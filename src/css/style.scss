@@ -105,16 +105,6 @@ button {
       fill: $white;
     }
 
-    &:disabled {
-      opacity: 0.5;
-      background: $K200;
-      color: $K500;
-
-      svg path {
-        fill: $K500;
-      }
-    }
-
     // Note (default)
     @include button-theme-full($button-color, $button-color-hover);
     &.theme-note {
@@ -125,6 +115,16 @@ button {
     }
     &.theme-chord {
       @include button-theme-full($chord-color, $chord-color-hover);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      background: $K200;
+      color: $K500;
+
+      svg path {
+        fill: $K500;
+      }
     }
   }
 
@@ -171,15 +171,21 @@ button {
     border: 0;
     background: transparent;
 
-    @include button-theme-small($button-color, $button-color-hover);
-    &.theme-note {
-      @include button-theme-small($note-color, $note-color-hover);
-    }
-    &.theme-key {
-      @include button-theme-small($key-color, $key-color-hover);
-    }
-    &.theme-chord {
-      @include button-theme-small($chord-color, $chord-color-hover);
+    &:not(:disabled) {
+      &:focus {
+        outline: none;
+      }
+
+      @include button-theme-small($button-color, $button-color-hover);
+      &.theme-note {
+        @include button-theme-small($note-color, $note-color-hover);
+      }
+      &.theme-key {
+        @include button-theme-small($key-color, $key-color-hover);
+      }
+      &.theme-chord {
+        @include button-theme-small($chord-color, $chord-color-hover);
+      }
     }
 
     &:disabled {
@@ -220,7 +226,7 @@ button {
   &-center {
     width: 100%;
     max-width: $max-layout-width;
-    padding: 40px $layout-side-padding;
+    padding: 30px $layout-side-padding 40px;
 
     @media #{$query-max-lg} {
       padding-top: 20px;

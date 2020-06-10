@@ -1,0 +1,82 @@
+@import "./vars";
+
+.chart-key {
+  .chart-title-label {
+    text-transform: capitalize;
+  }
+}
+
+.key-modes {
+  display: flex;
+  align-items: center;
+  margin-top: -10px;
+
+  button.outline.small {
+    user-select: none;
+    padding: 0;
+
+    &:first-child {
+      margin-right: 20px;
+    }
+
+    &:not(:disabled) {
+      cursor: pointer;
+
+      color: $K400;
+
+      &:hover {
+        background: none;
+        color: $key-color-hover;
+      }
+    }
+
+    &:disabled {
+      color: $key-color;
+    }
+  }
+
+  .divider {
+    padding: 0 10px;
+    color: $K300;
+  }
+}
+
+// Chords with Grades
+.chords-with-grades {
+  display: flex;
+  margin: 20px 0 0;
+
+  .pair {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80px;
+    padding: 8px;
+
+    border: 1px solid $K200;
+    background: $K50;
+
+    &:not(:first-child) {
+      margin-left: -1px;
+    }
+
+    // Grade
+    .grade {
+      font-size: 18px;
+      font-weight: 600;
+      color: $K700;
+    }
+
+    // Chord
+    button {
+      height: auto;
+      padding: 0;
+    }
+
+    // Harmonic Function
+    .harmonic-function {
+      font-size: 12px;
+      color: $K400;
+    }
+  }
+}
