@@ -10,13 +10,6 @@ import "../css/charts.scss";
 import "../css/chords.scss";
 
 export const ChordChart = (props) => {
-  const [chordRoot, setChordRoot] = useState("C");
-  const [chordFormula, setChordFormula] = useState("M");
-
-  useEffect(() => {
-    !props.pianoLocked && props.getChord(`${chordRoot}${chordFormula}`);
-  }, [chordRoot, chordFormula]);
-
   const octave = ["C", "D", "E", "F", "G", "A", "B"];
 
   const noteChoices = octave.map((note, i) => (
@@ -24,7 +17,7 @@ export const ChordChart = (props) => {
       <button
         className="natural"
         onClick={() => {
-          setChordRoot(note);
+          props.getChord(`${note}${props.myChord.formula}`);
         }}
       >
         {note}
@@ -32,7 +25,7 @@ export const ChordChart = (props) => {
       <button
         className="flat"
         onClick={() => {
-          setChordRoot(note + "b");
+          props.getChord(`${note}b${props.myChord.formula}`);
         }}
       >
         {note}b
@@ -40,7 +33,7 @@ export const ChordChart = (props) => {
       <button
         className="sharp"
         onClick={() => {
-          setChordRoot(note + "#");
+          props.getChord(`${note}#${props.myChord.formula}`);
         }}
       >
         {note}#
@@ -59,7 +52,7 @@ export const ChordChart = (props) => {
                 <button
                   key={i}
                   onClick={() => {
-                    setChordFormula(chord.formula);
+                    props.getChord(`${props.myChord.root}${chord.formula}`);
                   }}
                 >
                   {chord.name}
@@ -72,7 +65,21 @@ export const ChordChart = (props) => {
     </>
   );
 
-  const chordSubs = {
+  // Format Chord Type
+  function formatChordType(type) {
+    const formattedType = replaceAll(type, chordStringSubs);
+    return formattedType;
+  }
+
+  function replaceAll(str, mapObj) {
+    var re = new RegExp(Object.keys(mapObj).join("|"), "gi");
+
+    return str.replace(re, function (matched) {
+      return mapObj[matched.toLowerCase()];
+    });
+  }
+
+  const chordStringSubs = {
     second: "2nd",
     third: "3rd",
     fourth: "4th",
@@ -85,19 +92,6 @@ export const ChordChart = (props) => {
     twelfth: "12th",
     thirteenth: "13th",
   };
-
-  function replaceAll(str, mapObj) {
-    var re = new RegExp(Object.keys(mapObj).join("|"), "gi");
-
-    return str.replace(re, function (matched) {
-      return mapObj[matched.toLowerCase()];
-    });
-  }
-
-  function formatChordType(type) {
-    const formattedType = replaceAll(type, chordSubs);
-    return formattedType;
-  }
 
   return (
     <div className="chart">

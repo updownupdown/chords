@@ -231,7 +231,11 @@ export const Wheel = (props) => {
                   role="button"
                   onClick={() => {
                     rotateToIndex(i);
-                    props.getKey(outer[i], "major");
+                    props.getKey(
+                      outer[i],
+                      props.myKey.type,
+                      props.myKey.subtype
+                    );
                   }}
                 >
                   <span>{outer[i]}</span>

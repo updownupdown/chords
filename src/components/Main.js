@@ -113,38 +113,29 @@ function Main() {
 
   // Get chord
   function getChord(name) {
-    console.log("getChord start");
-    console.log(name);
-
     const chord = Chord.get(name);
     if (!chord || chord.empty) {
-      console.log("getChord failed");
       return;
     }
 
     const rootAndFormula = getRootAndFormula(chord);
 
-    console.log(
-      "isolating root and formula. root: " +
-        rootAndFormula.root +
-        ", formula: " +
-        rootAndFormula.formula
-    );
-
     setChord(chord, rootAndFormula.root, rootAndFormula.formula);
   }
 
-  const firstChordSelection = useRef(true);
+  useEffect(() => {
+    getChord(`${myChord.root}${myChord.formula}`);
+  }, []);
+
+  const initChordSelection = useRef(true);
 
   function setChord(chord, root, formula) {
-    if (firstChordSelection.current) {
-      firstChordSelection.current = false;
+    if (initChordSelection.current) {
+      initChordSelection.current = false;
     } else {
       setShowChord(true);
       selectNotesFromChord(chord.notes);
     }
-
-    console.log("setChord, formula = " + formula + ", root = " + root);
 
     setMyChord({
       chord: chord,
@@ -279,10 +270,22 @@ function Main() {
 
   // Set key
   function setKey(key, root, type, subtype) {
-    setShowKey(true);
+    if (initKeySelection.current) {
+      initKeySelection.current = false;
+    } else {
+      setShowKey(true);
+      selectNotesFromKey(key, type, subtype);
+    }
+
     setMyKey({ key: key, root: root, type: type, subtype: subtype });
-    selectNotesFromKey(key, type, subtype);
   }
+
+  // On init, get key but don't select it.
+  useEffect(() => {
+    getKey(myKey.root, myKey.type, myKey.subtype);
+  }, []);
+
+  const initKeySelection = useRef(true);
 
   // Press (or unpress) note
   function pressNote(note, action) {

@@ -9,20 +9,6 @@ import "../css/charts.scss";
 import "../css/keys.scss";
 
 export const KeyChart = (props) => {
-  const [keyNote, setKeyNote] = useState(props.myKey.root);
-  const [keyType, setKeyType] = useState(props.myKey.type);
-  const [keySubtype, setKeySubtype] = useState("");
-
-  const manualKeySelection = useRef(false);
-
-  useEffect(() => {
-    if (!manualKeySelection.current) {
-      manualKeySelection.current = true;
-    } else {
-      !props.pianoLocked && props.getKey(keyNote, keyType, keySubtype);
-    }
-  }, [keyNote, keyType, keySubtype]);
-
   const gradesNumerals = {
     major: ["I", "ii", "iii", "IV", "V", "vi", "vii°"],
     natural: ["i", "ii°", "III", "iv", "v", "VI", "VII"],
@@ -129,24 +115,27 @@ export const KeyChart = (props) => {
       <button
         className="natural"
         onClick={() => {
-          setKeyNote(note);
+          props.getKey(note, props.myKey.type, props.myKey.subtype);
         }}
+        disabled={props.myKey.root === note}
       >
         {note}
       </button>
       <button
         className="flat"
         onClick={() => {
-          setKeyNote(note + "b");
+          props.getKey(note + "b", props.myKey.type, props.myKey.subtype);
         }}
+        disabled={props.myKey.root === note + "b"}
       >
         {note}b
       </button>
       <button
         className="sharp"
         onClick={() => {
-          setKeyNote(note + "#");
+          props.getKey(note + "#", props.myKey.type, props.myKey.subtype);
         }}
+        disabled={props.myKey.root === note + "#"}
       >
         {note}#
       </button>
@@ -157,33 +146,39 @@ export const KeyChart = (props) => {
     <>
       <button
         onClick={() => {
-          setKeyType("major");
-          setKeySubtype("");
+          props.getKey(props.myKey.root, "major", "");
         }}
+        disabled={props.myKey.type === "major"}
       >
         Major
       </button>
       <button
         onClick={() => {
-          setKeyType("minor");
-          setKeySubtype("natural");
+          props.getKey(props.myKey.root, "minor", "natural");
         }}
+        disabled={
+          props.myKey.type === "minor" && props.myKey.subtype === "natural"
+        }
       >
         Minor Natural
       </button>
       <button
         onClick={() => {
-          setKeyType("minor");
-          setKeySubtype("harmonic");
+          props.getKey(props.myKey.root, "minor", "harmonic");
         }}
+        disabled={
+          props.myKey.type === "minor" && props.myKey.subtype === "harmonic"
+        }
       >
         Minor Harmonic
       </button>
       <button
         onClick={() => {
-          setKeyType("minor");
-          setKeySubtype("melodic");
+          props.getKey(props.myKey.root, "minor", "melodic");
         }}
+        disabled={
+          props.myKey.type === "minor" && props.myKey.subtype === "melodic"
+        }
       >
         Minor Melodic
       </button>

@@ -57,9 +57,6 @@ export function getRootAndFormula(chord) {
   const root = chord.root ? chord.root : chord.notes[0];
   const formula = trimChordRoot(chord.symbol).substring(root.length);
 
-  console.log("Isolated root: " + root);
-  console.log("Isolated formula: " + formula);
-
   return { root: root, formula: formula };
 }
 

@@ -2,6 +2,7 @@
 Bugs
 
 - react_devtools_backend.js:6 The AudioContext is "suspended". Invoke Tone.start() from a user action to start the audio.
+- fix volume/mute
 - prevent AudioContext warnings?
 
 ---------------------
@@ -9,47 +10,32 @@ Bugs
 Technical
 
 - review all chords, advanced ones are broken or off screen; simplify to one drop down, drop complex ones?
-- Reactivate loading screen but make it smoother
+- Reactivate loading screen but make it seemless/smoother
 - review var/let/const
 - use context? refactor?
 - use typescript
-- launch from github? (.io)
 - add accessibility (aria)
 - check mobile responsiveness, touch events
 
 ---------------------
-Key Info
+Key Info/Wheel
 
-- when I have "C Major" selected, I should be able to easily select "Minor Natural/Harmonic/Medolic", and switch between the 4 times easily. work that in better key selection at the top of the key box. try to make chord selection similar?
-- in key info, pair I II III IV... to chords.
-- in key info, better show "functional harmony" with tonic, dominant, and subdominant, like on pianolit.com, but more interactive
-- show I II III IV... on wheel
-
----------------------
-Wheel
-
-- option to rotate the CoF or not (relative vs. absolute visualization) - maybe don't auto select key on rotate wheel?
+- show I II III IV... and functional harmonics in wheel, tie to key
 - show enharmonics in wheel
-- make wheel rotate by drag and drop
-
--------------------------
-Chord Info
-
-- move chord selection to bottom? if so, make picker up to top instead of bottom
-- chord builder instead of picker: start with a note, and add intervals
+- when selecting notes from wheel, it should only change the note and retain the key type?
+- easy way to play chords from buttons in key info. maybe if key is already selected, play it?
+- option to rotate wheel or not? depends on how it's modified to show I/II/III/..., harmonics
 
 -------------------------
 Keyboard
 
-- Add volume slider and mute top left of keyboard
 - play notes above keyboard: play separate, play together (2 buttons, find keyboard shortcuts?).
 - view keyboard shortcuts can be moved below, along with shortcuts themselves.
-- chord predictions should be moved below keyboard, and always ordered alphabetically, use small buttons
+- does it make sense to move chord predictions below keyboard?
 
 -------------------------
 Medium Priority
 
-- key/chord selection: combine name with pickers
 - tooltips?
 - Flesh out menu: help (modal to explain), settings (?), keyboard shortcut guide (esp. for delete, enter, caps lock)
 - "Help" stuff may be distributed along with elements, rather than just at the top. Use help icons throughout with tooltips? Toggle to hide Help icons, also hides keyboard labels?

@@ -91,12 +91,18 @@
       border: 0;
       background: transparent;
 
-      color: $button-color;
       text-align: left;
 
-      &:hover {
-        background: $K100;
-        color: $button-color-hover;
+      &:not(:disabled) {
+        color: $button-color;
+
+        &:hover {
+          background: $K100;
+          color: $button-color-hover;
+        }
+      }
+      &:disabled {
+        color: $K300;
       }
     }
   }
@@ -145,13 +151,31 @@
         &.natural {
           font-size: 20px;
           font-weight: 600;
-          color: $K900;
         }
         &.flat,
         &.sharp {
           font-size: 14px;
           font-weight: 400;
-          color: $K600;
+        }
+
+        &:not(:disabled) {
+          &.natural {
+            color: $K900;
+          }
+          &.flat,
+          &.sharp {
+            color: $K600;
+          }
+        }
+
+        &:disabled {
+          &.natural {
+            color: $K300;
+          }
+          &.flat,
+          &.sharp {
+            color: $K300;
+          }
         }
       }
     }
@@ -166,6 +190,7 @@
     max-width: 240px;
     text-transform: capitalize;
   }
+
   &-menu {
     display: flex;
     flex-wrap: wrap;
