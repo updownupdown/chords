@@ -1,0 +1,40 @@
+@import "./vars.scss";
+
+.wheel-lines {
+  pointer-events: none;
+  position: absolute;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+
+  .theme-key & {
+    display: none;
+  }
+
+  &-svg {
+    position: absolute;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+
+    polygon {
+      position: relative;
+      z-index: 1;
+      fill: rgba($chord-color, 0.1);
+      stroke: $chord-color;
+      stroke-width: 3px;
+    }
+
+    circle {
+      position: relative;
+      z-index: 2;
+      fill: $chord-color;
+
+      &.root {
+        fill: $note-color;
+        stroke: $chord-color;
+        stroke-width: 4px;
+      }
+    }
+  }
+}

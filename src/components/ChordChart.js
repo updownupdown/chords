@@ -208,9 +208,7 @@ export const ChordChart = (props) => {
               ))}
             </div>
           ) : (
-            <span className="chart-select-text empty">
-              Select notes to detect chords.
-            </span>
+            <span className="chart-select-text empty">No chords detected.</span>
           )}
         </div>
       </div>

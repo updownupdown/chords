@@ -19,25 +19,6 @@
     height: 80vw;
   }
 
-  // Top Indicator
-  .wheel-indicator {
-    pointer-events: none;
-    opacity: 0.7;
-    position: absolute;
-    top: -3px;
-    left: 50%;
-    width: 56px;
-    height: auto;
-    display: flex;
-    justify-content: center;
-    z-index: 10;
-    margin-left: -28px;
-
-    svg path {
-      fill: $K450;
-    }
-  }
-
   // Wheel
   .wheel {
     position: relative;
@@ -45,45 +26,6 @@
     width: 100%;
     height: 100%;
     margin: auto;
-
-    // Lines
-    &-lines {
-      pointer-events: none;
-      position: absolute;
-      z-index: 10;
-      width: 100%;
-      height: 100%;
-
-      &-svg {
-        position: absolute;
-        z-index: 10;
-        width: 100%;
-        height: 100%;
-
-        polygon {
-          position: relative;
-          z-index: 1;
-          fill: rgba($chord-color, 0.1);
-          stroke: $chord-color;
-          stroke-width: 3px;
-        }
-
-        circle {
-          position: relative;
-          z-index: 2;
-          fill: $chord-color;
-
-          &.root {
-            fill: $note-color;
-            stroke: $chord-color;
-            stroke-width: 4px;
-          }
-        }
-      }
-    }
-    &.theme-key .wheel-lines {
-      display: none;
-    }
 
     // Backgrounds
     &-background {
@@ -131,7 +73,6 @@
 
   // Rotate
   .wheel-rotate {
-    transition: 1s ease transform;
     position: absolute;
     z-index: 2;
     display: block;
@@ -210,51 +151,6 @@
         &:hover {
           color: $key-color-hover;
         }
-      }
-    }
-  }
-
-  // Arrow
-  .wheel-arrow {
-    cursor: pointer;
-    transition: 0.3s ease background-color, 0.3s ease border-color;
-
-    position: absolute;
-    z-index: 10;
-    bottom: 0;
-    width: $rad-outer * 0.25;
-    height: $rad-outer * 0.25;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 50%;
-    border: 1px solid $K100;
-
-    &.cw {
-      left: 0;
-    }
-    &.ccw {
-      right: 0;
-    }
-
-    svg {
-      width: 60%;
-      height: 60%;
-
-      path {
-        transition: 0.3s ease fill;
-        fill: $K500;
-      }
-    }
-
-    &:hover {
-      background: $K200;
-      border-color: $K300;
-
-      svg path {
-        fill: $K700;
       }
     }
   }
