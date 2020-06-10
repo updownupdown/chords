@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { chordList } from "./Lists";
 import { Picker } from "./Picker";
-import classNames from "classnames";
 import { notesWithIntervals, trimChordRoot } from "./Utils";
 import Sound from "../icons/sound";
 import Piano from "../icons/piano";
@@ -66,7 +65,7 @@ export const ChordChart = (props) => {
   );
 
   // Format Chord Type
-  function formatChordType(type) {
+  function formatChordName(type) {
     const formattedType = replaceAll(type, chordStringSubs);
     return formattedType;
   }
@@ -105,8 +104,8 @@ export const ChordChart = (props) => {
             selected={
               // chord.type has nicer format than formula, use if possible
               props.myChord.chord.type
-                ? formatChordType(props.myChord.chord.type)
-                : formatChordType(props.myChord.formula)
+                ? formatChordName(props.myChord.chord.type)
+                : formatChordName(props.myChord.formula)
             }
           >
             <div className="picker-chords-menu">{chordChoices}</div>
@@ -159,31 +158,36 @@ export const ChordChart = (props) => {
 
       <div className="chart-details">
         {!props.showChord || Object.keys(props.myChord.chord).length === 0 ? (
-          <span className="empty">No chord selected.</span>
+          <span className="no-selection">No chord selected.</span>
         ) : (
           <div className="chord-details">
-            <div className="chord-name">
-              <span className="name">{props.myChord.chord.name}</span>
-              <span className="aliases">
-                {props.myChord.chord["aliases"].map((alias, i) => {
-                  if (alias === "") return "";
-                  var formatted = i !== 0 ? ", " : "";
-                  formatted += props.myChord.chord["notes"][0] + alias;
-                  return formatted;
-                })}
-              </span>
-            </div>
-
             {notesWithIntervals(
               props.myChord.chord["notes"],
               props.myChord.chord["intervals"]
             )}
+
+            <div className="chart-details-footer">
+              <div className="chord-name">
+                <span className="name">
+                  {formatChordName(props.myChord.chord.name)}
+                </span>
+                <span className="divider">/</span>
+                <span className="aliases">
+                  {props.myChord.chord["aliases"].map((alias, i) => {
+                    if (alias === "") return "";
+                    var formatted = i !== 0 ? ", " : "";
+                    formatted += props.myChord.chord["notes"][0] + alias;
+                    return formatted;
+                  })}
+                </span>
+              </div>
+            </div>
           </div>
         )}
       </div>
 
       <div className="chart-select chart-select-bottom">
-        <span className="chart-select-label">Predicted chords:</span>
+        <span className="chart-select-label">Chords from selected notes:</span>
         <div>
           {props.chordDetect.length > 0 ? (
             <div className="button-group">

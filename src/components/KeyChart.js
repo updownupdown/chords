@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React from "react";
 import { Key } from "@tonaljs/tonal";
 import { notesWithIntervals } from "./Utils";
 import { Picker } from "./Picker";
@@ -54,8 +54,8 @@ export const KeyChart = (props) => {
 
   function relativeKey(relative, type) {
     return (
-      <div className="detail">
-        <span className="label">Relative Key</span>
+      <div className="relative-key">
+        <span className="label">Relative Key:</span>
         <span className="value">
           <button
             className="small theme-key"
@@ -77,13 +77,15 @@ export const KeyChart = (props) => {
 
       return (
         <>
-          {relativeKey(details["minorRelative"], "minor")}
           {notesWithIntervals(details["scale"], details["intervals"])}
           {chordsWithGrades(
             "major",
             details["chords"],
             details["chordsHarmonicFunction"]
           )}
+          <div className="chart-details-footer">
+            {relativeKey(details["minorRelative"], "minor")}
+          </div>
         </>
       );
     } else if (props.myKey.type === "minor") {
@@ -91,7 +93,6 @@ export const KeyChart = (props) => {
 
       return (
         <>
-          {relativeKey(details["relativeMajor"], "major")}
           {notesWithIntervals(
             details[props.myKey.subtype]["scale"],
             details[props.myKey.subtype]["intervals"]
@@ -101,6 +102,9 @@ export const KeyChart = (props) => {
             details[props.myKey.subtype]["chords"],
             details[props.myKey.subtype]["chordsHarmonicFunction"]
           )}
+          <div className="chart-details-footer">
+            {relativeKey(details["relativeMajor"], "major")}
+          </div>
         </>
       );
     }
@@ -250,7 +254,7 @@ export const KeyChart = (props) => {
 
       <div className="chart-details">
         {!props.showKey || Object.keys(props.myKey.key).length === 0 ? (
-          <span className="empty">No key selected.</span>
+          <span className="no-selection">No key selected.</span>
         ) : (
           props.myKey.root && keyInfo()
         )}

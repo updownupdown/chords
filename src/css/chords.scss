@@ -15,17 +15,22 @@
   // Chord Name
   .chord-name {
     display: flex;
-    justify-content: space-between;
-    margin-top: -6px;
-    margin-bottom: 10px;
+    align-items: center;
+    margin: 4px 0;
+
+    font-size: 14px;
 
     .name {
-      font-size: 16px;
       font-weight: 600;
       color: $K900;
+      text-transform: capitalize;
+    }
+    .divider {
+      padding: 0 8px;
+      font-weight: 400;
+      color: $K300;
     }
     .aliases {
-      font-size: 14px;
       font-weight: 400;
       color: $K600;
     }

@@ -6,38 +6,28 @@
   }
 }
 
-.key-modes {
+// Key Details
+.relative-key {
   display: flex;
   align-items: center;
-  margin-top: -10px;
+  margin-top: -4px;
 
-  button.outline.small {
-    user-select: none;
-    padding: 0;
+  font-family: $headingFont;
 
-    &:first-child {
-      margin-right: 20px;
-    }
-
-    &:not(:disabled) {
-      cursor: pointer;
-
-      color: $K400;
-
-      &:hover {
-        background: none;
-        color: $key-color-hover;
-      }
-    }
-
-    &:disabled {
-      color: $key-color;
-    }
+  &,
+  button {
+    font-size: 14px;
+    text-transform: capitalize;
   }
 
-  .divider {
-    padding: 0 10px;
-    color: $K300;
+  .label {
+    display: inline-block;
+    padding-right: 8px;
+    color: $K600;
+  }
+  .value {
+    color: $K900;
+    font-weight: 600;
   }
 }
 

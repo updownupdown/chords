@@ -36,6 +36,7 @@ Keyboard
 -------------------------
 Medium Priority
 
+- type a formula to select a chord (next to predicted)
 - tooltips?
 - Flesh out menu: help (modal to explain), settings (?), keyboard shortcut guide (esp. for delete, enter, caps lock)
 - "Help" stuff may be distributed along with elements, rather than just at the top. Use help icons throughout with tooltips? Toggle to hide Help icons, also hides keyboard labels?

@@ -9,6 +9,26 @@
   box-shadow: 1px 2px 8px rgba($K500, 0.1), 2px 4px 28px rgba($K400, 0.1);
   background: white;
 
+  &-details {
+    display: flex;
+    flex-direction: column;
+    padding: 12px 20px;
+
+    &-footer {
+      margin-top: 20px;
+      padding-top: 10px;
+      border-top: 1px solid $K100;
+    }
+  }
+
+  // No key/chart selected
+  .no-selection {
+    padding: 14px 0;
+
+    font-size: 14px;
+    color: $K400;
+  }
+
   &:not(:first-child) {
     margin-top: 20px;
   }
@@ -18,7 +38,7 @@
     display: flex;
     align-items: center;
     width: 100%;
-    padding: 12px 20px;
+    padding: 8px 20px;
 
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
@@ -31,10 +51,10 @@
       height: $input-height;
       margin-right: auto;
 
-      font-family: $headingFont;
-      font-size: 16px;
-      color: $K700;
-      font-weight: 500;
+      font-family: $font;
+      font-size: 14px;
+      color: $K600;
+      font-weight: 400;
     }
 
     &-text {
@@ -60,70 +80,6 @@
     border-top-right-radius: 8px;
     border-bottom: 1px solid $K200;
     background: $K50;
-
-    // &-label {
-    //   margin-right: auto;
-
-    //   font-family: $headingFont;
-    //   font-size: 22px;
-    //   font-weight: 600;
-
-    //   @media #{$query-max-md} {
-    //     font-size: 20px;
-    //   }
-
-    //   span.empty {
-    //     color: $K350;
-    //   }
-
-    //   span:not(.empty) {
-    //     color: $K900;
-
-    //     &.color-theme-key {
-    //       color: $key-color;
-    //     }
-    //     &.color-theme-chord {
-    //       color: $chord-color;
-    //     }
-    //   }
-    // }
-
-    // @media #{$query-max-md} {
-    //   button .text {
-    //     display: none;
-    //   }
-    // }
-  }
-
-  // Details
-  &-details {
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-
-    .detail:not(:first-child) {
-      padding-top: 6px;
-    }
-
-    .empty {
-      font-size: 14px;
-      color: $K300;
-    }
-
-    .label {
-      display: inline-block;
-      width: 120px;
-      color: $K600;
-    }
-    .value {
-      color: $K900;
-      font-weight: 600;
-
-      .button-group,
-      button {
-        display: inline-block;
-      }
-    }
   }
 }
 
