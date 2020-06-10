@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { chordList } from "./Lists";
 import { Picker } from "./Picker";
-import { notesWithIntervals, getChordRoot, trimChordRoot } from "./Utils";
+import classNames from "classnames";
+import { notesWithIntervals, trimChordRoot } from "./Utils";
 import Sound from "../icons/sound";
 import Piano from "../icons/piano";
 import Clear from "../icons/clear";
@@ -13,7 +14,7 @@ export const ChordChart = (props) => {
   const [chordFormula, setChordFormula] = useState("M");
 
   useEffect(() => {
-    !props.pianoLocked && props.getChord(chordRoot, chordFormula);
+    !props.pianoLocked && props.getChord(`${chordRoot}${chordFormula}`);
   }, [chordRoot, chordFormula]);
 
   const octave = ["C", "D", "E", "F", "G", "A", "B"];
@@ -71,15 +72,6 @@ export const ChordChart = (props) => {
     </>
   );
 
-  function isolateFormula(chord) {
-    const root = chord.root ? chord.root : chord.notes[0];
-    const formula = trimChordRoot(chord.symbol).substring(root.length);
-
-    console.log("Isolated formula: " + formula);
-
-    return formula;
-  }
-
   const chordSubs = {
     second: "2nd",
     third: "3rd",
@@ -107,9 +99,6 @@ export const ChordChart = (props) => {
     return formattedType;
   }
 
-  // console.log(props.myChord.chord);
-  // console.log(props.myChord.formula);
-
   return (
     <div className="chart">
       <div className="chart-title">
@@ -120,14 +109,7 @@ export const ChordChart = (props) => {
           <Picker
             className="picker-chords"
             selected={
-              // formula may be working, but not being shown in the picker? should show weird strings like "mb6b9" if needed
-              // formula may be working, but not being shown in the picker? should show weird strings like "mb6b9" if needed
-              // formula may be working, but not being shown in the picker? should show weird strings like "mb6b9" if needed
-              // formula may be working, but not being shown in the picker? should show weird strings like "mb6b9" if needed
-              // formula may be working, but not being shown in the picker? should show weird strings like "mb6b9" if needed
-              // formula may be working, but not being shown in the picker? should show weird strings like "mb6b9" if needed
-              // need to set chords by passing root and formulas separately (from the autodetect), then they should be accessible
-              // in a predicted way, and can be always kept separate. setChord has one variable, it should have two: root, formula
+              // chord.type has nicer format than formula, use if possible
               props.myChord.chord.type
                 ? formatChordType(props.myChord.chord.type)
                 : formatChordType(props.myChord.formula)
@@ -141,7 +123,7 @@ export const ChordChart = (props) => {
           <button
             className="outline"
             onClick={() => {
-              props.getChord(props.myChord.root, props.myChord.formula);
+              props.getChord(`${props.myChord.root}${props.myChord.formula}`);
             }}
             disabled={
               props.autoplaying ||
@@ -210,49 +192,21 @@ export const ChordChart = (props) => {
         <span className="chart-select-label">Predicted chords:</span>
         <div>
           {props.chordDetect.length > 0 ? (
-            <div className="radio-group">
+            <div className="button-group">
               {props.chordDetect.map((chord, i) => (
-                <div
-                  className={`radio-item ${
-                    props.myChord.name === trimChordRoot(chord) && "checked"
-                  }`}
+                <button
                   key={i}
+                  className="button small theme-chord"
+                  onClick={() => {
+                    props.getChord(trimChordRoot(chord));
+                  }}
+                  disabled={
+                    trimChordRoot(chord) ===
+                    `${props.myChord.root}${props.myChord.formula}`
+                  }
                 >
-                  <input
-                    type="radio"
-                    id={`chord-radio-${i}`}
-                    name="chord-radio"
-                    value={chord}
-                    // checked={props.myChord.name === trimChordRoot(chord)}
-                    onChange={() => {
-                      // need to find a way to isolate formula from here
-                      // need to find a way to isolate formula from here
-                      // need to find a way to isolate formula from here
-                      // need to find a way to isolate formula from here
-                      // need to find a way to isolate formula from here
-                      // need to find a way to isolate formula from here
-                      /* prediction doesn't always have a root...
-                      sometimes:
-                      AMb6
-                      somtimes: 
-                      C#Mb6/A
-                      */
-                      // props.getChord(e.currentTarget.value);
-                      console.log("change from pred");
-                      console.log(chord);
-                      console.log(getChordRoot(chord));
-                      console.log(isolateFormula(chord));
-                      // props.getChord(
-                      //   getChordRoot(chord),
-                      //   isolateFormula(chord)
-                      // );
-                    }}
-                  />
-                  <label htmlFor={`chord-radio-${i}`}>
-                    {/* {trimChordRoot(chord)} */}
-                    {chord}
-                  </label>
-                </div>
+                  {trimChordRoot(chord)}
+                </button>
               ))}
             </div>
           ) : (

@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { Sampler, Part, Transport } from "tone";
 import { Chord, Note, Key } from "@tonaljs/tonal";
 import * as ChordDetect from "@tonaljs/chord-detect";
-import { trimChordRoot } from "./Utils";
+import { getRootAndFormula, sortAlpha } from "./Utils";
 import { Wheel } from "./Wheel";
 import { KeyChart } from "./KeyChart";
 import { Piano } from "./Piano";
@@ -112,18 +112,26 @@ function Main() {
   }
 
   // Get chord
-  function getChord(root, formula) {
-    console.log("getchord");
-    console.log(root);
-    console.log(formula);
-    const chord = Chord.get(`${root}${formula}`);
+  function getChord(name) {
+    console.log("getChord start");
+    console.log(name);
+
+    const chord = Chord.get(name);
     if (!chord || chord.empty) {
-      console.log("failed");
+      console.log("getChord failed");
       return;
     }
-    console.log(chord);
 
-    setChord(chord, root, formula);
+    const rootAndFormula = getRootAndFormula(chord);
+
+    console.log(
+      "isolating root and formula. root: " +
+        rootAndFormula.root +
+        ", formula: " +
+        rootAndFormula.formula
+    );
+
+    setChord(chord, rootAndFormula.root, rootAndFormula.formula);
   }
 
   const firstChordSelection = useRef(true);
@@ -345,7 +353,7 @@ function Main() {
 
   // Predict chords on note select change
   useEffect(() => {
-    const chords = ChordDetect.detect(notesSelected.notes);
+    const chords = ChordDetect.detect(notesSelected.notes).sort(sortAlpha);
     setChordDetect(chords);
   }, [notesSelected]);
 

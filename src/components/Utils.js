@@ -1,6 +1,13 @@
 import React from "react";
 import { Interval } from "@tonaljs/tonal";
 
+export function sortAlpha(a, b) {
+  if (a > b) return 1;
+  if (b > a) return -1;
+
+  return 0;
+}
+
 const intQuality = {
   P: "Perfect",
   M: "Major",
@@ -44,6 +51,16 @@ export function trimChordRoot(name) {
 export function getChordRoot(name) {
   const chordName = name.split("/");
   return chordName[1];
+}
+
+export function getRootAndFormula(chord) {
+  const root = chord.root ? chord.root : chord.notes[0];
+  const formula = trimChordRoot(chord.symbol).substring(root.length);
+
+  console.log("Isolated root: " + root);
+  console.log("Isolated formula: " + formula);
+
+  return { root: root, formula: formula };
 }
 
 export function notesWithIntervals(notes, absIntervals) {

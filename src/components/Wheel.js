@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import classNames from "classnames";
+import { sortAlpha } from "./Utils";
 import TopIndicator from "../icons/topindicator";
 import RotateCW from "../icons/rotate-cw";
 import RotateCCW from "../icons/rotate-ccw";
@@ -161,14 +162,7 @@ export const Wheel = (props) => {
       positions.push(pos);
     }
 
-    function compare(a, b) {
-      if (a > b) return 1;
-      if (b > a) return -1;
-
-      return 0;
-    }
-
-    positions = positions.sort(compare);
+    positions = positions.sort(sortAlpha);
 
     for (var p = 0; p < positions.length; p++) {
       const point = findPoint(positions[p] * 30);
