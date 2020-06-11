@@ -11,6 +11,7 @@ export const Wheel = (props) => {
 
   function getNoteOffset(note) {
     const noteMidiPos = {
+      59: 5, // Cb4
       72: 0, // C4
       60: 0, // B#4
       67: 1,
@@ -106,16 +107,17 @@ export const Wheel = (props) => {
   }
 
   return (
-    <div
-      className={classNames("wheel", {
-        [`theme-${props.notesSelected.type}`]: true,
-      })}
-    >
-      {generateNotes(props.myKey.root)}
+    <div className="wheel-wrap">
+      <div
+        className={classNames("wheel", {
+          [`theme-${props.notesSelected.type}`]: true,
+        })}
+      >
+        {generateNotes(props.myKey.root)}
 
+        <WheelLines showChord={props.showChord} myChord={props.myChord} />
+      </div>
       <div className="wheel-background"></div>
-
-      <WheelLines showChord={props.showChord} myChord={props.myChord} />
     </div>
   );
 };

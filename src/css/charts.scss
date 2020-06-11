@@ -12,11 +12,15 @@
   &-details {
     display: flex;
     flex-direction: column;
+    align-items: center;
     padding: 12px 20px;
 
     font-family: $headingFont;
 
     &-footer {
+      display: flex;
+      justify-content: center;
+      width: 100%;
       margin-top: 20px;
       padding-top: 10px;
       border-top: 1px solid $K100;
@@ -75,13 +79,20 @@
   // Title
   &-title {
     display: flex;
-    align-items: center;
     padding: 12px 20px;
 
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
     border-bottom: 1px solid $K200;
     background: $K50;
+
+    @media #{$query-max-md} {
+      flex-direction: column;
+
+      .button-group {
+        margin-top: 10px;
+      }
+    }
   }
 }
 

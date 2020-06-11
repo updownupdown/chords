@@ -160,7 +160,7 @@ export const ChordChart = (props) => {
         {!props.showChord || Object.keys(props.myChord.chord).length === 0 ? (
           <span className="no-selection">No chord selected.</span>
         ) : (
-          <div className="chord-details">
+          <>
             {notesWithIntervals(
               props.myChord.chord["notes"],
               props.myChord.chord["intervals"]
@@ -182,7 +182,7 @@ export const ChordChart = (props) => {
                 </span>
               </div>
             </div>
-          </div>
+          </>
         )}
       </div>
 

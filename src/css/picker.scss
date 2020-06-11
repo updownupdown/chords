@@ -4,7 +4,10 @@
 .picker-group {
   display: flex;
   flex: 1;
-  padding-right: 12px;
+
+  @media #{$query-min-md} {
+    padding-right: 12px;
+  }
 
   .picker:not(:last-child) .picker-toggle {
     border-top-right-radius: 0;
@@ -108,29 +111,9 @@
   }
 }
 
-// Keys Picker
-.picker-keys {
-  .picker-toggle {
-    width: 220px;
-    text-transform: capitalize;
-  }
-
-  .picker-menu {
-    width: 100%;
-
-    .picker-keys-menu {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-    }
-  }
-}
-
 // Notes Picker
 .picker-notes {
-  .picker-toggle {
-    width: 70px;
-  }
+  width: 70px;
 
   .picker-notes-menu {
     display: flex;
@@ -182,12 +165,30 @@
   }
 }
 
-// Chord Picker
-.picker-chords {
-  flex: 1;
+// Keys Picker
+.picker-keys {
+  width: 240px;
 
   .picker-toggle {
-    max-width: 240px;
+    text-transform: capitalize;
+  }
+
+  .picker-menu {
+    width: 100%;
+
+    .picker-keys-menu {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}
+
+// Chord Picker
+.picker-chords {
+  width: 240px;
+
+  .picker-toggle {
     text-transform: capitalize;
   }
 

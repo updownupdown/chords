@@ -25,24 +25,30 @@
   }
 }
 
-.wheel {
-  $rad-outer: 50%;
-  $rad-gap: $rad-outer * 0.7;
-  $rad-inner: $rad-outer * 0.68;
-  $rad-center: $rad-outer * 0.43;
+$wheel-width: 320px;
+$wheel-breakpoint: $wheel-width + $layout-side-padding * 2;
+$wheel-width-mobile: calc(100vw - #{$layout-side-padding * 2});
 
+// Wheel wrap (overflow allowed for box-shadow
+.wheel-wrap {
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
   margin-top: 10px;
 
-  width: 320px;
-  height: 320px;
+  width: $wheel-width;
+  height: $wheel-width;
+
+  @media (max-width: $wheel-breakpoint) {
+    width: $wheel-width-mobile;
+    height: $wheel-width-mobile;
+  }
 
   // Background
-  &-background {
+  .wheel-background {
     position: absolute;
+    z-index: 1;
     top: 0;
     left: 0;
     width: 100%;
@@ -67,6 +73,20 @@
         inset 2px 4px 28px rgba($K400, 0.1);
     }
   }
+}
+
+// Wheel itself (overflow: hidden)
+.wheel {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+
+  @media (max-width: $wheel-breakpoint) {
+    width: $wheel-width-mobile;
+    height: $wheel-width-mobile;
+  }
 
   // Notes
   @include spokes(0.41, 60px, "note");
@@ -84,6 +104,14 @@
 
       span:nth-child(2) {
         font-size: 16px;
+      }
+
+      @media (max-width: $wheel-breakpoint) {
+        font-size: 7.5vw;
+
+        span:nth-child(2) {
+          font-size: 5vw;
+        }
       }
 
       &.flat span:nth-child(2) {
@@ -114,6 +142,10 @@
     user-select: none;
     z-index: 3;
     font-size: 16px;
+
+    @media (max-width: $wheel-breakpoint) {
+      font-size: 5vw;
+    }
   }
 
   // Spokes
@@ -161,6 +193,7 @@
     // Current
     &-current.spoke-major path.outer {
       fill: $major-color;
+      stroke: darken($major-color, 15%);
     }
     &-current.spoke-minor path.outer {
       fill: $minor-color;

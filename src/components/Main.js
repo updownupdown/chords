@@ -484,6 +484,7 @@ function Main() {
                 pianoLocked={pianoLocked}
                 autoplaying={autoplaying}
                 myKey={myKey}
+                myChord={myChord}
                 notesSelected={notesSelected}
                 selectNotesFromKey={selectNotesFromKey}
                 getKey={getKey}

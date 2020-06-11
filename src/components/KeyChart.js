@@ -1,6 +1,7 @@
 import React from "react";
 import { Key } from "@tonaljs/tonal";
 import { notesWithIntervals, gradesNumerals } from "./Utils";
+import classNames from "classnames";
 import { Picker } from "./Picker";
 import Sound from "../icons/sound";
 import Piano from "../icons/piano";
@@ -43,23 +44,25 @@ export const KeyChart = (props) => {
     return (
       <span className="chords-with-grades">
         {chords.map((chord, i) => (
-          <div
+          <span
             key={i}
-            className={`pair pair-${gradeType(gradesNumerals[type][i])}`}
+            role="button"
+            className={classNames(
+              `pair pair-${gradeType(gradesNumerals[type][i])}`,
+              {
+                current: chord === props.myChord.root + props.myChord.formula,
+              }
+            )}
+            onClick={() => {
+              props.getChord(chord);
+            }}
           >
             <span className="grade">{gradesNumerals[type][i]}</span>
-            <button
-              className="small theme-chord"
-              onClick={() => {
-                props.getChord(chord);
-              }}
-            >
-              {chord}
-            </button>
+            <span className="chord">{chord}</span>
             <span className="harmonic-function">
               {harmonicLabel(harmonicFunction[i])}
             </span>
-          </div>
+          </span>
         ))}
       </span>
     );

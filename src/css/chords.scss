@@ -5,32 +5,26 @@
   flex-direction: column;
 }
 
-// Chord Details
-.chord-details {
+// Chord Name
+.chord-name {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  margin: 4px 0;
 
-  // Chord Name
-  .chord-name {
-    display: flex;
-    align-items: center;
-    margin: 4px 0;
+  font-size: 14px;
 
-    font-size: 14px;
-
-    .name {
-      font-weight: 600;
-      color: $K900;
-      text-transform: capitalize;
-    }
-    .divider {
-      padding: 0 8px;
-      font-weight: 400;
-      color: $K300;
-    }
-    .aliases {
-      font-weight: 400;
-      color: $K600;
-    }
+  .name {
+    font-weight: 600;
+    color: $K900;
+    text-transform: capitalize;
+  }
+  .divider {
+    padding: 0 8px;
+    font-weight: 400;
+    color: $K300;
+  }
+  .aliases {
+    font-weight: 400;
+    color: $K600;
   }
 }
