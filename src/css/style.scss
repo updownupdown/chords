@@ -247,8 +247,20 @@ button {
     // Wheel/Staff
     &-left {
       display: flex;
-      flex-direction: column;
       align-items: center;
+
+      @media #{$query-min-lg} {
+        flex-direction: column;
+      }
+      @media #{$query-max-lg} {
+        flex-direction: row;
+        justify-content: space-around;
+        margin-bottom: 34px;
+      }
+      @media #{$query-max-md} {
+        flex-direction: column;
+        margin-bottom: 0px;
+      }
     }
 
     // Charts

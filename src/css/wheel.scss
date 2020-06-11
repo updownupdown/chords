@@ -92,9 +92,9 @@ $wheel-width-mobile: calc(100vw - #{$layout-side-padding * 2});
   @include spokes(0.41, 60px, "note");
   .note {
     user-select: none;
+    pointer-events: none;
     z-index: 4;
     transition: 0.2s ease color;
-    cursor: pointer;
 
     span {
       display: flex;
@@ -125,20 +125,14 @@ $wheel-width-mobile: calc(100vw - #{$layout-side-padding * 2});
     color: $K550;
 
     &.in-key {
-      color: $K800;
-    }
-    // &.current {
-    // color: $key-color;
-    // color: white;
-    // }
-    &:hover {
-      color: $key-color-hover;
+      color: $K750;
     }
   }
 
   // Grades
   @include spokes(0.265, 40px, "grade");
   .grade {
+    pointer-events: none;
     user-select: none;
     z-index: 3;
     font-size: 16px;
@@ -146,95 +140,75 @@ $wheel-width-mobile: calc(100vw - #{$layout-side-padding * 2});
     @media (max-width: $wheel-breakpoint) {
       font-size: 5vw;
     }
-
-    &:hover {
-      color: $chord-color;
-    }
   }
+}
 
-  // Spokes
-  .spoke {
-    pointer-events: none;
-    position: absolute;
-    z-index: 2;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+@mixin color-svg($color) {
+  fill: $color;
+  stroke: darken($color, 15%);
 
-    &-none {
-      z-index: 1;
-    }
+  &:hover {
+    fill: darken($color, 10%);
+    stroke: darken($color, 25%);
+  }
+}
 
-    svg {
-      width: 100%;
-      height: 100%;
+// Arc
+.arc-sections {
+  position: absolute;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
 
-      path {
-        stroke: $K400;
-        stroke-width: 1px;
+  path {
+    cursor: pointer;
+    // transition: 0.1s ease fill;
+
+    &.outer {
+      fill: $K200;
+      stroke: $K350;
+
+      &:hover {
+        fill: $K300;
       }
 
-      .outer {
+      &.in-key {
         fill: white;
-        //     stroke: $K350;
-      }
-      .inner {
-        fill: $K100;
-      }
-    }
+        stroke: $K300;
 
-    // No grade
-    &-none path {
-      &.outer {
-        fill: $K200;
+        &:hover {
+          fill: $K100;
+        }
       }
-      &.inner {
-        display: none;
+
+      // Chord Type
+      &.current.type-major {
+        @include color-svg($major-color);
+      }
+      &.current.type-minor {
+        @include color-svg($minor-color);
       }
     }
+    &.inner {
+      fill: rgba($K600, 0.1);
+      stroke: $K500;
 
-    // Current
-    &-current.spoke-major path.outer {
-      fill: $major-color;
-      stroke: darken($major-color, 15%);
-    }
-    &-current.spoke-minor path.outer {
-      fill: $minor-color;
-    }
-    &-current.spoke-diminished path.outer {
-      fill: $diminished-color;
-    }
-    &-current.spoke-augmented path.outer {
-      fill: $augmented-color;
-    }
-
-    // Chord Type
-    &-major path.inner {
-      fill: $major-color;
-      stroke: darken($major-color, 15%);
-    }
-    &-minor path.inner {
-      fill: $minor-color;
-      stroke: darken($minor-color, 15%);
-    }
-    &-diminished path.inner {
-      fill: $diminished-color;
-      stroke: darken($diminished-color, 15%);
-    }
-    &-augmented path.inner {
-      fill: $augmented-color;
-      stroke: darken($augmented-color, 15%);
-    }
-  }
-
-  // Don't show additional info
-  &:not(.theme-key) {
-    .grade {
-      // opacity: 0.5;
-    }
-    .spoke svg path.inner {
-      opacity: 0.5;
+      // Chord Type
+      &.type-major {
+        @include color-svg($major-color);
+      }
+      &.type-minor {
+        @include color-svg($minor-color);
+      }
+      &.type-diminished {
+        @include color-svg($diminished-color);
+      }
+      &.type-augmented {
+        @include color-svg($augmented-color);
+      }
     }
   }
 }

@@ -86,6 +86,9 @@
     border-bottom: 1px solid $K200;
     background: $K50;
 
+    @media #{$query-min-md} {
+      align-items: center;
+    }
     @media #{$query-max-md} {
       flex-direction: column;
 
@@ -99,7 +102,9 @@
 // Notes with Intervals
 .notes-with-intervals {
   display: flex;
+  width: 100%;
   max-width: 100%;
+  justify-content: center;
   overflow-x: auto;
   padding: 10px 0; // for mobile overflow scroll
 
