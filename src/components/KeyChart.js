@@ -1,6 +1,6 @@
 import React from "react";
 import { Key } from "@tonaljs/tonal";
-import { notesWithIntervals } from "./Utils";
+import { notesWithIntervals, gradesNumerals } from "./Utils";
 import { Picker } from "./Picker";
 import Sound from "../icons/sound";
 import Piano from "../icons/piano";
@@ -9,13 +9,6 @@ import "../css/charts.scss";
 import "../css/keys.scss";
 
 export const KeyChart = (props) => {
-  const gradesNumerals = {
-    major: ["I", "ii", "iii", "IV", "V", "vi", "vii°"],
-    natural: ["i", "ii°", "III", "iv", "v", "VI", "VII"],
-    harmonic: ["i", "ii°", "III+", "iv", "V", "VI", "vii°"],
-    melodic: ["i", "ii", "III+", "IV", "V", "vi°", "vii°"],
-  };
-
   const harmonicName = {
     T: "Tonic",
     SD: "Sub Dom.",

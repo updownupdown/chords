@@ -12,6 +12,7 @@ $K350: darken($base, 5%);
 $K400: darken($base, 10%);
 $K450: darken($base, 17%);
 $K500: darken($base, 25%);
+$K550: darken($base, 28%);
 $K600: darken($base, 30%);
 $K650: darken($base, 40%);
 $K700: darken($base, 50%);
@@ -34,4 +35,7 @@ $chord-color-hover: darken($chord-color, 20%);
 $locked-color: #bf1125;
 $locked-color-hover: darken($locked-color, 15%);
 
-// $orange: #f67f10;
+$major-color: #fda179;
+$minor-color: #acd7e4;
+$diminished-color: #9ee0c7;
+$augmented-color: #baa5f6;

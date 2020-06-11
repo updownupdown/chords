@@ -472,6 +472,7 @@ function Main() {
                 myChord={myChord}
                 myKey={myKey}
                 getKey={getKey}
+                getChord={getChord}
                 notesSelected={notesSelected}
                 showKey={showKey}
                 showChord={showChord}

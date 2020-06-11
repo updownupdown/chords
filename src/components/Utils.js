@@ -8,6 +8,72 @@ export function sortAlpha(a, b) {
   return 0;
 }
 
+export const gradesNumerals = {
+  major: ["I", "ii", "iii", "IV", "V", "vi", "vii°"],
+  natural: ["i", "ii°", "III", "iv", "v", "VI", "VII"],
+  harmonic: ["i", "ii°", "III+", "iv", "V", "VI", "vii°"],
+  melodic: ["i", "ii", "III+", "IV", "V", "vi°", "vii°"],
+};
+
+export const gradesOrder = {
+  major: [
+    { grade: "I", type: "major" },
+    { grade: "V", type: "major" },
+    { grade: "ii", type: "minor" },
+    { grade: "vi", type: "minor" },
+    { grade: "iii", type: "minor" },
+    { grade: "vii°", type: "diminished" },
+    { grade: "", type: "none" },
+    { grade: "", type: "none" },
+    { grade: "", type: "none" },
+    { grade: "", type: "none" },
+    { grade: "", type: "none" },
+    { grade: "IV", type: "major" },
+  ],
+  natural: [
+    { grade: "i", type: "minor" },
+    { grade: "v", type: "minor" },
+    { grade: "ii°", type: "diminished" },
+    { grade: "", type: "none" },
+    { grade: "", type: "none" },
+    { grade: "", type: "none" },
+    { grade: "", type: "none" },
+    { grade: "", type: "none" },
+    { grade: "VI", type: "major" },
+    { grade: "III", type: "major" },
+    { grade: "VII", type: "major" },
+    { grade: "iv", type: "minor" },
+  ],
+  harmonic: [
+    { grade: "i", type: "minor" },
+    { grade: "V", type: "major" },
+    { grade: "ii°", type: "diminished" },
+    { grade: "", type: "none" },
+    { grade: "", type: "none" },
+    { grade: "vii°", type: "diminished" },
+    { grade: "", type: "none" },
+    { grade: "", type: "none" },
+    { grade: "VI", type: "major" },
+    { grade: "III+", type: "augmented" },
+    { grade: "", type: "none" },
+    { grade: "iv", type: "minor" },
+  ],
+  melodic: [
+    { grade: "i", type: "minor" },
+    { grade: "V", type: "major" },
+    { grade: "ii", type: "minor" },
+    { grade: "vi°", type: "diminished" },
+    { grade: "", type: "none" },
+    { grade: "vii°", type: "diminished" },
+    { grade: "", type: "none" },
+    { grade: "", type: "none" },
+    { grade: "", type: "none" },
+    { grade: "III+", type: "augmented" },
+    { grade: "", type: "none" },
+    { grade: "IV", type: "major" },
+  ],
+};
+
 const intQuality = {
   P: "Perfect",
   M: "Major",
