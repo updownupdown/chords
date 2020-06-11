@@ -20,11 +20,10 @@ Technical
 ---------------------
 Key Info/Wheel
 
-- show I II III IV... and functional harmonics in wheel, tie to key
+- better colour coding and CSS for wheel. ideally, select key using spoke svg, not the note text (hover state: background)
 - show enharmonics in wheel
-- when selecting notes from wheel, it should only change the note and retain the key type?
+- on wheel, when clicking an already selected chord, suggest selecting the enharmonic?
 - easy way to play chords from buttons in key info. maybe if key is already selected, play it?
-- option to rotate wheel or not? depends on how it's modified to show I/II/III/..., harmonics
 
 -------------------------
 Keyboard

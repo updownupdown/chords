@@ -146,6 +146,10 @@ $wheel-width-mobile: calc(100vw - #{$layout-side-padding * 2});
     @media (max-width: $wheel-breakpoint) {
       font-size: 5vw;
     }
+
+    &:hover {
+      color: $chord-color;
+    }
   }
 
   // Spokes
@@ -227,7 +231,7 @@ $wheel-width-mobile: calc(100vw - #{$layout-side-padding * 2});
   // Don't show additional info
   &:not(.theme-key) {
     .grade {
-      opacity: 0.5;
+      // opacity: 0.5;
     }
     .spoke svg path.inner {
       opacity: 0.5;

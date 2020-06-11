@@ -64,6 +64,13 @@ export const Wheel = (props) => {
       const gradeGrade = gradesOrder[type][(i + offset + 24) % 12].grade;
       const chordIndex = gradesNumerals[type].indexOf(gradeGrade);
 
+      const chord =
+        Object.keys(props.myKey.key).length !== 0 && chordIndex >= 0
+          ? type === "major"
+            ? props.myKey.key.chords[chordIndex]
+            : props.myKey.key[type].chords[chordIndex]
+          : "";
+
       return (
         <span key={i} data-note={note}>
           <span
@@ -95,7 +102,7 @@ export const Wheel = (props) => {
               className={`grade grade-${i}`}
               role="button"
               onClick={() => {
-                props.getChord(props.myKey.key.chords[chordIndex]);
+                chord && props.getChord(chord);
               }}
             >
               {gradeGrade}
