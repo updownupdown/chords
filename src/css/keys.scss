@@ -43,11 +43,8 @@
     width: 80px;
     padding: 8px;
 
-    border: 1px solid $K200;
-    background: $K50;
-
     &:not(:first-child) {
-      margin-left: -1px;
+      border-left: 1px solid $K200;
     }
 
     // Grade
@@ -55,6 +52,24 @@
       font-size: 18px;
       font-weight: 600;
       color: $K700;
+    }
+
+    // colors
+    &-major .grade {
+      // background: $major-color;
+      color: darken($major-color, 10%);
+    }
+    &-minor .grade {
+      // background: $minor-color;
+      color: darken($minor-color, 10%);
+    }
+    &-diminished .grade {
+      // background: $diminished-color;
+      color: darken($diminished-color, 10%);
+    }
+    &-augmented .grade {
+      // background: $augmented-color;
+      color: darken($augmented-color, 10%);
     }
 
     // Chord

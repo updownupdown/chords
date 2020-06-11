@@ -16,6 +16,23 @@ export const KeyChart = (props) => {
     "-": "-",
   };
 
+  function gradeType(grade) {
+    switch (grade.substr(-1)) {
+      case "I":
+      case "V":
+        return "major";
+      case "i":
+      case "v":
+        return "minor";
+      case "°":
+        return "diminished";
+      case "+":
+        return "augmented";
+      default:
+        return "";
+    }
+  }
+
   function harmonicLabel(harmonic) {
     const string = harmonic.substr(1).replace("b", "").replace("#", "");
     return harmonicName[string];
@@ -26,7 +43,10 @@ export const KeyChart = (props) => {
     return (
       <span className="chords-with-grades">
         {chords.map((chord, i) => (
-          <div key={i} className="pair">
+          <div
+            key={i}
+            className={`pair pair-${gradeType(gradesNumerals[type][i])}`}
+          >
             <span className="grade">{gradesNumerals[type][i]}</span>
             <button
               className="small theme-chord"
