@@ -28,3 +28,101 @@
     color: $K600;
   }
 }
+
+// Chord Progressions
+.chord-progs {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 20px;
+  padding: 20px 0;
+  border-top: 1px solid $K200;
+
+  // Header
+  &-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30px;
+
+    &-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: $K600;
+    }
+  }
+
+  // List
+  &-list {
+    display: flex;
+    align-items: center;
+
+    // No progressions
+    .empty {
+      padding-right: 10px;
+      font-size: 14px;
+      font-weight: 400;
+      color: $K400;
+    }
+
+    // Prog
+    .prog {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+
+      &:not(:first-child) {
+        margin-left: 20px;
+
+        &:after {
+          pointer-events: none;
+          user-select: none;
+          content: ">";
+          position: absolute;
+          left: 0;
+          margin-left: -14px;
+          font-size: 18px;
+          color: $K300;
+          font-weight: 400;
+        }
+      }
+
+      button:not(:disabled) {
+        outline: none;
+
+        // Select chord
+        &.chord {
+          padding: 0 10px;
+
+          border-radius: 6px;
+          border: 1px solid $K200;
+          background: none;
+
+          color: $chord-color;
+
+          &:hover {
+            background: $K100;
+            border-color: $K300;
+          }
+
+          &.active {
+            border-color: $chord-color;
+          }
+        }
+
+        // Remove chord
+        &.remove {
+          border: 0;
+
+          font-size: 12px;
+          font-weight: 600;
+          color: $K800;
+
+          &:hover {
+            color: red;
+          }
+        }
+      }
+    }
+  }
+}

@@ -52,13 +52,23 @@ function Main() {
   const [showChord, setShowChord] = useState(false);
   const [chordDetect, setChordDetect] = useState("");
 
+  // Chord Progressions
+  const [myProg, setMyProg] = useState([]);
+
   // Piano
   const [autoplaying, setAutoplaying] = useState(false);
   const [pianoLocked, setPianoLocked] = useState(false);
-  const autoplayDelay = 0.3;
-  const autoplayLength = "8n";
-  const playChordDurationNote = "2n";
-  const playChordDurationMs = 1000;
+
+  const delayScaleMs = 300;
+  const delayScaleNote = "8n";
+
+  const delayChordMs = 1000;
+  const delayChordNote = "2n";
+
+  // const autoplayDelay = 0.3;
+  // const autoplayLength = "8n";
+  // const playChordDurationNote = "2n";
+  // const playChordDurationMs = 1000;
 
   useEffect(() => {
     synth.current = new Sampler(
@@ -100,6 +110,46 @@ function Main() {
   //   console.log("mute adjust");
   //   synth.current.volume.mute = true;
   // }, [mute]);
+
+  // Chord Progressions
+  // Chord Progressions
+  // Chord Progressions
+  // Chord Progressions
+  // Chord Progressions
+  // Chord Progressions
+
+  function addProg() {
+    setMyProg([...myProg, myChord]);
+  }
+
+  function playProg() {
+    if (autoplaying || myProg.length === 0) return;
+
+    const playlist = [];
+    for (var i = 0; i <= myProg.length; i++) {
+      const pushNum = i === myProg.length ? 0 : i;
+
+      playlist.push({
+        time: (i * delayChordMs) / 1000,
+        note: pitchedNotesFromChord(myProg[pushNum].chord.notes),
+        duration: delayChordNote,
+      });
+    }
+
+    playPlaylist(playlist, delayChordMs, true);
+  }
+
+  function remProg(index) {
+    console.log("trying to remove prog index; " + index);
+    setMyProg([...myProg.slice(0, index), ...myProg.slice(index + 1)]);
+  }
+
+  /////////////////////////
+  /////////////////////////
+  /////////////////////////
+  /////////////////////////
+  /////////////////////////
+  /////////////////////////
 
   function hideChord() {
     setShowChord(false);
@@ -160,7 +210,7 @@ function Main() {
   }
 
   // Play playlist
-  function playPlaylist(playlist, pressStyle) {
+  function playPlaylist(playlist, delay, select) {
     if (!synthLoaded) return;
 
     new Part(function (time, note) {
@@ -168,7 +218,7 @@ function Main() {
     }, playlist).start();
     Transport.start();
 
-    highlightKeys(playlist, pressStyle);
+    highlightKeys(playlist, delay, select);
   }
 
   // Play synth
@@ -197,33 +247,26 @@ function Main() {
     const playlist = [];
     for (var i = 0; i < notesSelected.notes.length; i++) {
       playlist.push({
-        time: i * autoplayDelay,
+        time: (i * delayScaleMs) / 1000,
         note: notesSelected.notes[i],
-        duration: autoplayLength,
+        duration: delayScaleNote,
       });
     }
 
-    playPlaylist(playlist, "scale");
+    playPlaylist(playlist, delayScaleMs);
   }
 
   // Play chord (for chords)
   function playChord() {
-    if (
-      Object.keys(myChord.chord).length === 0 ||
-      myChord.chord.notes.length === 0
-    ) {
-      return;
-    }
-
-    var playlist = [
+    const playlist = [
       {
         time: 0,
         note: pitchedNotesFromChord(myChord.chord.notes),
-        duration: playChordDurationNote,
+        duration: delayChordNote,
       },
     ];
 
-    playPlaylist(playlist, "chord");
+    playPlaylist(playlist, delayChordMs);
   }
 
   // Play Scale (for keys)
@@ -237,13 +280,13 @@ function Main() {
     const playlist = [];
     for (var i = 0; i < scale.length; i++) {
       playlist.push({
-        time: i * autoplayDelay,
+        time: (i * delayScaleMs) / 1000,
         note: scale[i],
-        duration: autoplayLength,
+        duration: delayScaleNote,
       });
     }
 
-    playPlaylist(playlist, "scale");
+    playPlaylist(playlist, delayScaleMs);
   }
 
   // Find key
@@ -359,35 +402,27 @@ function Main() {
   }, [notesSelected]);
 
   // Highlight keys (for autoplay)
-  function highlightKeys(playlist, pressStyle) {
-    if (pressStyle === "scale") {
-      var timeouts = [];
+  function highlightKeys(playlist, delay, select) {
+    var timeouts = [];
 
-      for (let i = 0; i < playlist.length; i++) {
-        setAutoplaying(true);
-
-        timeouts.push(
-          setTimeout(() => {
-            setPressedNotes(playlist[i].note);
-          }, autoplayDelay * i * 1000)
-        );
-
-        timeouts.push(
-          setTimeout(function () {
-            setPressedNotes([]);
-            setAutoplaying(false);
-          }, autoplayDelay * playlist.length * 1000)
-        );
-      }
-    } else if (pressStyle === "chord") {
+    for (let i = 0; i < playlist.length; i++) {
       setAutoplaying(true);
 
-      setPressedNotes(playlist[0].note);
+      timeouts.push(
+        setTimeout(() => {
+          setPressedNotes(playlist[i].note);
+          select &&
+            setNotesSelected({ notes: playlist[i].note, type: "chord" });
+        }, delay * i)
+      );
 
-      setTimeout(function () {
-        setPressedNotes([]);
-        setAutoplaying(false);
-      }, playChordDurationMs);
+      timeouts.push(
+        setTimeout(function () {
+          setPressedNotes([]);
+          select && setNotesSelected({ notes: [], type: "chord" });
+          setAutoplaying(false);
+        }, delay * playlist.length)
+      );
     }
   }
 
@@ -502,6 +537,11 @@ function Main() {
                 playChord={playChord}
                 showChord={showChord}
                 hideChord={hideChord}
+                myProg={myProg}
+                addProg={addProg}
+                remProg={remProg}
+                setMyProg={setMyProg}
+                playProg={playProg}
               />
             </div>
           </div>

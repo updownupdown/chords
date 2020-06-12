@@ -2,6 +2,7 @@ import React from "react";
 import { chordList } from "./Lists";
 import { Picker } from "./Picker";
 import { notesWithIntervals, trimChordRoot } from "./Utils";
+import classNames from "classnames";
 import Sound from "../icons/sound";
 import Piano from "../icons/piano";
 import Clear from "../icons/clear";
@@ -184,6 +185,74 @@ export const ChordChart = (props) => {
             </div>
           </>
         )}
+
+        <div className="chord-progs">
+          <div className="chord-progs-header">
+            <span className="chord-progs-header-title">
+              Chord Progressions:
+            </span>
+            <div className="button-group touching">
+              <button
+                className="outline"
+                onClick={() => {
+                  props.playProg();
+                }}
+              >
+                <Sound />
+                <span className="text">Play</span>
+              </button>
+              <button
+                className="outline"
+                onClick={() => {
+                  props.setMyProg([]);
+                }}
+              >
+                <Clear />
+              </button>
+            </div>
+          </div>
+          <span className="chord-progs-list">
+            {props.myProg.length === 0 ? (
+              <span className="empty">No progression</span>
+            ) : (
+              props.myProg.map((chord, i) => (
+                <div key={i} className="prog">
+                  <button
+                    className={classNames("chord", {
+                      active:
+                        `${chord.root}${chord.formula}` ===
+                        `${props.myChord.root}${props.myChord.formula}`,
+                    })}
+                    onClick={() => {
+                      props.getChord(`${chord.root}${chord.formula}`);
+                    }}
+                  >
+                    {chord.root}
+                    {chord.formula}
+                  </button>
+                  <button
+                    className="remove"
+                    onClick={() => {
+                      console.log("remove this prog...");
+                      props.remProg(i);
+                    }}
+                  >
+                    Rem
+                  </button>
+                </div>
+              ))
+            )}
+
+            <button
+              className="outline"
+              onClick={() => {
+                props.addProg();
+              }}
+            >
+              Add {`${props.myChord.root}${props.myChord.formula}`}
+            </button>
+          </span>
+        </div>
       </div>
 
       <div className="chart-select chart-select-bottom">
