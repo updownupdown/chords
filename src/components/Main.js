@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useReducer } from "react";
 import { Sampler, Part, Transport } from "tone";
 import { Chord, Note, Key } from "@tonaljs/tonal";
 import * as ChordDetect from "@tonaljs/chord-detect";
@@ -7,7 +7,7 @@ import { Wheel } from "./Wheel";
 import { KeyChart } from "./KeyChart";
 import { Piano } from "./Piano";
 import { ChordChart } from "./ChordChart";
-import { Progs } from "./Progs";
+import { ChordProg } from "./ChordProg";
 import { Menu } from "./Menu";
 import { Staff } from "./Staff";
 import { keyList } from "./Lists";
@@ -42,7 +42,6 @@ function Main() {
     type: defaults.keyType,
     subtype: "",
   });
-  const [showKey, setShowKey] = useState(false);
 
   // Chord
   const [myChord, setMyChord] = useState({
@@ -50,11 +49,27 @@ function Main() {
     root: defaults.chordRoot,
     formula: defaults.chordFormula,
   });
-  const [showChord, setShowChord] = useState(false);
   const [chordDetect, setChordDetect] = useState("");
 
   // Chord Progressions
-  const [myProg, setMyProg] = useState([]);
+  const [myProg, setMyProg] = useReducer(progReducer, []);
+  function progReducer(myProg, action) {
+    switch (action.type) {
+      case "add":
+        return [...myProg, myChord];
+      case "copy":
+        return [...myProg, myProg[action.index]];
+      case "remove":
+        return [
+          ...myProg.slice(0, action.index),
+          ...myProg.slice(action.index + 1),
+        ];
+      case "clear":
+        return [];
+      default:
+        throw new Error();
+    }
+  }
 
   // Piano
   const [autoplaying, setAutoplaying] = useState(false);
@@ -112,41 +127,19 @@ function Main() {
   //   synth.current.volume.mute = true;
   // }, [mute]);
 
-  // Chord Progressions
-  function addProg() {
-    setMyProg([...myProg, myChord]);
-  }
-
-  function remProg(index) {
-    console.log("trying to remove prog index; " + index);
-    setMyProg([...myProg.slice(0, index), ...myProg.slice(index + 1)]);
-  }
-
   function playProg() {
     if (autoplaying || myProg.length === 0) return;
 
     const playlist = [];
-    for (var i = 0; i <= myProg.length; i++) {
-      const pushNum = i === myProg.length ? 0 : i;
-
+    for (var i = 0; i < myProg.length; i++) {
       playlist.push({
         time: (i * delayChordMs) / 1000,
-        note: pitchedNotesFromChord(myProg[pushNum].chord.notes),
+        note: pitchedNotesFromChord(myProg[i].chord.notes),
         duration: delayChordNote,
       });
     }
 
     playPlaylist(playlist, delayChordMs, true);
-  }
-
-  function hideChord() {
-    setShowChord(false);
-    setNotesSelected({ notes: [], type: "notes" });
-  }
-
-  function hideKey() {
-    setShowKey(false);
-    setNotesSelected({ notes: [], type: "notes" });
   }
 
   // Get chord
@@ -161,19 +154,13 @@ function Main() {
     setChord(chord, rootAndFormula.root, rootAndFormula.formula);
   }
 
+  // Run only once
   useEffect(() => {
     getChord(`${myChord.root}${myChord.formula}`);
   }, []);
 
-  const initChordSelection = useRef(true);
-
   function setChord(chord, root, formula) {
-    if (initChordSelection.current) {
-      initChordSelection.current = false;
-    } else {
-      setShowChord(true);
-      selectNotesFromChord(chord.notes);
-    }
+    selectNotesFromChord(chord.notes);
 
     setMyChord({
       chord: chord,
@@ -279,42 +266,22 @@ function Main() {
 
   // Find key
   function getKey(root, type, subtype) {
-    if (!root || !type) {
-      setKey({}, defaults.keyNote, defaults.keyType);
-      return;
-    }
-
     var key = {};
 
     if (type === "major") {
       key = Key.majorKey(root);
     } else if (type === "minor") {
       key = Key.minorKey(root);
-    } else {
-      return;
     }
 
-    setKey(key, root, type, subtype);
-  }
-
-  // Set key
-  function setKey(key, root, type, subtype) {
-    if (initKeySelection.current) {
-      initKeySelection.current = false;
-    } else {
-      setShowKey(true);
-      selectNotesFromKey(key, type, subtype);
-    }
-
+    selectNotesFromKey(key, type, subtype);
     setMyKey({ key: key, root: root, type: type, subtype: subtype });
   }
 
-  // On init, get key but don't select it.
+  // Get key on init
   useEffect(() => {
     getKey(myKey.root, myKey.type, myKey.subtype);
   }, []);
-
-  const initKeySelection = useRef(true);
 
   // Press (or unpress) note
   function pressNote(note, action) {
@@ -496,8 +463,6 @@ function Main() {
                 getKey={getKey}
                 getChord={getChord}
                 notesSelected={notesSelected}
-                showKey={showKey}
-                showChord={showChord}
               />
               <Staff myKey={myKey} notesSelected={notesSelected} />
             </div>
@@ -505,37 +470,31 @@ function Main() {
               <KeyChart
                 pianoLocked={pianoLocked}
                 autoplaying={autoplaying}
-                myKey={myKey}
-                myChord={myChord}
                 notesSelected={notesSelected}
-                selectNotesFromKey={selectNotesFromKey}
+                myKey={myKey}
                 getKey={getKey}
+                selectNotesFromKey={selectNotesFromKey}
+                myChord={myChord}
                 getChord={getChord}
                 playScale={playScale}
-                showKey={showKey}
-                hideKey={hideKey}
               />
               <ChordChart
                 pianoLocked={pianoLocked}
                 autoplaying={autoplaying}
-                myChord={myChord}
                 notesSelected={notesSelected}
-                selectNotesFromChord={selectNotesFromChord}
+                myChord={myChord}
                 getChord={getChord}
-                chordDetect={chordDetect}
                 playChord={playChord}
-                showChord={showChord}
-                hideChord={hideChord}
-                addProg={addProg}
+                selectNotesFromChord={selectNotesFromChord}
+                chordDetect={chordDetect}
+                setMyProg={setMyProg}
               />
-              <Progs
-                playProg={playProg}
+              <ChordProg
                 myChord={myChord}
                 getChord={getChord}
                 myProg={myProg}
-                addProg={addProg}
-                remProg={remProg}
                 setMyProg={setMyProg}
+                playProg={playProg}
               />
             </div>
           </div>

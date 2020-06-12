@@ -9,6 +9,7 @@ Bugs
 ---------------------
 Technical
 
+- convert to reducers as much as possible
 - review all chords, advanced ones are broken or off screen; simplify to one drop down, drop complex ones?
 - Reactivate loading screen but make it seemless/smoother
 - review var/let/const
@@ -20,6 +21,7 @@ Technical
 ---------------------
 Chord progressions
 
+- can't add chord unless one is selected
 - highlight index of chord prog as it plays
 - when finishing on the last chord, highlight it, select it, and select keys on piano unless locked
 
@@ -40,6 +42,7 @@ Keyboard
 -------------------------
 Medium Priority
 
+- context menu (right click) on chords to play, add to progression
 - type a formula to select a chord (next to predicted)
 - tooltips?
 - Flesh out menu: help (modal to explain), settings (?), keyboard shortcut guide (esp. for delete, enter, caps lock)

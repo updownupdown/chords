@@ -152,16 +152,14 @@ export const WheelLines = (props) => {
 
   return (
     <div className="wheel-lines">
-      {props.showChord && (
-        <svg
-          className="wheel-lines-svg"
-          height="320"
-          width="320"
-          viewBox="0 0 320 320"
-        >
-          {props.myChord.chord.notes !== undefined && drawShape()}
-        </svg>
-      )}
+      <svg
+        className="wheel-lines-svg"
+        height="320"
+        width="320"
+        viewBox="0 0 320 320"
+      >
+        {props.myChord.chord.notes !== undefined && drawShape()}
+      </svg>
     </div>
   );
 };

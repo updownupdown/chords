@@ -5,7 +5,6 @@ import classNames from "classnames";
 import { Picker } from "./Picker";
 import Sound from "../icons/sound";
 import Piano from "../icons/piano";
-import Clear from "../icons/clear";
 import "../css/charts.scss";
 import "../css/keys.scss";
 
@@ -254,22 +253,11 @@ export const KeyChart = (props) => {
             <Sound />
             <span className="text">Play</span>
           </button>
-          <button
-            className="outline"
-            onClick={() => {
-              props.hideKey();
-            }}
-            disabled={
-              props.autoplaying || Object.keys(props.myKey.key).length === 0
-            }
-          >
-            <Clear />
-          </button>
         </div>
       </div>
 
       <div className="chart-details">
-        {!props.showKey || Object.keys(props.myKey.key).length === 0 ? (
+        {Object.keys(props.myKey.key).length === 0 ? (
           <span className="no-selection">No key selected.</span>
         ) : (
           props.myKey.root && keyInfo()

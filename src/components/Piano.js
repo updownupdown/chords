@@ -154,9 +154,11 @@ export const Piano = (props) => {
             }
           >
             <Clear />
+            <span className="text">Clear</span>
           </button>
         </div>
       </div>
+
       <div className="piano-keys-wrap">
         <div className="piano-keys">
           {keyList.map((key, i) => (

@@ -2,12 +2,8 @@ import React from "react";
 import { chordList } from "./Lists";
 import { Picker } from "./Picker";
 import { notesWithIntervals, trimChordRoot } from "./Utils";
-import classNames from "classnames";
 import Sound from "../icons/sound";
 import Piano from "../icons/piano";
-import Clear from "../icons/clear";
-import Add from "../icons/add";
-import Trash from "../icons/trash";
 import "../css/charts.scss";
 import "../css/chords.scss";
 
@@ -143,24 +139,11 @@ export const ChordChart = (props) => {
             <Sound />
             <span className="text">Play</span>
           </button>
-          <button
-            className="outline"
-            onClick={() => {
-              props.hideChord();
-            }}
-            disabled={
-              !props.showChord ||
-              props.autoplaying ||
-              Object.keys(props.myChord.chord).length === 0
-            }
-          >
-            <Clear />
-          </button>
         </div>
       </div>
 
       <div className="chart-details">
-        {!props.showChord || Object.keys(props.myChord.chord).length === 0 ? (
+        {Object.keys(props.myChord.chord).length === 0 ? (
           <span className="no-selection">No chord selected.</span>
         ) : (
           <>
@@ -188,7 +171,7 @@ export const ChordChart = (props) => {
               <button
                 className="small"
                 onClick={() => {
-                  props.addProg();
+                  props.setMyProg({ type: "add" });
                 }}
               >
                 Add to Chord Progression

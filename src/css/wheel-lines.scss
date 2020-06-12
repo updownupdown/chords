@@ -7,9 +7,8 @@
   width: 100%;
   height: 100%;
 
-  .theme-key & {
-    display: none;
-  }
+  // Hiding chord lines when key is selected
+  // .theme-key & { display: none; }
 
   &-svg {
     position: absolute;
