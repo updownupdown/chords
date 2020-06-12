@@ -7,6 +7,7 @@ import { Wheel } from "./Wheel";
 import { KeyChart } from "./KeyChart";
 import { Piano } from "./Piano";
 import { ChordChart } from "./ChordChart";
+import { Progs } from "./Progs";
 import { Menu } from "./Menu";
 import { Staff } from "./Staff";
 import { keyList } from "./Lists";
@@ -112,14 +113,13 @@ function Main() {
   // }, [mute]);
 
   // Chord Progressions
-  // Chord Progressions
-  // Chord Progressions
-  // Chord Progressions
-  // Chord Progressions
-  // Chord Progressions
-
   function addProg() {
     setMyProg([...myProg, myChord]);
+  }
+
+  function remProg(index) {
+    console.log("trying to remove prog index; " + index);
+    setMyProg([...myProg.slice(0, index), ...myProg.slice(index + 1)]);
   }
 
   function playProg() {
@@ -138,18 +138,6 @@ function Main() {
 
     playPlaylist(playlist, delayChordMs, true);
   }
-
-  function remProg(index) {
-    console.log("trying to remove prog index; " + index);
-    setMyProg([...myProg.slice(0, index), ...myProg.slice(index + 1)]);
-  }
-
-  /////////////////////////
-  /////////////////////////
-  /////////////////////////
-  /////////////////////////
-  /////////////////////////
-  /////////////////////////
 
   function hideChord() {
     setShowChord(false);
@@ -397,6 +385,7 @@ function Main() {
 
   // Predict chords on note select change
   useEffect(() => {
+    if (autoplaying) return;
     const chords = ChordDetect.detect(notesSelected.notes).sort(sortAlpha);
     setChordDetect(chords);
   }, [notesSelected]);
@@ -537,11 +526,16 @@ function Main() {
                 playChord={playChord}
                 showChord={showChord}
                 hideChord={hideChord}
+                addProg={addProg}
+              />
+              <Progs
+                playProg={playProg}
+                myChord={myChord}
+                getChord={getChord}
                 myProg={myProg}
                 addProg={addProg}
                 remProg={remProg}
                 setMyProg={setMyProg}
-                playProg={playProg}
               />
             </div>
           </div>

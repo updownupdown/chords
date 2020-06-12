@@ -18,10 +18,15 @@ Technical
 - check mobile responsiveness, touch events
 
 ---------------------
+Chord progressions
+
+- highlight index of chord prog as it plays
+- when finishing on the last chord, highlight it, select it, and select keys on piano unless locked
+
+---------------------
 Key Info/Wheel
 
-- better colour coding and CSS for wheel. ideally, select key using spoke svg, not the note text (hover state: background)
-- show enharmonics in wheel
+- show enharmonics in wheel?
 - on wheel, when clicking an already selected chord, suggest selecting the enharmonic?
 - easy way to play chords from buttons in key info. maybe if key is already selected, play it?
 
@@ -45,7 +50,7 @@ Medium Priority
 -------------------------
 Very Low Priority
 
-- chord progression, chord inversions
+- chord inversions
 
 (C has same pattern... could suggest progressions and play them; minor key might have different progressions)
 Common chord progressions in the key of D major are as follows:
