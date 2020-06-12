@@ -69,8 +69,8 @@ $wheel-width-mobile: calc(100vw - #{$layout-side-padding * 2});
 
       border-radius: 50%;
       background: white;
-      box-shadow: inset 1px 2px 8px rgba($K500, 0.1),
-        inset 2px 4px 28px rgba($K400, 0.1);
+      box-shadow: inset 1px 2px 10px rgba($K500, 0.2),
+        inset 2px 4px 28px rgba($K400, 0.2);
     }
   }
 }

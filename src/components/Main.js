@@ -215,12 +215,10 @@ function Main() {
       return;
     }
 
-    const chord = pitchedNotesFromChord(myChord.chord.notes);
-
     var playlist = [
       {
         time: 0,
-        note: chord,
+        note: pitchedNotesFromChord(myChord.chord.notes),
         duration: playChordDurationNote,
       },
     ];
