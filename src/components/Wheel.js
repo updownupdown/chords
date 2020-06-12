@@ -64,7 +64,6 @@ export const Wheel = (props) => {
       const gradetype = gradesOrder[keyType][i].type;
       const current = root === props.myKey.root;
       const chordIndex = grade ? gradesNumerals[keyType].indexOf(grade) : false;
-      console.log(chordIndex);
       const chord =
         chordIndex >= 0
           ? Object.keys(props.myKey.key).length !== 0

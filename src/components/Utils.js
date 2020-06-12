@@ -150,7 +150,8 @@ export function notesWithIntervals(notes, absIntervals) {
         <span key={i} className="pair">
           <div className="note-root">
             <span className="root-interval" title={intervalName(note.intRoot)}>
-              {note.intRoot}
+              {note.intRoot.charAt(1)}
+              {note.intRoot.charAt(0)}
             </span>
             <span className="note">{note.note}</span>
           </div>
@@ -158,7 +159,8 @@ export function notesWithIntervals(notes, absIntervals) {
             className="relative-interval"
             title={intervalName(note.intRelative)}
           >
-            {note.intRelative}
+            {note.intRelative.charAt(1)}
+            {note.intRelative.charAt(0)}
           </span>
         </span>
       ))}
