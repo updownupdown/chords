@@ -244,9 +244,9 @@ export const KeyChart = (props) => {
           </button>
           <button
             className="outline"
-            onClick={
-              Object.keys(props.myKey.key).length !== 0 ? props.playScale : null
-            }
+            onClick={() => {
+              props.playPiano("scale", false);
+            }}
             disabled={
               props.autoplaying || Object.keys(props.myKey.key).length === 0
             }

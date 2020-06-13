@@ -17,7 +17,7 @@ export const ChordProg = (props) => {
           <button
             className="outline"
             onClick={() => {
-              props.playProg();
+              props.playPiano("prog", false);
             }}
             disabled={!props.myProg.length}
           >

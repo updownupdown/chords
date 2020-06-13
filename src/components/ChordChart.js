@@ -130,7 +130,7 @@ export const ChordChart = (props) => {
           <button
             className="outline"
             onClick={() => {
-              props.playChord();
+              props.playPiano("chord", true);
             }}
             disabled={
               props.autoplaying || Object.keys(props.myChord.chord).length === 0

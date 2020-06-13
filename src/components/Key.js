@@ -16,18 +16,18 @@ export const Key = (props) => {
       data-note={props.note}
       data-shortcut={props.shortcut}
       onMouseDown={() => {
-        props.playPiano(props.note, "attack");
+        props.playNote(props.note, "attack");
         props.toggleNote(props.index);
       }}
       onMouseUp={() => {
-        props.playPiano(props.note, "release");
+        props.playNote(props.note, "release");
       }}
       onMouseLeave={() => {
-        props.playPiano(props.note, "release");
+        props.playNote(props.note, "release");
       }}
       onMouseEnter={(e) => {
         if (props.mouseDown) {
-          props.playPiano(props.note, "attackrelease");
+          props.playNote(props.note, "attackrelease");
         }
       }}
     >

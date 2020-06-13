@@ -46,12 +46,12 @@ export const Piano = (props) => {
         break;
       // Enter key = play selected
       case "Enter":
-        props.playNotes();
+        props.playPiano("notes", false);
         break;
       default:
         // Play keys if it's a shortcut
         if (e.key.toLowerCase() in keyShortcuts) {
-          props.playPiano(keyShortcuts[e.key.toLowerCase()], "attack");
+          props.playNote(keyShortcuts[e.key.toLowerCase()], "attack");
           props.setPressed({
             type: "add",
             note: keyShortcuts[e.key.toLowerCase()],
@@ -72,7 +72,7 @@ export const Piano = (props) => {
         break;
       default:
         if (e.key.toLowerCase() in keyShortcuts) {
-          props.playPiano(keyShortcuts[e.key.toLowerCase()], "release");
+          props.playNote(keyShortcuts[e.key.toLowerCase()], "release");
           props.setPressed({
             type: "remove",
             note: keyShortcuts[e.key.toLowerCase()],
@@ -143,7 +143,7 @@ export const Piano = (props) => {
           <button
             className="play outline"
             onClick={() => {
-              props.playNotes();
+              props.playPiano("notes", false);
             }}
             disabled={props.pianoLocked || props.selected.notes.length === 0}
           >
@@ -176,7 +176,7 @@ export const Piano = (props) => {
               enharmoniclabel={key.enharmoniclabel}
               midi={Note.midi(key.note)}
               shortcut={key.shortcut}
-              playPiano={props.playPiano}
+              playNote={props.playNote}
               selected={props.selected}
               pressed={props.pressed}
               toggleNote={props.toggleNote}
