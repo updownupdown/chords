@@ -35,10 +35,13 @@ $wheel-width-mobile: calc(100vw - #{$layout-side-padding * 2});
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-top: 10px;
 
   width: $wheel-width;
   height: $wheel-width;
+
+  @media #{$query-min-lg} {
+    // margin-top: 10px;
+  }
 
   @media (max-width: $wheel-breakpoint) {
     width: $wheel-width-mobile;

@@ -83,6 +83,7 @@ button {
 
   .text {
     margin: 0 4px;
+    line-height: 1.4;
   }
 
   svg + .text {
@@ -270,7 +271,7 @@ button {
       flex: 1;
 
       @media #{$query-min-lg} {
-        margin-left: 40px;
+        margin-left: 30px;
       }
       @media #{$query-max-lg} {
         margin-top: 10px;

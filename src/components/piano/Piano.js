@@ -4,6 +4,8 @@ import { Note } from "@tonaljs/tonal";
 import { keyList } from "../../utils/Lists";
 import { Key } from "./Key";
 import Sound from "../../icons/sound";
+import Play from "../../icons/play";
+import PlaySeparate from "../../icons/playsep";
 import Mute from "../../icons/mute";
 import Locked from "../../icons/locked";
 import Unlocked from "../../icons/unlocked";
@@ -13,7 +15,6 @@ import "./piano.scss";
 export const Piano = (props) => {
   const [keyDown, setKeyDown] = useState(false);
   const [mouseDown, setMouseDown] = useState(false);
-  const [showShortcuts, setShowShortcuts] = useState(false);
 
   const minVolume = -20;
   const maxVolume = 0;
@@ -89,20 +90,20 @@ export const Piano = (props) => {
       className={classNames("piano", {
         [`theme-${props.selected.cat}`]: true,
         "theme-locked": props.pianoLocked,
-        "show-shortcuts": showShortcuts,
+        "show-shortcuts": props.showShortcuts,
       })}
     >
-      {!showShortcuts && (
+      <div className="piano-buttons">
         <button
-          className="outline view-piano-shortcuts"
+          className={`outline ${props.pianoLocked && "theme-locked"}`}
           onClick={() => {
-            setShowShortcuts(true);
+            props.setPianoLocked(!props.pianoLocked);
           }}
         >
-          View Keyboard Shortcuts
+          {props.pianoLocked ? <Locked /> : <Unlocked />}
+
+          <span className="text">Lock</span>
         </button>
-      )}
-      <div className="piano-buttons">
         <div
           className={classNames("piano-volume", {
             mute: props.mute,
@@ -128,18 +129,7 @@ export const Piano = (props) => {
             }}
           />
         </div>
-
         <div className="button-group touching">
-          <button
-            className={`outline ${props.pianoLocked && "theme-locked"}`}
-            onClick={() => {
-              props.setPianoLocked(!props.pianoLocked);
-            }}
-          >
-            {props.pianoLocked ? <Locked /> : <Unlocked />}
-
-            <span className="text">Lock</span>
-          </button>
           <button
             className="play outline"
             onClick={() => {
@@ -147,8 +137,8 @@ export const Piano = (props) => {
             }}
             disabled={props.pianoLocked || props.selected.notes.length === 0}
           >
-            <Sound />
-            <span className="text">Play</span>
+            <PlaySeparate />
+            <span className="text">Play Scale</span>
           </button>
           <button
             className="play outline"
@@ -157,8 +147,8 @@ export const Piano = (props) => {
             }}
             disabled={props.pianoLocked || props.selected.notes.length === 0}
           >
-            <Sound />
-            <span className="text">Play Together</span>
+            <Play />
+            <span className="text">Play Chord</span>
           </button>
           <button
             className="outline"
@@ -171,6 +161,26 @@ export const Piano = (props) => {
             <span className="text">Clear</span>
           </button>
         </div>
+      </div>
+
+      <div className="piano-shortcuts">
+        {props.showShortcuts && (
+          <div className="piano-shortcuts-list">
+            <span className="shortcut">
+              <span className="key">Enter</span>
+              <span className="action">Play Notes</span>
+            </span>
+            <span className="shortcut">
+              <span className="key">Caps Lock</span>
+              <span className="key">Shift</span>
+              <span className="action">Toggle Keyboard Lock</span>
+            </span>
+            <span className="shortcut">
+              <span className="key">Delete</span>
+              <span className="action">Clear Notes</span>
+            </span>
+          </div>
+        )}
       </div>
 
       <div className="piano-keys-wrap">

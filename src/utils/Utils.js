@@ -1,4 +1,5 @@
 import { Note } from "@tonaljs/tonal";
+import { highestNoteMidi } from "./Lists";
 
 export function sortAlpha(a, b) {
   if (a > b) return 1;
@@ -25,11 +26,11 @@ export function getRootAndFormula(chord) {
 }
 
 // Get pitched notes from chord
-export function pitchedNotes(notes) {
-  var pitch = 4;
-  var pitched = [];
-
+export function pitchedNotes(notes, lower) {
   const octave = ["C", "D", "E", "F", "G", "A", "B"];
+
+  var pitch = lower ? 3 : 4;
+  var pitched = [];
   var oldIndex = 0;
 
   for (var i = 0; i < notes.length; i++) {
@@ -42,6 +43,12 @@ export function pitchedNotes(notes) {
 
     // need to simplify notes to get rid of things like "Bbb"
     pitched.push(simplified + pitch.toString());
+  }
+
+  // see if chord will fit start on octave 4, otherwise start at 3
+  // also prevent going through function thrice
+  if (!lower && Note.midi(pitched[notes.length - 1]) > highestNoteMidi) {
+    return pitchedNotes(notes, true);
   }
 
   return pitched;

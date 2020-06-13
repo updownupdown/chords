@@ -157,46 +157,6 @@ export const chordList = [
 
 export const keyList = [
   {
-    note: "C3",
-    enharmonic: "B#2",
-    color: "white",
-    label: "C",
-    enharmoniclabel: "B#",
-    midi: 48,
-  },
-  {
-    note: "C#3",
-    enharmonic: "Db3",
-    color: "black",
-    label: "C#",
-    enharmoniclabel: "Db",
-    midi: 49,
-  },
-  {
-    note: "D3",
-    enharmonic: false,
-    color: "white",
-    label: "D",
-    enharmoniclabel: false,
-    midi: 50,
-  },
-  {
-    note: "D#3",
-    enharmonic: "Eb3",
-    color: "black",
-    label: "D#",
-    enharmoniclabel: "Eb",
-    midi: 51,
-  },
-  {
-    note: "E3",
-    enharmonic: "Fb3",
-    color: "white",
-    label: "E",
-    enharmoniclabel: "Fb",
-    midi: 52,
-  },
-  {
     note: "F3",
     enharmonic: "E#3",
     color: "white",
@@ -262,7 +222,7 @@ export const keyList = [
     color: "white",
     label: "C",
     enharmoniclabel: "B#",
-    midi: 48,
+    midi: 60,
     shortcut: "d",
   },
   {
@@ -271,7 +231,7 @@ export const keyList = [
     color: "black",
     label: "C#",
     enharmoniclabel: "Db",
-    midi: 49,
+    midi: 61,
     shortcut: "r",
   },
   {
@@ -280,7 +240,7 @@ export const keyList = [
     color: "white",
     label: "D",
     enharmoniclabel: false,
-    midi: 50,
+    midi: 62,
     shortcut: "f",
   },
   {
@@ -289,7 +249,7 @@ export const keyList = [
     color: "black",
     label: "D#",
     enharmoniclabel: "Eb",
-    midi: 51,
+    midi: 63,
     shortcut: "t",
   },
   {
@@ -298,7 +258,7 @@ export const keyList = [
     color: "white",
     label: "E",
     enharmoniclabel: "Fb",
-    midi: 52,
+    midi: 64,
     shortcut: "g",
   },
   {
@@ -307,7 +267,7 @@ export const keyList = [
     color: "white",
     label: "F",
     enharmoniclabel: "E#",
-    midi: 54,
+    midi: 65,
     shortcut: "h",
   },
   {
@@ -316,7 +276,7 @@ export const keyList = [
     color: "black",
     label: "F#",
     enharmoniclabel: "Gb",
-    midi: 54,
+    midi: 66,
     shortcut: "u",
   },
   {
@@ -325,7 +285,7 @@ export const keyList = [
     color: "white",
     label: "G",
     enharmoniclabel: false,
-    midi: 55,
+    midi: 67,
     shortcut: "j",
   },
   {
@@ -334,7 +294,7 @@ export const keyList = [
     color: "black",
     label: "G#",
     enharmoniclabel: "Ab",
-    midi: 56,
+    midi: 68,
     shortcut: "i",
   },
   {
@@ -343,7 +303,7 @@ export const keyList = [
     color: "white",
     label: "A",
     enharmoniclabel: false,
-    midi: 57,
+    midi: 69,
     shortcut: "k",
   },
   {
@@ -352,7 +312,7 @@ export const keyList = [
     color: "black",
     label: "A#",
     enharmoniclabel: "Bb",
-    midi: 58,
+    midi: 70,
     shortcut: "o",
   },
   {
@@ -361,7 +321,7 @@ export const keyList = [
     color: "white",
     label: "B",
     enharmoniclabel: "Cb",
-    midi: 59,
+    midi: 71,
     shortcut: "l",
   },
   {
@@ -370,7 +330,7 @@ export const keyList = [
     color: "white",
     label: "C",
     enharmoniclabel: "B#",
-    midi: 48,
+    midi: 72,
     shortcut: ";",
   },
   {
@@ -379,7 +339,7 @@ export const keyList = [
     color: "black",
     label: "C#",
     enharmoniclabel: "Db",
-    midi: 49,
+    midi: 73,
     shortcut: "[",
   },
   {
@@ -388,7 +348,7 @@ export const keyList = [
     color: "white",
     label: "D",
     enharmoniclabel: false,
-    midi: 50,
+    midi: 74,
     shortcut: "'",
   },
   {
@@ -397,7 +357,7 @@ export const keyList = [
     color: "black",
     label: "D#",
     enharmoniclabel: "Eb",
-    midi: 51,
+    midi: 75,
     shortcut: "]",
   },
   {
@@ -406,7 +366,7 @@ export const keyList = [
     color: "white",
     label: "E",
     enharmoniclabel: "Fb",
-    midi: 52,
+    midi: 76,
   },
   {
     note: "F5",
@@ -414,7 +374,7 @@ export const keyList = [
     color: "white",
     label: "F",
     enharmoniclabel: "E#",
-    midi: 55,
+    midi: 77,
   },
   {
     note: "F#5",
@@ -422,7 +382,7 @@ export const keyList = [
     color: "black",
     label: "F#",
     enharmoniclabel: "Gb",
-    midi: 54,
+    midi: 78,
   },
   {
     note: "G5",
@@ -430,7 +390,7 @@ export const keyList = [
     color: "white",
     label: "G",
     enharmoniclabel: false,
-    midi: 55,
+    midi: 79,
   },
   {
     note: "G#5",
@@ -438,7 +398,7 @@ export const keyList = [
     color: "black",
     label: "G#",
     enharmoniclabel: "Ab",
-    midi: 56,
+    midi: 80,
   },
   {
     note: "A5",
@@ -446,7 +406,7 @@ export const keyList = [
     color: "white",
     label: "A",
     enharmoniclabel: false,
-    midi: 57,
+    midi: 81,
   },
   {
     note: "A#5",
@@ -454,7 +414,7 @@ export const keyList = [
     color: "black",
     label: "A#",
     enharmoniclabel: "Bb",
-    midi: 58,
+    midi: 82,
   },
   {
     note: "B5",
@@ -462,6 +422,48 @@ export const keyList = [
     color: "white",
     label: "B",
     enharmoniclabel: "Cb",
-    midi: 59,
+    midi: 83,
+  },
+  {
+    note: "C6",
+    enharmonic: "B#5",
+    color: "white",
+    label: "C",
+    enharmoniclabel: "B#",
+    midi: 84,
+  },
+  {
+    note: "C#6",
+    enharmonic: "Db6",
+    color: "black",
+    label: "C#",
+    enharmoniclabel: "Db",
+    midi: 85,
+  },
+  {
+    note: "D6",
+    enharmonic: false,
+    color: "white",
+    label: "D",
+    enharmoniclabel: false,
+    midi: 86,
+  },
+  {
+    note: "D#6",
+    enharmonic: "Eb6",
+    color: "black",
+    label: "D#",
+    enharmoniclabel: "Eb",
+    midi: 87,
+  },
+  {
+    note: "E6",
+    enharmonic: "Fb6",
+    color: "white",
+    label: "E",
+    enharmoniclabel: "Fb",
+    midi: 88,
   },
 ];
+
+export const highestNoteMidi = 88;

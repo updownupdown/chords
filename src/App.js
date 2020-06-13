@@ -28,6 +28,7 @@ function App() {
 
   const [autoplaying, setAutoplaying] = useState(false);
   const [pianoLocked, setPianoLocked] = useState(false);
+  const [showShortcuts, setShowShortcuts] = useState(false);
 
   useEffect(() => {
     synth.current = new Sampler(
@@ -336,7 +337,7 @@ function App() {
 
   return (
     <>
-      <Nav />
+      <Nav showShortcuts={showShortcuts} setShowShortcuts={setShowShortcuts} />
       <div className="layout">
         {/* <div className={`loader ${synthLoaded ? "loaded" : "loading"}`}>
           <div className="loading">
@@ -360,6 +361,7 @@ function App() {
             pianoLocked={pianoLocked}
             setPianoLocked={setPianoLocked}
             pressed={pressed}
+            showShortcuts={showShortcuts}
           />
 
           <div className="layout-bottom">
@@ -393,7 +395,6 @@ function App() {
                 getChord={getChord}
                 playPiano={playPiano}
                 chordDetect={chordDetect}
-                setMyProg={setMyProg}
               />
               <ChordProg
                 autoplaying={autoplaying}

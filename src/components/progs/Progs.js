@@ -1,43 +1,18 @@
 import React from "react";
 import classNames from "classnames";
-import Sound from "../../icons/sound";
+import Play from "../../icons/play";
 import Clear from "../../icons/clear";
 import Add from "../../icons/add";
 import Trash from "../../icons/trash";
 import Copy from "../../icons/copy";
-import "../../css/boxes.scss";
+import Box from "../box/Box";
 import "./progs.scss";
 
 export const ChordProg = (props) => {
   return (
-    <div className="box">
-      <div className="box-header">
-        <span className="box-header-title">Chord Progression</span>
-        <div className="button-group touching">
-          <button
-            className="outline"
-            onClick={() => {
-              props.playPiano("prog", false);
-            }}
-            disabled={!props.myProg.length}
-          >
-            <Sound />
-            <span className="text">Play</span>
-          </button>
-          <button
-            className="outline"
-            onClick={() => {
-              props.setMyProg({ type: "clear" });
-            }}
-            disabled={!props.myProg.length}
-          >
-            <Clear />
-            <span className="text">Clear</span>
-          </button>
-        </div>
-      </div>
-
-      <div className="box-body">
+    <Box type="prog">
+      <Box.Header title="Chord Progression"></Box.Header>
+      <Box.Body>
         <div className="chord-progs">
           {props.myProg.length !== 0 &&
             props.myProg.map((chord, i) => {
@@ -95,7 +70,32 @@ export const ChordProg = (props) => {
             </button>
           </div>
         </div>
-      </div>
-    </div>
+      </Box.Body>
+      <Box.Footer>
+        <span></span>
+        <div className="button-group touching">
+          <button
+            className="outline"
+            onClick={() => {
+              props.playPiano("prog", false);
+            }}
+            disabled={props.autoplaying || !props.myProg.length}
+          >
+            <Play />
+            <span className="text">Play</span>
+          </button>
+          <button
+            className="outline"
+            onClick={() => {
+              props.setMyProg({ type: "clear" });
+            }}
+            disabled={props.autoplaying || !props.myProg.length}
+          >
+            <Clear />
+            <span className="text">Clear</span>
+          </button>
+        </div>
+      </Box.Footer>
+    </Box>
   );
 };

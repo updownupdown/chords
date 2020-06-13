@@ -32,69 +32,80 @@ export const Staff = (props) => {
   }
 
   return (
-    <div
-      className={classNames("staffs", {
-        [`theme-${props.selected.cat}`]: true,
-      })}
-    >
-      <div className="staffs-braces">
-        <Braces />
-      </div>
-      <div className="staff staff-treble">
-        <div className="clef clef-treble">
-          <Treble />
+    <div className="staff-wrap">
+      <div
+        className={classNames("staffs", {
+          [`theme-${props.selected.cat}`]: true,
+        })}
+      >
+        <div className="staffs-braces">
+          <Braces />
         </div>
-        <div className="lines">
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
+        <div className="staff staff-treble">
+          <div className="clef clef-treble">
+            <Treble />
+          </div>
+          <div className="lines">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+
+          <div className="notes treble">
+            <div className="ledger-lines">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            {props.selected.notes.map((note) => (
+              <span
+                key={note}
+                className={`note treble note-${note
+                  .replace("#", "")
+                  .replace("b", "")} note-${note.replace("#", "s")}`}
+              >
+                {note.includes("b") && <Flat />}
+                {note.includes("#") && <Sharp />}
+                <Whole />
+              </span>
+            ))}
+          </div>
+          <div className="signature treble">
+            {signature && sigList(signature)}
+          </div>
         </div>
-        <div className="notes treble">
-          {props.selected.notes.map((note) => (
-            <span
-              key={note}
-              className={`note treble note-${note
-                .replace("#", "")
-                .replace("b", "")} note-${note.replace("#", "s")}`}
-            >
-              {note.includes("b") && <Flat />}
-              {note.includes("#") && <Sharp />}
-              <Whole />
-            </span>
-          ))}
+        <div className="staff staff-bass">
+          <div className="clef clef-bass">
+            <Bass />
+          </div>
+          <div className="lines">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <div className="notes bass">
+            {props.selected.notes.map((note) => (
+              <span
+                key={note}
+                className={`note bass note-${note
+                  .replace("#", "")
+                  .replace("b", "")} note-${note.replace("#", "s")}`}
+              >
+                {note.includes("b") && <Flat />}
+                {note.includes("#") && <Sharp />}
+                <Whole />
+              </span>
+            ))}
+          </div>
+          <div className="signature bass">
+            {signature && sigList(signature)}
+          </div>
         </div>
-        <div className="signature treble">
-          {signature && sigList(signature)}
-        </div>
-      </div>
-      <div className="staff staff-bass">
-        <div className="clef clef-bass">
-          <Bass />
-        </div>
-        <div className="lines">
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-        <div className="notes bass">
-          {props.selected.notes.map((note) => (
-            <span
-              key={note}
-              className={`note bass note-${note
-                .replace("#", "")
-                .replace("b", "")} note-${note.replace("#", "s")}`}
-            >
-              {note.includes("b") && <Flat />}
-              {note.includes("#") && <Sharp />}
-              <Whole />
-            </span>
-          ))}
-        </div>
-        <div className="signature bass">{signature && sigList(signature)}</div>
       </div>
     </div>
   );

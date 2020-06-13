@@ -1,15 +1,23 @@
 import React from "react";
 import "./nav.scss";
 
-export const Nav = () => {
+export const Nav = (props) => {
   return (
-    <div className="menu">
-      <div className="menu-center">
-        <div className="menu-left">
+    <div className="nav">
+      <div className="nav-center">
+        <div className="nav-left">
           <h2>Piano Chords</h2>
         </div>
-        <div className="menu-right">
+        <div className="nav-right">
           <div className="button-group">
+            <button
+              className="outline show-shortcuts"
+              onClick={() => {
+                props.setShowShortcuts(!props.showShortcuts);
+              }}
+            >
+              Keyboard Shortcuts
+            </button>
             <button
               className="outline"
               onClick={() => {
@@ -18,12 +26,6 @@ export const Nav = () => {
             >
               About
             </button>
-            {/* <button className="outline" disabled>
-              Help
-            </button>
-            <button className="outline" disabled>
-              Settings
-            </button> */}
           </div>
         </div>
       </div>

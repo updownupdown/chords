@@ -4,9 +4,13 @@
 .picker-group {
   display: flex;
   flex: 1;
+  justify-content: flex-end;
 
-  @media #{$query-min-md} {
-    padding-right: 12px;
+  @media #{$query-min-sm} {
+    padding-left: 12px;
+  }
+  @media #{$query-max-sm} {
+    padding-top: 8px;
   }
 
   .picker:not(:last-child) .picker-toggle {
@@ -41,6 +45,7 @@
 
     font-size: 18px;
     font-weight: 600;
+    line-height: 26px;
     color: $K900;
 
     .theme-key & {
@@ -165,10 +170,15 @@
   }
 }
 
+// Keys/Chords
+.picker-keys,
+.picker-chords {
+  flex: 1;
+  max-width: 240px;
+}
+
 // Keys Picker
 .picker-keys {
-  width: 240px;
-
   .picker-toggle {
     text-transform: capitalize;
   }
@@ -186,8 +196,6 @@
 
 // Chord Picker
 .picker-chords {
-  width: 240px;
-
   .picker-toggle {
     text-transform: capitalize;
   }

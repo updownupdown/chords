@@ -2,14 +2,28 @@
 
 $staff-color: $K750;
 
+.staff-wrap {
+  padding: 20px;
+
+  border-radius: 6px;
+  background: white;
+  box-shadow: 1px 2px 8px rgba($K500, 0.1);
+
+  @media #{$query-min-lg} {
+    margin-top: 30px;
+  }
+  @media #{$query-max-md} {
+    margin: 30px 0;
+  }
+}
+
 .staffs {
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
 
-  margin-top: 20px;
-  margin-left: 10px;
+  margin-left: 16px;
 
   &:before {
     content: "";
@@ -24,9 +38,8 @@ $staff-color: $K750;
 
   &-braces {
     position: absolute;
-    top: 50%;
+    bottom: 6px;
     left: -16px;
-    margin-top: -80px;
 
     svg {
       height: 160px;
@@ -45,7 +58,13 @@ $staff-color: $K750;
   flex-shrink: 0;
   width: 270px;
   height: 50px;
-  margin: 30px 0;
+
+  &-treble {
+    margin: 40px 0 30px;
+  }
+  &-bass {
+    margin: 30px 0 10px;
+  }
 
   @media #{$query-max-sm} {
     width: 240px;
@@ -230,22 +249,29 @@ $staff-color: $K750;
       left: 180px;
     }
 
-    &.treble {
-      &:before,
-      &:after {
-        content: "";
+    &.treble .ledger-lines {
+      span {
         position: absolute;
         z-index: 1;
         left: 0;
         width: 25px;
         height: 1px;
         background: $staff-color;
-      }
-      &:before {
-        top: -12px;
-      }
-      &:after {
-        top: 62px;
+
+        // Middle C
+        &:nth-child(1) {
+          top: 62px;
+        }
+        // A4...
+        &:nth-child(2) {
+          top: -12px;
+        }
+        &:nth-child(3) {
+          top: -24px;
+        }
+        &:nth-child(4) {
+          top: -36px;
+        }
       }
     }
 
@@ -309,8 +335,7 @@ $staff-color: $K750;
         &.note-E3,
         &.note-F3,
         &.note-G3,
-        &.note-A3,
-        &.note-C6 {
+        &.note-A3 {
           display: none;
         }
         &.note-B3 {
@@ -357,6 +382,18 @@ $staff-color: $K750;
         }
         &.note-B5 {
           top: -24px;
+        }
+        &.note-C6 {
+          top: -30px;
+        }
+        &.note-D6 {
+          top: -36px;
+        }
+        &.note-E6 {
+          top: -42px;
+        }
+        &.note-E6 {
+          top: -48px;
         }
 
         &.note-B3,
@@ -417,7 +454,10 @@ $staff-color: $K750;
         &.note-G5,
         &.note-A5,
         &.note-B5,
-        &.note-C6 {
+        &.note-C6,
+        &.note-D6,
+        &.note-E6,
+        &.note-F6 {
           display: none;
         }
 

@@ -24,7 +24,21 @@
   }
 }
 
-// Keyboard
+@mixin keyboard-shortcut() {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 4px;
+  background: white;
+  box-shadow: 1px 2px 3px rgba($K400, 0.1);
+
+  font-size: 12px;
+  color: $K600;
+  text-transform: uppercase;
+}
+
+// Piano
 .piano {
   position: relative;
   display: flex;
@@ -35,6 +49,7 @@
   &-volume {
     display: flex;
     align-items: center;
+    margin-right: auto;
 
     &-slider {
       -webkit-appearance: none;
@@ -65,27 +80,79 @@
     }
   }
 
-  // View Shortcuts Button
-  button.outline.view-piano-shortcuts {
-    position: absolute;
-    z-index: 3;
-    top: 0px;
-    left: 50%;
-    width: 210px;
-    margin-left: -225px;
+  // Shortcuts Button
+  &-shortcuts {
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+    display: none;
     justify-content: center;
+    flex: 1;
+    padding: 20px 0 10px;
+    border-top: 1px solid $K200;
 
-    @media #{$query-max-lg} {
-      display: none;
+    &:before {
+      $shadow-height: 12px;
+      content: "";
+      position: absolute;
+      z-index: -1;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: $shadow-height;
+      margin-top: -($shadow-height + 2);
+
+      border-radius: 30%;
+      box-shadow: 0 0 10px $K300;
     }
 
-    &:not(:disabled) {
-      font-size: 14px;
-      font-weight: 400;
-      color: $K400;
+    .show-shortcuts & {
+      display: flex;
+    }
 
-      &:hover {
-        color: $K700;
+    // "View Shortcuts" button
+    button.outline {
+      @media #{$query-max-lg} {
+        display: none;
+      }
+
+      &:not(:disabled) {
+        font-size: 14px;
+        font-weight: 400;
+        color: $K400;
+
+        &:hover {
+          color: $K700;
+        }
+      }
+    }
+
+    // Shortcut list
+    &-list {
+      display: flex;
+
+      font-size: 14px;
+      font-weight: 600;
+
+      .shortcut {
+        display: flex;
+        align-items: center;
+
+        &:not(:first-child) {
+          margin-left: 30px;
+        }
+        .key {
+          height: 32px;
+          margin-right: 4px;
+          padding: 0 8px;
+
+          @include keyboard-shortcut();
+        }
+        .action {
+          padding-left: 8px;
+          font-weight: 500;
+          color: $K650;
+        }
       }
     }
   }
@@ -95,16 +162,9 @@
     position: relative;
     z-index: 2;
     display: flex;
-    justify-content: space-between;
     width: 100%;
 
-    margin-bottom: 14px;
-
-    @media #{$query-min-md} {
-      .show-shortcuts & {
-        margin-bottom: 70px;
-      }
-    }
+    margin-bottom: 12px;
 
     @media #{$query-max-md} {
       button .text {
@@ -116,22 +176,23 @@
   // Keyboard Keys
   &-keys-wrap {
     position: relative;
+    overflow-x: auto;
     z-index: 1;
     display: block;
-    overflow-x: auto;
+    margin-bottom: 20px;
     padding-bottom: 10px; // keep box shadows visible
 
     @media #{$query-min-lg} {
-      width: 100%;
-      margin-top: -56px;
-      padding-top: 56px; // for shortcut helpers
-      margin-bottom: 20px;
+      .show-shortcuts & {
+        padding-top: 74px; // for shortcut helpers
+      }
     }
+
+    // Go to edge of screen
     @media #{$query-max-lg} {
       width: calc(100% + #{$layout-side-padding * 2});
       margin-left: -$layout-side-padding;
       margin-right: -$layout-side-padding;
-      margin-bottom: 30px;
     }
 
     // Keyboard Keys
@@ -307,25 +368,17 @@
       height: 36px;
     }
     .key-black & {
-      height: 52px;
+      height: 60px;
     }
 
     &-btn {
+      @include keyboard-shortcut();
       transition: 0.1s ease background-color;
       position: relative;
       z-index: 2;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+
       width: 22px;
       height: 22px;
-
-      border-radius: 4px;
-      background: $K150;
-
-      font-size: 12px;
-      color: $K600;
-      text-transform: uppercase;
     }
 
     &-line {
@@ -335,7 +388,7 @@
       left: 50%;
       width: 1px;
       height: 100%;
-      background: $K200;
+      background: $K300;
     }
   }
 
