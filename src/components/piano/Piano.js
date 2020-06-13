@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import classNames from "classnames";
 import { Note } from "@tonaljs/tonal";
-import { keyList } from "./Lists";
+import { keyList } from "../../utils/Lists";
 import { Key } from "./Key";
-import Sound from "../icons/sound";
-import Mute from "../icons/mute";
-import Locked from "../icons/locked";
-import Unlocked from "../icons/unlocked";
-import Clear from "../icons/clear";
-import "../css/piano.scss";
+import Sound from "../../icons/sound";
+import Mute from "../../icons/mute";
+import Locked from "../../icons/locked";
+import Unlocked from "../../icons/unlocked";
+import Clear from "../../icons/clear";
+import "./piano.scss";
 
 export const Piano = (props) => {
   const [keyDown, setKeyDown] = useState(false);

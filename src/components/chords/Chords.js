@@ -1,14 +1,14 @@
 import React from "react";
-import { chordList } from "./Lists";
-import { Picker } from "./Picker";
-import { trimChordRoot } from "./Utils";
-import { NotesIntervals } from "./NotesIntervals";
-import Sound from "../icons/sound";
-import Piano from "../icons/piano";
-import "../css/charts.scss";
-import "../css/chords.scss";
+import { chordList } from "../../utils/Lists";
+import { Picker } from "../common/Picker";
+import { trimChordRoot } from "../../utils/Utils";
+import { NotesIntervals } from "../common/NotesIntervals";
+import Sound from "../../icons/sound";
+import Piano from "../../icons/piano";
+import "../../css/boxes.scss";
+import "./chords.scss";
 
-export const ChordChart = (props) => {
+export const Chords = (props) => {
   const octave = ["C", "D", "E", "F", "G", "A", "B"];
 
   const noteChoices = octave.map((note, i) => (
@@ -93,8 +93,8 @@ export const ChordChart = (props) => {
   };
 
   return (
-    <div className="chart">
-      <div className="chart-title">
+    <div className="box">
+      <div className="box-header">
         <div className="picker-group theme-chord">
           <Picker className="picker-notes" selected={props.myChord.root}>
             <div className="picker-notes-menu">{noteChoices}</div>
@@ -143,7 +143,7 @@ export const ChordChart = (props) => {
         </div>
       </div>
 
-      <div className="chart-details">
+      <div className="box-body">
         {Object.keys(props.myChord.chord).length === 0 ? (
           <span className="no-selection">No chord selected.</span>
         ) : (
@@ -183,8 +183,8 @@ export const ChordChart = (props) => {
         )}
       </div>
 
-      <div className="chart-select chart-select-bottom">
-        <span className="chart-select-label">Chords from selected notes:</span>
+      <div className="box-footer">
+        <span className="box-footer-label">Chords from selected notes:</span>
         <div>
           {props.chordDetect.length > 0 ? (
             <div className="button-group">
@@ -205,7 +205,7 @@ export const ChordChart = (props) => {
               ))}
             </div>
           ) : (
-            <span className="chart-select-text empty">No chords detected.</span>
+            <span className="box-select-text empty">No chords detected.</span>
           )}
         </div>
       </div>

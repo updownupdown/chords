@@ -1,18 +1,18 @@
 import React from "react";
 import classNames from "classnames";
-import Sound from "../icons/sound";
-import Clear from "../icons/clear";
-import Add from "../icons/add";
-import Trash from "../icons/trash";
-import Copy from "../icons/copy";
-import "../css/charts.scss";
-import "../css/chord-prog.scss";
+import Sound from "../../icons/sound";
+import Clear from "../../icons/clear";
+import Add from "../../icons/add";
+import Trash from "../../icons/trash";
+import Copy from "../../icons/copy";
+import "../../css/boxes.scss";
+import "./progs.scss";
 
 export const ChordProg = (props) => {
   return (
-    <div className="chart">
-      <div className="chart-title">
-        <div className="chart-title-progs">Chord Progression</div>
+    <div className="box">
+      <div className="box-header">
+        <span className="box-header-title">Chord Progression</span>
         <div className="button-group touching">
           <button
             className="outline"
@@ -37,7 +37,7 @@ export const ChordProg = (props) => {
         </div>
       </div>
 
-      <div className="chart-details">
+      <div className="box-body">
         <div className="chord-progs">
           {props.myProg.length !== 0 &&
             props.myProg.map((chord, i) => {

@@ -2,8 +2,8 @@ import React from "react";
 import { Note } from "@tonaljs/tonal";
 import classNames from "classnames";
 import { WheelLines } from "./WheelLines";
-import { gradesOrder, gradesNumerals } from "./Lists";
-import "../css/wheel.scss";
+import { gradesOrder, gradesNumerals } from "../../utils/Lists";
+import "./wheel.scss";
 
 export const Wheel = (props) => {
   // Get note position on wheel

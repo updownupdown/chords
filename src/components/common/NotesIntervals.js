@@ -1,6 +1,7 @@
 import React from "react";
 import { Interval } from "@tonaljs/tonal";
-import { pitchedNotes } from "./Utils";
+import { pitchedNotes } from "../../utils/Utils";
+import "./notes-intervals.scss";
 
 export function NotesIntervals(props) {
   function intervalName(interval) {

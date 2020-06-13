@@ -15,6 +15,12 @@ Technical
 - add accessibility (aria)
 - check mobile responsiveness, touch events
 
+- when scrolling left/right on  keyboard, show shadow on either side if overflowing
+- label Key and Chord boxes, make into accordions, move actions to bottom
+- make piano into accordion, move actions to bottom
+- make staff into box
+
+
 ---------------------
 Key Info/Wheel
 
@@ -31,7 +37,7 @@ Keyboard
 -------------------------
 Medium Priority
 
-- context menu (right click) on chords to play, add to progression
+- accordion to minimize charts?
 - type a formula to select a chord (next to predicted)
 - tooltips?
 - Flesh out menu: help (modal to explain), settings (?), keyboard shortcut guide (esp. for delete, enter, caps lock)
@@ -52,5 +58,6 @@ I – vi – IV – V (D – Bm – G – A)
 ii – V – I (Em7 – A7 – Dmaj7)
 
 - guitar tabs
+- drag and drop within chord progression, from grades list to chord progression
 - quizzes to learn notes on staff, chords, keys, etc.
 - app to record key strokes, edit staff and add notes and auto play, export/import to save/load compositions

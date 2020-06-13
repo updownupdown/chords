@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
-import { sortAlpha } from "./Utils";
-import "../css/wheel-lines.scss";
+import { sortAlpha } from "../../utils/Utils";
+import "./wheel-lines.scss";
 
 export const WheelLines = (props) => {
   const wheelEquivalents = {

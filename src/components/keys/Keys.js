@@ -1,15 +1,15 @@
 import React from "react";
 import { Key } from "@tonaljs/tonal";
-import { NotesIntervals } from "./NotesIntervals";
-import { gradesNumerals } from "./Lists";
+import { NotesIntervals } from "../common/NotesIntervals";
+import { gradesNumerals } from "../../utils/Lists";
 import classNames from "classnames";
-import { Picker } from "./Picker";
-import Sound from "../icons/sound";
-import Piano from "../icons/piano";
-import "../css/charts.scss";
-import "../css/keys.scss";
+import { Picker } from "../common/Picker";
+import Sound from "../../icons/sound";
+import Piano from "../../icons/piano";
+import "../../css/boxes.scss";
+import "./keys.scss";
 
-export const KeyChart = (props) => {
+export const Keys = (props) => {
   const harmonicName = {
     T: "Tonic",
     SD: "Sub Dom.",
@@ -110,7 +110,8 @@ export const KeyChart = (props) => {
             details["chords"],
             details["chordsHarmonicFunction"]
           )}
-          <div className="chart-details-footer">
+
+          <div className="box-body-bottom">
             {relativeKey(details["minorRelative"], "minor")}
           </div>
         </>
@@ -130,7 +131,7 @@ export const KeyChart = (props) => {
             details[props.myKey.subtype]["chords"],
             details[props.myKey.subtype]["chordsHarmonicFunction"]
           )}
-          <div className="chart-details-footer">
+          <div className="box-details-footer">
             {relativeKey(details["relativeMajor"], "major")}
           </div>
         </>
@@ -218,8 +219,8 @@ export const KeyChart = (props) => {
   );
 
   return (
-    <div className="chart chart-key">
-      <div className="chart-title">
+    <div className="box box-key">
+      <div className="box-header">
         <div className="picker-group theme-key">
           <Picker className="picker-notes" selected={props.myKey.root}>
             <div className="picker-notes-menu">{noteChoices}</div>
@@ -269,7 +270,7 @@ export const KeyChart = (props) => {
         </div>
       </div>
 
-      <div className="chart-details">
+      <div className="box-body">
         {Object.keys(props.myKey.key).length === 0 ? (
           <span className="no-selection">No key selected.</span>
         ) : (

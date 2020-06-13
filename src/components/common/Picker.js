@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
-import ArrowDown from "../icons/arrowdown";
+import ArrowDown from "../../icons/arrowdown";
 import classNames from "classnames";
-import "../css/picker.scss";
+import "./picker.scss";
 
 export const Picker = (props) => {
   const {
@@ -37,7 +37,8 @@ function useComponentVisible(initialIsVisible) {
   );
   const ref = useRef(null);
 
-  const handleHideDropdown = (event: KeyboardEvent) => {
+  // const handleHideDropdown = (event: KeyboardEvent) => {
+  const handleHideDropdown = (event) => {
     if (event.key === "Escape") {
       setIsComponentVisible(false);
     }

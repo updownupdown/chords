@@ -1,12 +1,12 @@
 import React from "react";
 import classNames from "classnames";
-import Braces from "../icons/braces";
-import Treble from "../icons/treble";
-import Bass from "../icons/bass";
-import Sharp from "../icons/sharp";
-import Flat from "../icons/flat";
-import Whole from "../icons/whole";
-import "../css/staff.scss";
+import Braces from "../../icons/braces";
+import Treble from "../../icons/treble";
+import Bass from "../../icons/bass";
+import Sharp from "../../icons/sharp";
+import Flat from "../../icons/flat";
+import Whole from "../../icons/whole";
+import "./staff.scss";
 
 export const Staff = (props) => {
   const signature = props.myKey.key.keySignature;

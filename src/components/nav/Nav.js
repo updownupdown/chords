@@ -1,7 +1,7 @@
 import React from "react";
-import "../css/menu.scss";
+import "./nav.scss";
 
-export const Menu = (props) => {
+export const Nav = () => {
   return (
     <div className="menu">
       <div className="menu-center">

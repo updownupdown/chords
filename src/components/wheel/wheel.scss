@@ -1,5 +1,5 @@
-@import "./vars.scss";
-@import "./math.scss";
+@import "../../css/vars.scss";
+@import "../../css/math.scss";
 
 @mixin spokes($rad, $size, $item) {
   .#{$item} {
