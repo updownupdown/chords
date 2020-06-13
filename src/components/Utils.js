@@ -1,112 +1,11 @@
 import React from "react";
-import { Interval } from "@tonaljs/tonal";
+import { Note, Interval } from "@tonaljs/tonal";
 
 export function sortAlpha(a, b) {
   if (a > b) return 1;
   if (b > a) return -1;
 
   return 0;
-}
-
-export const gradesNumerals = {
-  major: ["I", "ii", "iii", "IV", "V", "vi", "vii°"],
-  natural: ["i", "ii°", "III", "iv", "v", "VI", "VII"],
-  harmonic: ["i", "ii°", "III+", "iv", "V", "VI", "vii°"],
-  melodic: ["i", "ii", "III+", "IV", "V", "vi°", "vii°"],
-};
-
-export const gradesOrder = {
-  major: [
-    { grade: "I", type: "major" },
-    { grade: "V", type: "major" },
-    { grade: "ii", type: "minor" },
-    { grade: "vi", type: "minor" },
-    { grade: "iii", type: "minor" },
-    { grade: "vii°", type: "diminished" },
-    { grade: "", type: "none" },
-    { grade: "", type: "none" },
-    { grade: "", type: "none" },
-    { grade: "", type: "none" },
-    { grade: "", type: "none" },
-    { grade: "IV", type: "major" },
-  ],
-  natural: [
-    { grade: "i", type: "minor" },
-    { grade: "v", type: "minor" },
-    { grade: "ii°", type: "diminished" },
-    { grade: "", type: "none" },
-    { grade: "", type: "none" },
-    { grade: "", type: "none" },
-    { grade: "", type: "none" },
-    { grade: "", type: "none" },
-    { grade: "VI", type: "major" },
-    { grade: "III", type: "major" },
-    { grade: "VII", type: "major" },
-    { grade: "iv", type: "minor" },
-  ],
-  harmonic: [
-    { grade: "i", type: "minor" },
-    { grade: "V", type: "major" },
-    { grade: "ii°", type: "diminished" },
-    { grade: "", type: "none" },
-    { grade: "", type: "none" },
-    { grade: "vii°", type: "diminished" },
-    { grade: "", type: "none" },
-    { grade: "", type: "none" },
-    { grade: "VI", type: "major" },
-    { grade: "III+", type: "augmented" },
-    { grade: "", type: "none" },
-    { grade: "iv", type: "minor" },
-  ],
-  melodic: [
-    { grade: "i", type: "minor" },
-    { grade: "V", type: "major" },
-    { grade: "ii", type: "minor" },
-    { grade: "vi°", type: "diminished" },
-    { grade: "", type: "none" },
-    { grade: "vii°", type: "diminished" },
-    { grade: "", type: "none" },
-    { grade: "", type: "none" },
-    { grade: "", type: "none" },
-    { grade: "III+", type: "augmented" },
-    { grade: "", type: "none" },
-    { grade: "IV", type: "major" },
-  ],
-};
-
-const intQuality = {
-  P: "Perfect",
-  M: "Major",
-  m: "Minor",
-  d: "Diminished",
-  A: "Augmented",
-};
-
-const intNumber = {
-  "1": "unison",
-  "2": "second",
-  "3": "third",
-  "4": "fourth",
-  "5": "fifth",
-  "6": "sixth",
-  "7": "seventh",
-  "8": "octave",
-  "9": "ninth",
-  "10": "tenth",
-  "11": "eleventh",
-  "12": "twelfth",
-  "13": "thirteenth",
-  "14": "fourteenth",
-  "15": "fifteenth",
-};
-
-function intervalName(interval) {
-  if (interval === "1P") return "Perfect unison";
-
-  const quality = interval.charAt(1);
-  const number = interval.charAt(0);
-
-  return intQuality[quality] + " " + intNumber[number];
 }
 
 export function trimChordRoot(name) {
@@ -126,7 +25,83 @@ export function getRootAndFormula(chord) {
   return { root: root, formula: formula };
 }
 
+// Get pitched notes from chord
+export function pitchedNotesFromChord(notes) {
+  var pitch = 4;
+  var pitched = [];
+
+  const octave = ["C", "D", "E", "F", "G", "A", "B"];
+  var oldIndex = 0;
+
+  for (var i = 0; i < notes.length; i++) {
+    // increment after octave increases
+    var newIndex = octave.indexOf(notes[i].charAt(0));
+    if (newIndex < oldIndex) pitch++;
+    oldIndex = newIndex;
+
+    const simplified = notes[i].length > 2 ? Note.simplify(notes[i]) : notes[i];
+
+    // need to simplify notes to get rid of things like "Bbb"
+    pitched.push(simplified + pitch.toString());
+  }
+
+  return pitched;
+}
+
+// Get pitched notes from key/type
+export function pitchedNotesFromKey(key, type, subtype) {
+  var pitch = 4;
+  var scale = type === "major" ? key.scale : key[subtype].scale;
+  var pitched = [];
+
+  for (var i = 0; i < scale.length; i++) {
+    pitched.push(scale[i] + pitch.toString());
+
+    if (scale[i].includes("B")) {
+      pitch++;
+    }
+  }
+  pitched.push(scale[0] + pitch.toString());
+
+  return pitched;
+}
+
 export function notesWithIntervals(notes, absIntervals) {
+  function intervalName(interval) {
+    if (interval === "1P") return "Perfect unison";
+
+    const intQuality = {
+      P: "Perfect",
+      M: "Major",
+      m: "Minor",
+      d: "Diminished",
+      A: "Augmented",
+    };
+
+    const intNumber = {
+      "1": "unison",
+      "2": "second",
+      "3": "third",
+      "4": "fourth",
+      "5": "fifth",
+      "6": "sixth",
+      "7": "seventh",
+      "8": "octave",
+      "9": "ninth",
+      "10": "tenth",
+      "11": "eleventh",
+      "12": "twelfth",
+      "13": "thirteenth",
+      "14": "fourteenth",
+      "15": "fifteenth",
+    };
+
+    const quality = interval.charAt(1);
+    const number = interval.charAt(0);
+
+    return intQuality[quality] + " " + intNumber[number];
+  }
+
   var notesList = [];
 
   if (notes.length === absIntervals.length) {

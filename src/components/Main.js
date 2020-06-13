@@ -2,7 +2,12 @@ import React, { useState, useRef, useEffect, useReducer } from "react";
 import { Sampler, Part, Transport } from "tone";
 import { Chord, Note, Key } from "@tonaljs/tonal";
 import * as ChordDetect from "@tonaljs/chord-detect";
-import { getRootAndFormula, sortAlpha } from "./Utils";
+import {
+  getRootAndFormula,
+  sortAlpha,
+  pitchedNotesFromChord,
+  pitchedNotesFromKey,
+} from "./Utils";
 import { Wheel } from "./Wheel";
 import { KeyChart } from "./KeyChart";
 import { Piano } from "./Piano";
@@ -13,65 +18,13 @@ import { Staff } from "./Staff";
 import { keyList } from "./Lists";
 
 function Main() {
-  // Default
-  const defaults = {
-    keyRoot: "C",
-    keyType: "major",
-    chordRoot: "C",
-    chordFormula: "M",
-  };
-
-  // Synth
+  // ===== Synth ===== //
   const synth = useRef(null);
   const defaultVolume = -4;
   const [synthLoaded, setsynthLoaded] = useState(false);
   const [volume, setVolume] = useState(defaultVolume);
   const [mute, setMute] = useState(false);
 
-  // Notes
-  const [notesSelected, setNotesSelected] = useState({
-    notes: [],
-    type: "notes",
-  });
-  const [pressedNotes, setPressedNotes] = useState([]);
-
-  // Key
-  const [myKey, setMyKey] = useState({
-    key: {},
-    root: defaults.keyRoot,
-    type: defaults.keyType,
-    subtype: "",
-  });
-
-  // Chord
-  const [myChord, setMyChord] = useState({
-    chord: {},
-    root: defaults.chordRoot,
-    formula: defaults.chordFormula,
-  });
-  const [chordDetect, setChordDetect] = useState("");
-
-  // Chord Progressions
-  const [myProg, setMyProg] = useReducer(progReducer, []);
-  function progReducer(myProg, action) {
-    switch (action.type) {
-      case "add":
-        return [...myProg, myChord];
-      case "copy":
-        return [...myProg, myProg[action.index]];
-      case "remove":
-        return [
-          ...myProg.slice(0, action.index),
-          ...myProg.slice(action.index + 1),
-        ];
-      case "clear":
-        return [];
-      default:
-        throw new Error();
-    }
-  }
-
-  // Piano
   const [autoplaying, setAutoplaying] = useState(false);
   const [pianoLocked, setPianoLocked] = useState(false);
 
@@ -80,11 +33,6 @@ function Main() {
 
   const delayChordMs = 1000;
   const delayChordNote = "2n";
-
-  // const autoplayDelay = 0.3;
-  // const autoplayLength = "8n";
-  // const playChordDurationNote = "2n";
-  // const playChordDurationMs = 1000;
 
   useEffect(() => {
     synth.current = new Sampler(
@@ -118,29 +66,127 @@ function Main() {
   }, []);
 
   // useEffect(() => {
-  //   console.log("volume adjust");
   //   synth.current.volume.value = volume;
   // }, [volume]);
 
   // useEffect(() => {
-  //   console.log("mute adjust");
   //   synth.current.volume.mute = true;
   // }, [mute]);
 
-  function playProg() {
-    if (autoplaying || myProg.length === 0) return;
+  // ===== Notes ===== //
+  const [selected, setSelected] = useReducer(selectedReducer, {
+    notes: [],
+    cat: "notes",
+  });
 
-    const playlist = [];
-    for (var i = 0; i < myProg.length; i++) {
-      playlist.push({
-        time: (i * delayChordMs) / 1000,
-        note: pitchedNotesFromChord(myProg[i].chord.notes),
-        duration: delayChordNote,
-      });
+  function selectedReducer(selected, action) {
+    switch (action.type) {
+      case "add":
+        return { notes: [...selected.notes, action.note], cat: action.cat };
+      case "remove":
+        // return pressed.filter((note) => note !== action.note);
+        return {
+          notes: selected.notes.filter((note) => note !== action.note),
+          cat: action.cat,
+        };
+      case "select":
+        return { notes: action.notes, cat: action.cat };
+      case "clear":
+        return { notes: [], cat: action.cat };
+      default:
+        throw new Error();
+    }
+  }
+
+  // Predict chords on note select change
+  useEffect(() => {
+    if (autoplaying) return;
+    const chords = ChordDetect.detect(selected.notes).sort(sortAlpha);
+    setChordDetect(chords);
+  }, [selected]);
+
+  // Toggle selected note (default/enharmonic?/off)
+  function toggleNote(index) {
+    if (pianoLocked || autoplaying) return;
+
+    const note = keyList[index].note;
+    const enharmonic = keyList[index].enharmonic;
+
+    if (enharmonic) {
+      if (selected.notes.includes(note)) {
+        setSelected({ type: "remove", note: note, cat: "notes" });
+        setSelected({ type: "add", note: enharmonic, cat: "notes" });
+      } else if (selected.notes.includes(enharmonic)) {
+        setSelected({ type: "remove", note: enharmonic, cat: "notes" });
+      } else {
+        setSelected({ type: "add", note: note, cat: "notes" });
+      }
+    } else {
+      if (selected.notes.includes(note)) {
+        setSelected({ type: "remove", note: note, cat: "notes" });
+      } else {
+        setSelected({ type: "add", note: note, cat: "notes" });
+      }
+    }
+  }
+
+  // Pressed notes on keyboard
+  const [pressed, setPressed] = useReducer(pressedReducer, []);
+  function pressedReducer(pressed, action) {
+    switch (action.type) {
+      case "add":
+        return [...pressed, action.note];
+      case "remove":
+        return pressed.filter((note) => note !== action.note);
+      case "select":
+        return action.notes;
+      case "clear":
+        return [];
+      default:
+        throw new Error();
+    }
+  }
+
+  // ===== Keys ===== //
+  const [myKey, setMyKey] = useState({
+    key: {},
+    root: "C",
+    type: "major",
+    subtype: "",
+  });
+
+  // Find key
+  function getKey(root, type, subtype) {
+    var key = {};
+
+    if (type === "major") {
+      key = Key.majorKey(root);
+    } else if (type === "minor") {
+      key = Key.minorKey(root);
     }
 
-    playPlaylist(playlist, delayChordMs, true);
+    setMyKey({ key: key, root: root, type: type, subtype: subtype });
+
+    !pianoLocked &&
+      setSelected({
+        type: "select",
+        notes: pitchedNotesFromKey(key, type, subtype),
+        cat: "key",
+      });
   }
+
+  // Get key on init
+  useEffect(() => {
+    getKey(myKey.root, myKey.type, myKey.subtype);
+  }, []);
+
+  // ====== Chords ===== //
+  const [myChord, setMyChord] = useState({
+    chord: {},
+    root: "C",
+    formula: "M",
+  });
+  const [chordDetect, setChordDetect] = useState("");
 
   // Get chord
   function getChord(name) {
@@ -151,7 +197,18 @@ function Main() {
 
     const rootAndFormula = getRootAndFormula(chord);
 
-    setChord(chord, rootAndFormula.root, rootAndFormula.formula);
+    setMyChord({
+      chord: chord,
+      root: rootAndFormula.root,
+      formula: rootAndFormula.formula,
+    });
+
+    !pianoLocked &&
+      setSelected({
+        type: "select",
+        notes: pitchedNotesFromChord(chord.notes),
+        cat: "chord",
+      });
   }
 
   // Run only once
@@ -159,29 +216,21 @@ function Main() {
     getChord(`${myChord.root}${myChord.formula}`);
   }, []);
 
-  function setChord(chord, root, formula) {
-    selectNotesFromChord(chord.notes);
-
-    setMyChord({
-      chord: chord,
-      root: root,
-      formula: formula,
-    });
-  }
-
-  // Select notes from chord
-  function selectNotesFromChord(notes) {
-    !pianoLocked &&
-      setNotesSelected({ notes: pitchedNotesFromChord(notes), type: "chord" });
-  }
-
-  // Select notes from key
-  function selectNotesFromKey(key, type, subtype) {
-    !pianoLocked &&
-      setNotesSelected({
-        notes: pitchedNotesFromKey(key, type, subtype),
-        type: "key",
-      });
+  // ===== Chord Progressions ===== //
+  const [myProg, setMyProg] = useReducer(progReducer, []);
+  function progReducer(myProg, action) {
+    switch (action.type) {
+      case "add":
+        return [...myProg, myChord];
+      case "copy":
+        return [...myProg, myProg[action.index]];
+      case "remove":
+        return myProg.filter((chord, i) => i !== action.index);
+      case "clear":
+        return [];
+      default:
+        throw new Error();
+    }
   }
 
   // Play playlist
@@ -217,13 +266,15 @@ function Main() {
 
   // Play notes
   function playNotes() {
-    if (autoplaying || notesSelected.notes.length === 0) return;
+    if (autoplaying || selected.notes.length === 0) return;
+
+    const sortedNotes = Note.sortedNames(selected.notes);
 
     const playlist = [];
-    for (var i = 0; i < notesSelected.notes.length; i++) {
+    for (var i = 0; i < sortedNotes.length; i++) {
       playlist.push({
         time: (i * delayScaleMs) / 1000,
-        note: notesSelected.notes[i],
+        note: sortedNotes[i],
         duration: delayScaleNote,
       });
     }
@@ -246,7 +297,7 @@ function Main() {
 
   // Play Scale (for keys)
   function playScale() {
-    if (Object.keys(myKey.key).length === 0) {
+    if (autoplaying || Object.keys(myKey.key).length === 0) {
       return;
     }
 
@@ -264,98 +315,21 @@ function Main() {
     playPlaylist(playlist, delayScaleMs);
   }
 
-  // Find key
-  function getKey(root, type, subtype) {
-    var key = {};
+  // Play chord progression
+  function playProg() {
+    if (autoplaying || myProg.length === 0) return;
 
-    if (type === "major") {
-      key = Key.majorKey(root);
-    } else if (type === "minor") {
-      key = Key.minorKey(root);
+    const playlist = [];
+    for (var i = 0; i < myProg.length; i++) {
+      playlist.push({
+        time: (i * delayChordMs) / 1000,
+        note: pitchedNotesFromChord(myProg[i].chord.notes),
+        duration: delayChordNote,
+      });
     }
 
-    selectNotesFromKey(key, type, subtype);
-    setMyKey({ key: key, root: root, type: type, subtype: subtype });
+    playPlaylist(playlist, delayChordMs, true);
   }
-
-  // Get key on init
-  useEffect(() => {
-    getKey(myKey.root, myKey.type, myKey.subtype);
-  }, []);
-
-  // Press (or unpress) note
-  function pressNote(note, action) {
-    const list = pressedNotes;
-
-    switch (action) {
-      case "on":
-        list.push(note);
-        break;
-      case "off":
-        const index = list.indexOf(note);
-        if (index > -1) {
-          list.splice(index, 1);
-        }
-        break;
-      default:
-        return;
-    }
-
-    setPressedNotes(list);
-  }
-
-  // Update single selected note
-  function updateNote(note, action) {
-    const list = notesSelected.notes;
-
-    switch (action) {
-      case "add":
-        list.push(note);
-        break;
-      case "remove":
-        const index = list.indexOf(note);
-        if (index > -1) {
-          list.splice(index, 1);
-        }
-        break;
-      default:
-        return;
-    }
-
-    setNotesSelected({ notes: Note.sortedNames(list), type: "notes" });
-  }
-
-  // Update selected notes
-  function updateSelected(index) {
-    if (pianoLocked || autoplaying) return;
-
-    const note = keyList[index].note;
-    const enharmonic = keyList[index].enharmonic;
-
-    if (enharmonic) {
-      if (notesSelected.notes.includes(note)) {
-        updateNote(note, "remove");
-        updateNote(enharmonic, "add");
-      } else if (notesSelected.notes.includes(enharmonic)) {
-        updateNote(enharmonic, "remove");
-      } else {
-        updateNote(note, "add");
-      }
-    } else {
-      if (notesSelected.notes.includes(note)) {
-        updateNote(note, "remove");
-      } else {
-        updateNote(note, "add");
-      }
-    }
-  }
-
-  // Predict chords on note select change
-  useEffect(() => {
-    if (autoplaying) return;
-    const chords = ChordDetect.detect(notesSelected.notes).sort(sortAlpha);
-    setChordDetect(chords);
-  }, [notesSelected]);
 
   // Highlight keys (for autoplay)
   function highlightKeys(playlist, delay, select) {
@@ -366,62 +340,24 @@ function Main() {
 
       timeouts.push(
         setTimeout(() => {
-          setPressedNotes(playlist[i].note);
+          setPressed({ type: "select", notes: playlist[i].note });
           select &&
-            setNotesSelected({ notes: playlist[i].note, type: "chord" });
+            setSelected({
+              type: "select",
+              notes: playlist[i].note,
+              cat: "chord",
+            });
         }, delay * i)
       );
 
       timeouts.push(
-        setTimeout(function () {
-          setPressedNotes([]);
-          select && setNotesSelected({ notes: [], type: "chord" });
+        setTimeout(() => {
+          setPressed({ type: "clear" });
+          select && setSelected({ type: "clear", cat: "chord" });
           setAutoplaying(false);
         }, delay * playlist.length)
       );
     }
-  }
-
-  // Get pitched notes from chord
-  function pitchedNotesFromChord(notes) {
-    var pitch = 4;
-    var pitched = [];
-
-    const octave = ["C", "D", "E", "F", "G", "A", "B"];
-    var oldIndex = 0;
-
-    for (var i = 0; i < notes.length; i++) {
-      // increment after octave increases
-      var newIndex = octave.indexOf(notes[i].charAt(0));
-      if (newIndex < oldIndex) pitch++;
-      oldIndex = newIndex;
-
-      const simplified =
-        notes[i].length > 2 ? Note.simplify(notes[i]) : notes[i];
-
-      // need to simplify notes to get rid of things like "Bbb"
-      pitched.push(simplified + pitch.toString());
-    }
-
-    return pitched;
-  }
-
-  // Get pitched notes from key/type
-  function pitchedNotesFromKey(key, type, subtype) {
-    var pitch = 4;
-    var scale = type === "major" ? key.scale : key[subtype].scale;
-    var pitched = [];
-
-    for (var i = 0; i < scale.length; i++) {
-      pitched.push(scale[i] + pitch.toString());
-
-      if (scale[i].includes("B")) {
-        pitch++;
-      }
-    }
-    pitched.push(scale[0] + pitch.toString());
-
-    return pitched;
   }
 
   return (
@@ -441,39 +377,35 @@ function Main() {
             setVolume={setVolume}
             mute={mute}
             setMute={setMute}
-            autoplaying={autoplaying}
-            notesSelected={notesSelected}
-            setNotesSelected={setNotesSelected}
+            selected={selected}
+            setSelected={setSelected}
             playPiano={playPiano}
-            pressNote={pressNote}
-            updateSelected={updateSelected}
+            setPressed={setPressed}
+            toggleNote={toggleNote}
             playNotes={playNotes}
             pianoLocked={pianoLocked}
             setPianoLocked={setPianoLocked}
-            pressedNotes={pressedNotes}
-            setPressedNotes={setPressedNotes}
+            pressed={pressed}
           />
 
           <div className="layout-bottom">
             <div className="layout-bottom-left">
               <Wheel
-                autoplaying={autoplaying}
                 myChord={myChord}
                 myKey={myKey}
                 getKey={getKey}
                 getChord={getChord}
-                notesSelected={notesSelected}
+                selected={selected}
               />
-              <Staff myKey={myKey} notesSelected={notesSelected} />
+              <Staff myKey={myKey} selected={selected} />
             </div>
             <div className="layout-bottom-right">
               <KeyChart
                 pianoLocked={pianoLocked}
                 autoplaying={autoplaying}
-                notesSelected={notesSelected}
+                selected={selected}
                 myKey={myKey}
                 getKey={getKey}
-                selectNotesFromKey={selectNotesFromKey}
                 myChord={myChord}
                 getChord={getChord}
                 playScale={playScale}
@@ -481,11 +413,10 @@ function Main() {
               <ChordChart
                 pianoLocked={pianoLocked}
                 autoplaying={autoplaying}
-                notesSelected={notesSelected}
+                selected={selected}
                 myChord={myChord}
                 getChord={getChord}
                 playChord={playChord}
-                selectNotesFromChord={selectNotesFromChord}
                 chordDetect={chordDetect}
                 setMyProg={setMyProg}
               />

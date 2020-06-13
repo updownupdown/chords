@@ -120,7 +120,7 @@ export const ChordChart = (props) => {
             disabled={
               props.autoplaying ||
               props.pianoLocked ||
-              (props.notesSelected.type === "chord" &&
+              (props.selected.cat === "chord" &&
                 Object.keys(props.myChord.chord).length !== 0)
             }
           >

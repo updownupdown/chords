@@ -6,18 +6,18 @@ export const Key = (props) => {
     <button
       className={classNames(`key key-${props.color}`, {
         active:
-          props.notesSelected.notes.includes(props.note) ||
-          props.notesSelected.notes.includes(props.enharmonic),
+          props.selected.notes.includes(props.note) ||
+          props.selected.notes.includes(props.enharmonic),
         pressed:
-          props.pressedNotes.includes(props.note) ||
-          props.pressedNotes.includes(props.enharmonic),
+          props.pressed.includes(props.note) ||
+          props.pressed.includes(props.enharmonic),
       })}
       data-midi={props.midi}
       data-note={props.note}
       data-shortcut={props.shortcut}
       onMouseDown={() => {
         props.playPiano(props.note, "attack");
-        props.updateSelected(props.index);
+        props.toggleNote(props.index);
       }}
       onMouseUp={() => {
         props.playPiano(props.note, "release");
@@ -41,7 +41,7 @@ export const Key = (props) => {
       <span className="key-labels">
         <span
           className={classNames(`key-label`, {
-            active: props.notesSelected.notes.includes(props.note),
+            active: props.selected.notes.includes(props.note),
             flat: props.note.includes("b"),
             sharp: props.note.includes("#"),
           })}
@@ -52,7 +52,7 @@ export const Key = (props) => {
         {props.enharmonic && (
           <span
             className={classNames(`key-label`, {
-              active: props.notesSelected.notes.includes(props.enharmonic),
+              active: props.selected.notes.includes(props.enharmonic),
               flat: props.enharmonic.includes("b"),
               sharp: props.enharmonic.includes("#"),
             })}

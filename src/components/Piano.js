@@ -42,7 +42,7 @@ export const Piano = (props) => {
       // Delete key = Unselect keys
       case "Delete":
         !props.pianoLocked &&
-          props.setNotesSelected({ notes: [], type: "notes" });
+          props.setSelected({ type: "clear", cat: "notes" });
         break;
       // Enter key = play selected
       case "Enter":
@@ -52,7 +52,10 @@ export const Piano = (props) => {
         // Play keys if it's a shortcut
         if (e.key.toLowerCase() in keyShortcuts) {
           props.playPiano(keyShortcuts[e.key.toLowerCase()], "attack");
-          props.pressNote(keyShortcuts[e.key.toLowerCase()], "on");
+          props.setPressed({
+            type: "add",
+            note: keyShortcuts[e.key.toLowerCase()],
+          });
         }
         break;
     }
@@ -68,8 +71,13 @@ export const Piano = (props) => {
         props.setPianoLocked(!props.pianoLocked);
         break;
       default:
-        props.playPiano(keyShortcuts[e.key.toLowerCase()], "release");
-        props.pressNote(keyShortcuts[e.key.toLowerCase()], "off");
+        if (e.key.toLowerCase() in keyShortcuts) {
+          props.playPiano(keyShortcuts[e.key.toLowerCase()], "release");
+          props.setPressed({
+            type: "remove",
+            note: keyShortcuts[e.key.toLowerCase()],
+          });
+        }
         break;
     }
 
@@ -79,7 +87,7 @@ export const Piano = (props) => {
   return (
     <div
       className={classNames("piano", {
-        [`theme-${props.notesSelected.type}`]: true,
+        [`theme-${props.selected.cat}`]: true,
         "theme-locked": props.pianoLocked,
         "show-shortcuts": showShortcuts,
       })}
@@ -137,9 +145,7 @@ export const Piano = (props) => {
             onClick={() => {
               props.playNotes();
             }}
-            disabled={
-              props.pianoLocked || props.notesSelected.notes.length === 0
-            }
+            disabled={props.pianoLocked || props.selected.notes.length === 0}
           >
             <Sound />
             <span className="text">Play</span>
@@ -147,11 +153,9 @@ export const Piano = (props) => {
           <button
             className="outline"
             onClick={() => {
-              props.setNotesSelected({ notes: [], type: "notes" });
+              props.setSelected({ type: "clear", cat: "notes" });
             }}
-            disabled={
-              props.pianoLocked || props.notesSelected.notes.length === 0
-            }
+            disabled={props.pianoLocked || props.selected.notes.length === 0}
           >
             <Clear />
             <span className="text">Clear</span>
@@ -173,9 +177,9 @@ export const Piano = (props) => {
               midi={Note.midi(key.note)}
               shortcut={key.shortcut}
               playPiano={props.playPiano}
-              notesSelected={props.notesSelected}
-              pressedNotes={props.pressedNotes}
-              updateSelected={props.updateSelected}
+              selected={props.selected}
+              pressed={props.pressed}
+              toggleNote={props.toggleNote}
               mouseDown={mouseDown}
             />
           ))}

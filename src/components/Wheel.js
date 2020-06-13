@@ -2,7 +2,7 @@ import React from "react";
 import { Note } from "@tonaljs/tonal";
 import classNames from "classnames";
 import { WheelLines } from "./WheelLines";
-import { gradesOrder, gradesNumerals } from "./Utils";
+import { gradesOrder, gradesNumerals } from "./Lists";
 import "../css/wheel.scss";
 
 export const Wheel = (props) => {
@@ -157,7 +157,7 @@ export const Wheel = (props) => {
     <div className="wheel-wrap">
       <div
         className={classNames("wheel", {
-          [`theme-${props.notesSelected.type}`]: true,
+          [`theme-${props.selected.cat}`]: true,
         })}
       >
         {generateNotes(props.myKey.root)}

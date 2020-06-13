@@ -1,6 +1,7 @@
 import React from "react";
 import { Key } from "@tonaljs/tonal";
-import { notesWithIntervals, gradesNumerals } from "./Utils";
+import { notesWithIntervals } from "./Utils";
+import { gradesNumerals } from "./Lists";
 import classNames from "classnames";
 import { Picker } from "./Picker";
 import Sound from "../icons/sound";
@@ -234,7 +235,7 @@ export const KeyChart = (props) => {
             disabled={
               props.autoplaying ||
               props.pianoLocked ||
-              (props.notesSelected.type === "key" &&
+              (props.selected.cat === "key" &&
                 Object.keys(props.myKey.key).length !== 0)
             }
           >
