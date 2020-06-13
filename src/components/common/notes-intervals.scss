@@ -8,7 +8,12 @@
   overflow-x: auto;
   padding: 10px 0; // for mobile overflow scroll
 
-  // @include horizontal-shadow;
+  @media #{$query-max-md} {
+    @include horizontal-shadow;
+    margin-bottom: 10px;
+    max-width: unset;
+    width: calc(100% + 40px);
+  }
 
   .pair {
     $note-width: 44px;
@@ -44,10 +49,10 @@
         }
       }
       .root-interval {
+        transition: 0.3s ease opacity;
+        opacity: 0;
         position: relative;
         z-index: 1;
-        opacity: 0;
-        transition: 0.3s ease opacity;
         user-select: none;
         font-size: 14px;
         font-weight: 400;
@@ -56,10 +61,10 @@
     }
 
     .relative-interval {
+      transition: 0.3s ease opacity;
+      opacity: 0;
       position: relative;
       z-index: 1;
-      opacity: 0;
-      transition: 0.3s ease opacity;
       cursor: default;
       user-select: none;
       position: relative;
@@ -93,6 +98,7 @@
   }
 
   // on hover, show intervals
+
   &:hover .pair {
     .note-root .root-interval,
     .relative-interval {

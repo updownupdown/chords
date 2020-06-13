@@ -50,6 +50,7 @@
     display: flex;
     align-items: center;
     margin-right: auto;
+    margin-left: 8px;
 
     &-slider {
       -webkit-appearance: none;
@@ -75,7 +76,7 @@
       }
     }
 
-    &.mute button.outline:not(:disabled) svg path {
+    &.mute button:not(:disabled) svg path {
       fill: $K600;
     }
   }
@@ -113,7 +114,7 @@
     }
 
     // "View Shortcuts" button
-    button.outline {
+    button {
       @media #{$query-max-lg} {
         display: none;
       }
@@ -167,12 +168,6 @@
     width: 100%;
 
     margin-bottom: 12px;
-
-    @media #{$query-max-md} {
-      button .text {
-        display: none;
-      }
-    }
   }
 
   // Keyboard Keys

@@ -1,4 +1,3 @@
-// import React, { useState } from "react";
 import React, {
   createContext,
   useState,
@@ -8,7 +7,7 @@ import React, {
   useMemo,
   useContext,
 } from "react";
-
+import classNames from "classnames";
 import ArrowDown from "../../icons/arrowdown";
 import "./box.scss";
 
@@ -19,33 +18,34 @@ const Header = ({ title, children }) => {
   const { open, toggle } = useContext(BoxContext);
 
   return (
-    <div className="box-header">
+    <div
+      className="box-header"
+      role="button"
+      onClick={() => {
+        toggle(!open);
+      }}
+    >
       <div className="box-header-inner">
         <span className="box-header-title">{title}</span>
         {children}
       </div>
-      <button
-        className="outline box-header-toggle"
-        onClick={() => {
-          toggle(!open);
-        }}
-      >
+      <span className="box-header-toggle">
         <ArrowDown />
-      </button>
+      </span>
     </div>
   );
+};
+
+const Menu = ({ children }) => {
+  return <div className="box-menu">{children}</div>;
 };
 
 const Body = ({ children }) => {
-  return (
-    <div className="box-body">
-      <div className="box-body-inner">{children}</div>
-    </div>
-  );
+  return <div className="box-body">{children}</div>;
 };
 
-const Footer = ({ children }) => {
-  return <div className="box-footer">{children}</div>;
+const Footer = ({ children, className }) => {
+  return <div className={classNames("box-footer", className)}>{children}</div>;
 };
 
 const Box = ({ type, children, onOpen }) => {
@@ -73,5 +73,6 @@ const Box = ({ type, children, onOpen }) => {
 export default Box;
 
 Box.Header = Header;
+Box.Menu = Menu;
 Box.Body = Body;
 Box.Footer = Footer;

@@ -4,15 +4,7 @@
 .picker-group {
   display: flex;
   flex: 1;
-
-  @media #{$query-min-sm} {
-    justify-content: flex-end;
-    padding-left: 12px;
-  }
-  @media #{$query-max-sm} {
-    justify-content: flex-start;
-    padding-top: 8px;
-  }
+  padding-right: 12px;
 
   .picker:not(:last-child) .picker-toggle {
     border-top-right-radius: 0;
@@ -215,7 +207,7 @@
     }
     @media #{$query-max-lg} {
       width: 100%;
-      min-width: 220px;
+      min-width: 240px;
     }
 
     .type-group {

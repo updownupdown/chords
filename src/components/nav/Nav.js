@@ -11,7 +11,7 @@ export const Nav = (props) => {
         <div className="nav-right">
           <div className="button-group">
             <button
-              className="outline show-shortcuts"
+              className="show-shortcuts"
               onClick={() => {
                 props.setShowShortcuts(!props.showShortcuts);
               }}
@@ -19,7 +19,6 @@ export const Nav = (props) => {
               Keyboard Shortcuts
             </button>
             <button
-              className="outline"
               onClick={() => {
                 window.open("https://github.com/updownupdown/chords", "_blank");
               }}

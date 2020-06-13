@@ -122,7 +122,8 @@ export const Keys = (props) => {
   return (
     <>
       <Box type="key">
-        <Box.Header title="Key">
+        <Box.Header title="Key" />
+        <Box.Menu>
           <div className="picker-group theme-key">
             <Picker className="picker-notes" selected={props.myKey.root}>
               <div className="picker-notes-menu">{noteChoices}</div>
@@ -136,20 +137,9 @@ export const Keys = (props) => {
               <div className="picker-keys-menu">{keyChoices}</div>
             </Picker>
           </div>
-        </Box.Header>
-        <Box.Body>
-          <KeyInfo
-            myKey={props.myKey}
-            myChord={props.myChord}
-            getChord={props.getChord}
-            playPiano={props.playPiano}
-          />
-        </Box.Body>
-        <Box.Footer>
-          {relativeKey()}
           <div className="button-group touching">
             <button
-              className="outline select-key"
+              className="select-key small-on-mobile"
               onClick={() => {
                 props.getKey(
                   props.myKey.root,
@@ -168,7 +158,7 @@ export const Keys = (props) => {
               <span className="text">Select</span>
             </button>
             <button
-              className="outline"
+              className="small-on-mobile"
               onClick={() => {
                 props.playPiano("scale", false);
               }}
@@ -180,7 +170,16 @@ export const Keys = (props) => {
               <span className="text">Play</span>
             </button>
           </div>
-        </Box.Footer>
+        </Box.Menu>
+        <Box.Body>
+          <KeyInfo
+            myKey={props.myKey}
+            myChord={props.myChord}
+            getChord={props.getChord}
+            playPiano={props.playPiano}
+          />
+        </Box.Body>
+        <Box.Footer>{relativeKey()}</Box.Footer>
       </Box>
     </>
   );

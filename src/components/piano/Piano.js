@@ -26,10 +26,25 @@ export const Piano = (props) => {
   document.body.onmousedown = setLeftButtonState;
   document.body.onmouseup = setLeftButtonState;
 
+  function checkFocus() {
+    const activeElement = document.activeElement;
+    const inputs = ["input", "select", "button", "textarea"];
+
+    if (
+      activeElement &&
+      inputs.indexOf(activeElement.tagName.toLowerCase()) !== -1
+    ) {
+      return true;
+    }
+  }
+
   // Key Down
   document.body.onkeydown = function (e) {
     // Prevent repeat key presses
     if (keyDown) return;
+
+    // Bail if something important is focused
+    if (checkFocus()) return;
 
     switch (e.key) {
       // Shift key temporarily (un)locks keyboard
@@ -66,6 +81,9 @@ export const Piano = (props) => {
 
   // Key Up
   document.body.onkeyup = function (e) {
+    // Bail if something important is focused
+    if (checkFocus()) return;
+
     switch (e.key) {
       // Shift key temporarily (un)locks keyboard
       case "Shift":
@@ -95,7 +113,7 @@ export const Piano = (props) => {
     >
       <div className="piano-buttons">
         <button
-          className={`outline ${props.pianoLocked && "theme-locked"}`}
+          className={`small-on-mobile ${props.pianoLocked && "theme-locked"}`}
           onClick={() => {
             props.setPianoLocked(!props.pianoLocked);
           }}
@@ -110,7 +128,6 @@ export const Piano = (props) => {
           })}
         >
           <button
-            className="outline"
             onClick={() => {
               props.setMute(!props.mute);
             }}
@@ -131,27 +148,27 @@ export const Piano = (props) => {
         </div>
         <div className="button-group touching">
           <button
-            className="play outline"
+            className="play small-on-mobile"
             onClick={() => {
               props.playPiano("notes", false);
             }}
-            disabled={props.pianoLocked || props.selected.notes.length === 0}
+            disabled={props.selected.notes.length === 0}
           >
             <PlaySeparate />
             <span className="text">Play Scale</span>
           </button>
           <button
-            className="play outline"
+            className="play small-on-mobile"
             onClick={() => {
               props.playPiano("notes", true);
             }}
-            disabled={props.pianoLocked || props.selected.notes.length === 0}
+            disabled={props.selected.notes.length === 0}
           >
             <Play />
             <span className="text">Play Chord</span>
           </button>
           <button
-            className="outline"
+            className="small-on-mobile"
             onClick={() => {
               props.setSelected({ type: "clear", cat: "notes" });
             }}

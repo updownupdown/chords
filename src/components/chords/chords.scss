@@ -5,37 +5,139 @@
   flex-direction: column;
 }
 
-// Chord Name
-.chord-name {
+// Chord Aliases
+.chord-aliases {
   display: flex;
   align-items: center;
   margin: 4px 0;
 
   font-size: 14px;
+  font-weight: 400;
+  color: $K600;
+}
 
-  .name {
-    font-weight: 600;
-    color: $K900;
-    text-transform: capitalize;
+// Chord Search
+.chord-search-wrap {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+}
+.chord-search {
+  position: relative;
+  display: flex;
+  width: 220px;
+
+  svg {
+    pointer-events: none;
+    position: absolute;
+    top: 50%;
+    left: 8px;
+    margin-top: -12px;
+    width: 24px;
+    height: 24px;
+
+    path {
+      fill: $K600;
+    }
   }
-  .divider {
-    padding: 0 8px;
+
+  &-input {
+    transition: 0.3s ease border, 0.3s ease box-shadow, 0.3s ease width;
+    padding-left: 38px;
+    width: $input-height;
+    height: $input-height;
+
+    border-radius: 4px;
+    border: 1px solid $white;
+
+    width: 100%;
+
+    font-family: $font;
+    font-size: 15px;
     font-weight: 400;
-    color: $K300;
+    color: $K800;
+
+    &::placeholder {
+      color: $K400;
+    }
+
+    &:hover,
+    .has-results & {
+      border-color: $K100;
+    }
+
+    &:hover {
+      border-color: $K300;
+      box-shadow: 1px 2px 6px $K150;
+    }
+    &:focus {
+      outline: none;
+      border-color: $K450;
+      box-shadow: 0 0 0 3px $K200;
+    }
   }
-  .aliases {
-    font-weight: 400;
-    color: $K600;
+
+  // Results
+  &-result {
+    transition: 0.2s ease background-color, 0.2s ease color;
+    cursor: pointer;
+    position: absolute;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+
+    width: 100%;
+    top: 100%;
+    height: 60px;
+    margin-top: 4px;
+    padding: 8px 12px;
+
+    border-radius: 4px;
+    background: $white;
+    box-shadow: 1px 2px 6px rgba($K700, 0.1), 1px 2px 20px rgba($K700, 0.1);
+
+    &:hover {
+      background: $K50;
+      color: darken($chord-color, 15%);
+    }
+
+    span {
+      text-transform: capitalize;
+
+      &:not(.empty) {
+        font-size: 15px;
+        font-weight: 600;
+        color: $chord-color;
+      }
+      &.empty {
+        font-size: 14px;
+        font-weight: 400;
+        color: $K400;
+      }
+      &.type-enter {
+        margin-top: 2px;
+        font-family: $font;
+        font-size: 13px;
+        font-weight: 400;
+        color: $K400;
+      }
+    }
+  }
+
+  input:focus + .chord-search-result {
+    display: flex;
   }
 }
 
+// Predicted Chords
 .predicted-chords {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
 
-  button {
+  button.small {
+    padding-left: 6px;
+    padding-right: 6px;
     font-size: 14px;
   }
 
@@ -50,11 +152,15 @@
     font-weight: 400;
   }
 
-  &-title {
-    margin-right: auto;
-    color: $K600;
-  }
   &-empty {
     color: $K400;
+  }
+}
+
+.box-footer-chord {
+  @media #{$query-max-sm} {
+    display: flex;
+    flex-direction: column;
+    padding-top: 12px;
   }
 }

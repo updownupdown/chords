@@ -1,12 +1,9 @@
----------------------
 Bugs
 
 - react_devtools_backend.js:6 The AudioContext is "suspended". Invoke Tone.start() from a user action to start the audio.
 - fix volume/mute
 - prevent AudioContext warnings?
 
----------------------
----------------------
 Technical
 
 - review all chords, advanced ones are broken or off screen; simplify to one drop down, drop complex ones?
@@ -15,49 +12,14 @@ Technical
 - add accessibility (aria)
 - check mobile responsiveness, touch events
 
-- when scrolling left/right on  keyboard, show shadow on either side if overflowing
-- label Key and Chord boxes, make into accordions, move actions to bottom
-- make piano into accordion, move actions to bottom
-- make staff into box
+Misc
 
-
----------------------
-Key Info/Wheel
-
-- show enharmonics in wheel?
-- on wheel, when clicking an already selected chord, suggest selecting the enharmonic?
-- easy way to play chords from buttons in key info. maybe if key is already selected, play it?
-
--------------------------
-Keyboard
-
-- view keyboard shortcuts can be moved below, along with shortcuts themselves.
-- does it make sense to move chord predictions below keyboard?
-
--------------------------
-Medium Priority
-
-- accordion to minimize charts?
-- type a formula to select a chord (next to predicted)
-- tooltips?
-- Flesh out menu: help (modal to explain), settings (?), keyboard shortcut guide (esp. for delete, enter, caps lock)
-- "Help" stuff may be distributed along with elements, rather than just at the top. Use help icons throughout with tooltips? Toggle to hide Help icons, also hides keyboard labels?
 - TAB: show sine waves of selected keys or just chord, add up waves: https://www.youtube.com/watch?v=G3H621_EdOM
-- invert chords? transpose keys?
 
--------------------------
-Very Low Priority
+Low Priority
 
 - chord inversions
-
-(C has same pattern... could suggest progressions and play them; minor key might have different progressions)
-Common chord progressions in the key of D major are as follows:
-
-I – IV – V (D – G- A)
-I – vi – IV – V (D – Bm – G – A)
-ii – V – I (Em7 – A7 – Dmaj7)
-
-- guitar tabs
+- chord progression suggestions
 - drag and drop within chord progression, from grades list to chord progression
 - quizzes to learn notes on staff, chords, keys, etc.
 - app to record key strokes, edit staff and add notes and auto play, export/import to save/load compositions

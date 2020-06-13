@@ -20,18 +20,7 @@ code {
 }
 
 // Buttons
-@mixin button-theme-full($color, $color-hover) {
-  background: $color;
-
-  &:not(:disabled) {
-    &:hover,
-    &:focus {
-      background: $color-hover;
-    }
-  }
-}
-
-@mixin button-theme-outline($color, $color-hover) {
+@mixin button-theme-default($color, $color-hover) {
   color: $color;
 
   svg path {
@@ -60,6 +49,7 @@ code {
 
 button {
   user-select: none;
+  transition: 0.2s ease background, 0.2s ease color;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -67,6 +57,8 @@ button {
   height: $input-height;
 
   border-radius: 4px;
+  border: 0;
+  background: transparent;
 
   font-family: $headingFont;
   font-size: 16px;
@@ -90,77 +82,50 @@ button {
     margin-left: 8px;
   }
 
+  &.small-on-mobile {
+    @media #{$query-max-md} {
+      padding: 0;
+      width: $input-height + 6px;
+      height: $input-height + 6px;
+      justify-content: center;
+
+      .text {
+        display: none;
+      }
+      svg {
+        width: 34px;
+        height: 34px;
+      }
+    }
+  }
+
   &:not(:disabled) {
     cursor: pointer;
-  }
 
-  // Full button
-  &.full {
-    transition: 0.2s ease background-color;
-    border: 0;
-    box-shadow: 1px 2px 4px $K100;
-
-    color: $white;
-
-    svg path {
-      fill: $white;
+    &:focus {
+      outline: none;
     }
 
-    // Note (default)
-    @include button-theme-full($button-color, $button-color-hover);
+    @include button-theme-default($button-color, $button-color-hover);
     &.theme-note {
-      @include button-theme-full($note-color, $note-color-hover);
+      @include button-theme-default($note-color, $note-color-hover);
     }
     &.theme-key {
-      @include button-theme-full($key-color, $key-color-hover);
+      @include button-theme-default($key-color, $key-color-hover);
     }
     &.theme-chord {
-      @include button-theme-full($chord-color, $chord-color-hover);
+      @include button-theme-default($chord-color, $chord-color-hover);
     }
-
-    &:disabled {
-      opacity: 0.5;
-      background: $K200;
-      color: $K500;
-
-      svg path {
-        fill: $K500;
-      }
+    &.theme-locked {
+      @include button-theme-default($locked-color, $locked-color-hover);
     }
   }
 
-  // Outlined button
-  &.outline {
-    transition: 0.2s ease background, 0.2s ease color;
-    border: 0;
-    background: transparent;
+  &:disabled {
+    color: $K300;
 
-    &:not(:disabled) {
-      &:focus {
-        outline: none;
-      }
-
-      @include button-theme-outline($button-color, $button-color-hover);
-      &.theme-note {
-        @include button-theme-outline($note-color, $note-color-hover);
-      }
-      &.theme-key {
-        @include button-theme-outline($key-color, $key-color-hover);
-      }
-      &.theme-chord {
-        @include button-theme-outline($chord-color, $chord-color-hover);
-      }
-      &.theme-locked {
-        @include button-theme-outline($locked-color, $locked-color-hover);
-      }
-    }
-
-    &:disabled {
-      color: $K300;
-
-      svg path {
-        fill: $K300;
-      }
+    svg path {
+      fill: $K300;
     }
   }
 
@@ -198,19 +163,12 @@ button {
   display: flex;
   flex-direction: row;
 
-  &:not(.touching) {
-    button:not(:first-child) {
+  button:not(:first-child) {
+    @media #{$query-min-md} {
+      margin-left: 6px;
+    }
+    @media #{$query-max-md} {
       margin-left: 12px;
-    }
-  }
-  &.touching {
-    button.full:not(:first-child) {
-      border-top-left-radius: 0;
-      border-bottom-left-radius: 0;
-    }
-    button.full:not(:last-child) {
-      border-top-right-radius: 0;
-      border-bottom-right-radius: 0;
     }
   }
 }

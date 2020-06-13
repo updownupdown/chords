@@ -1,14 +1,25 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import classNames from "classnames";
+import { Chord } from "@tonaljs/tonal";
 import { chordList } from "../../utils/Lists";
 import { Picker } from "../common/Picker";
 import { trimChordRoot } from "../../utils/Utils";
 import { NotesIntervals } from "../common/NotesIntervals";
 import Piano from "../../icons/piano";
 import Play from "../../icons/play";
+import Search from "../../icons/search";
 import Box from "../box/Box";
 import "./chords.scss";
 
 export const Chords = (props) => {
+  const [chordSearch, setChordSearch] = useState("");
+  const [chordResult, setChordResult] = useState({ empty: true });
+
+  useEffect(() => {
+    const searchResults = Chord.get(chordSearch);
+    setChordResult(searchResults);
+  }, [chordSearch]);
+
   const octave = ["C", "D", "E", "F", "G", "A", "B"];
 
   const noteChoices = octave.map((note, i) => (
@@ -94,7 +105,8 @@ export const Chords = (props) => {
 
   return (
     <Box type="chord">
-      <Box.Header title="Chord">
+      <Box.Header title="Chord"></Box.Header>
+      <Box.Menu>
         <div className="picker-group theme-chord">
           <Picker className="picker-notes" selected={props.myChord.root}>
             <div className="picker-notes-menu">{noteChoices}</div>
@@ -111,11 +123,38 @@ export const Chords = (props) => {
             <div className="picker-chords-menu">{chordChoices}</div>
           </Picker>
         </div>
-      </Box.Header>
+        <div className="button-group touching">
+          <button
+            className="small-on-mobile"
+            onClick={() => {
+              props.getChord(`${props.myChord.root}${props.myChord.formula}`);
+            }}
+            disabled={
+              props.autoplaying ||
+              props.pianoLocked ||
+              (props.selected.cat === "chord" &&
+                Object.keys(props.myChord.chord).length !== 0)
+            }
+          >
+            <Piano />
+            <span className="text">Select</span>
+          </button>
+          <button
+            className="small-on-mobile"
+            onClick={() => {
+              props.playPiano("chord", true);
+            }}
+            disabled={
+              props.autoplaying || Object.keys(props.myChord.chord).length === 0
+            }
+          >
+            <Play />
+            <span className="text">Play</span>
+          </button>
+        </div>
+      </Box.Menu>
       <Box.Body>
-        {Object.keys(props.myChord.chord).length === 0 ? (
-          <span className="no-selection">No chord selected.</span>
-        ) : (
+        {Object.keys(props.myChord.chord).length && (
           <>
             <NotesIntervals
               playPiano={props.playPiano}
@@ -124,11 +163,60 @@ export const Chords = (props) => {
             />
           </>
         )}
-        <div className="predicted-chords">
-          <span className="predicted-chords-title">
-            Chords from selected notes:
-          </span>
 
+        <div className="chord-search-wrap">
+          <div
+            className={classNames("chord-search", {
+              "has-results": !chordResult.empty,
+            })}
+          >
+            <Search />
+            <input
+              className="chord-search-input"
+              type="text"
+              value={chordSearch}
+              onChange={(e) => {
+                setChordSearch(e.target.value);
+              }}
+              onKeyDown={(e) => {
+                console.log(chordResult);
+                if (e.key === "Enter" && !chordResult.empty) {
+                  props.getChord(chordResult.symbol);
+                }
+              }}
+              placeholder="Cm, F7b9..."
+            />
+            <div className="chord-search-result">
+              {chordResult.empty ? (
+                <span className="empty">No chord found.</span>
+              ) : (
+                <>
+                  <span
+                    role="button"
+                    className="theme-chord"
+                    onClick={() => {
+                      props.getChord(chordResult.symbol);
+                    }}
+                  >
+                    {formatChordName(chordResult.name)}
+                  </span>
+                  <span className="type-enter">Type Enter to select</span>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      </Box.Body>
+      <Box.Footer className="box-footer-chord">
+        <div className="chord-aliases">
+          {props.myChord.chord["aliases"].map((alias, i) => {
+            if (alias === "") return "";
+            var formatted = i !== 0 ? ", " : "";
+            formatted += props.myChord.chord["notes"][0] + alias;
+            return formatted;
+          })}
+        </div>
+        <div className="predicted-chords">
           {props.chordDetect.length > 0 ? (
             <div className="button-group">
               {props.chordDetect.map((chord, i) => (
@@ -148,53 +236,10 @@ export const Chords = (props) => {
               ))}
             </div>
           ) : (
-            <span className="predicted-chords-empty">No chords detected.</span>
+            <span className="predicted-chords-empty">
+              No chords detected from selected keys.
+            </span>
           )}
-        </div>
-      </Box.Body>
-      <Box.Footer>
-        <div className="chord-name">
-          <span className="name">
-            {formatChordName(props.myChord.chord.name)}
-          </span>
-          <span className="divider">/</span>
-          <span className="aliases">
-            {props.myChord.chord["aliases"].map((alias, i) => {
-              if (alias === "") return "";
-              var formatted = i !== 0 ? ", " : "";
-              formatted += props.myChord.chord["notes"][0] + alias;
-              return formatted;
-            })}
-          </span>
-        </div>
-        <div className="button-group touching">
-          <button
-            className="outline"
-            onClick={() => {
-              props.getChord(`${props.myChord.root}${props.myChord.formula}`);
-            }}
-            disabled={
-              props.autoplaying ||
-              props.pianoLocked ||
-              (props.selected.cat === "chord" &&
-                Object.keys(props.myChord.chord).length !== 0)
-            }
-          >
-            <Piano />
-            <span className="text">Select</span>
-          </button>
-          <button
-            className="outline"
-            onClick={() => {
-              props.playPiano("chord", true);
-            }}
-            disabled={
-              props.autoplaying || Object.keys(props.myChord.chord).length === 0
-            }
-          >
-            <Play />
-            <span className="text">Play</span>
-          </button>
         </div>
       </Box.Footer>
     </Box>

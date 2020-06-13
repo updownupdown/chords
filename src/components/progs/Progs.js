@@ -11,7 +11,32 @@ import "./progs.scss";
 export const ChordProg = (props) => {
   return (
     <Box type="prog">
-      <Box.Header title="Chord Progression"></Box.Header>
+      <Box.Header title="Chord Progression" />
+      <Box.Menu>
+        <span></span>
+        <div className="button-group touching">
+          <button
+            className="small-on-mobile"
+            onClick={() => {
+              props.playPiano("prog", false);
+            }}
+            disabled={props.autoplaying || !props.myProg.length}
+          >
+            <Play />
+            <span className="text">Play</span>
+          </button>
+          <button
+            className="small-on-mobile"
+            onClick={() => {
+              props.setMyProg({ type: "clear" });
+            }}
+            disabled={props.autoplaying || !props.myProg.length}
+          >
+            <Clear />
+            <span className="text">Clear</span>
+          </button>
+        </div>
+      </Box.Menu>
       <Box.Body>
         <div className="chord-progs">
           {props.myProg.length !== 0 &&
@@ -71,31 +96,6 @@ export const ChordProg = (props) => {
           </div>
         </div>
       </Box.Body>
-      <Box.Footer>
-        <span></span>
-        <div className="button-group touching">
-          <button
-            className="outline"
-            onClick={() => {
-              props.playPiano("prog", false);
-            }}
-            disabled={props.autoplaying || !props.myProg.length}
-          >
-            <Play />
-            <span className="text">Play</span>
-          </button>
-          <button
-            className="outline"
-            onClick={() => {
-              props.setMyProg({ type: "clear" });
-            }}
-            disabled={props.autoplaying || !props.myProg.length}
-          >
-            <Clear />
-            <span className="text">Clear</span>
-          </button>
-        </div>
-      </Box.Footer>
     </Box>
   );
 };

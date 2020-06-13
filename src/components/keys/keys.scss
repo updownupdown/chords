@@ -9,10 +9,8 @@
 // Key Details
 .relative-key {
   display: flex;
+  flex: 1;
   align-items: center;
-  margin-top: -4px;
-
-  font-family: $headingFont;
 
   &,
   button {
@@ -22,10 +20,11 @@
 
   .label {
     display: inline-block;
-    padding-right: 8px;
+    padding-right: 6px;
     color: $K600;
   }
   .value {
+    flex: 1;
     color: $K900;
     font-weight: 600;
   }
@@ -75,18 +74,21 @@
     // Harmonic Function
     .harmonic-function {
       transition: 0.2s ease color;
+      margin-top: 3px;
+
+      font-family: $font;
       font-size: 12px;
       color: $K400;
     }
 
+    &.current {
+      box-shadow: 1px 2px 5px $K150;
+    }
+
     &.current,
     &:hover {
-      background: $K50;
+      // background: $K50;
       border-color: $K150;
-
-      .chord {
-        color: $chord-color;
-      }
 
       .harmonic-function {
         color: $K700;

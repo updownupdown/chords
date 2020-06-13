@@ -11,37 +11,28 @@
 
   // Box Header
   &-header {
+    cursor: pointer;
     display: flex;
-    padding: 12px 12px 12px 20px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 12px 4px 20px;
 
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
-    border-bottom: 1px solid $K200;
     background: $K50;
 
-    @media #{$query-max-sm} {
-      align-items: flex-start;
+    .opened & {
+      border-bottom: 1px solid $K200;
+      box-shadow: inset 0 -10px 8px -10px $K150;
     }
-    @media #{$query-min-sm} {
-      align-items: center;
-    }
-
-    &-inner {
-      display: flex;
-      flex: 1;
-      justify-content: space-between;
-      min-height: $input-height;
-
-      @media #{$query-max-sm} {
-        flex-direction: column;
-      }
-      @media #{$query-min-sm} {
-        align-items: center;
-      }
+    .closed & {
+      border-bottom-left-radius: 8px;
+      border-bottom-right-radius: 8px;
     }
 
     // Box Title
     &-title {
+      transition: 0.3s ease color;
       display: flex;
       align-items: center;
       height: $input-height;
@@ -53,7 +44,7 @@
     }
 
     // Toggle
-    &-toggle.outline:not(:disabled) {
+    &-toggle {
       display: flex;
       flex-shrink: 0;
       justify-content: center;
@@ -71,17 +62,13 @@
       }
 
       svg {
+        transition: 0.6s ease transform;
         width: 80%;
         height: 80%;
 
         path {
+          transition: 0.3s ease fill;
           fill: $K500;
-        }
-      }
-
-      &:hover {
-        svg path {
-          fill: $K800;
         }
       }
 
@@ -91,21 +78,34 @@
         }
       }
     }
+
+    &:hover {
+      .box-header-title {
+        color: $K800;
+      }
+
+      .box-header-toggle svg path {
+        fill: $K800;
+      }
+    }
+  }
+
+  // Box Menu
+  &-menu {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px 0;
   }
 
   // Box Body
   &-body {
     display: flex;
-    overflow: hidden;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px 20px;
 
     font-family: $headingFont;
-
-    .opened & {
-      height: auto;
-    }
-    .closed & {
-      height: 0;
-    }
 
     &-inner {
       display: flex;
@@ -131,16 +131,12 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    padding: 8px 12px 8px 20px;
+    min-height: $input-height;
+    padding: 6px 20px 8px;
 
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
-    border-top: 1px solid $K150;
-    background: $K50;
-
-    .closed & {
-      border-top: 0;
-    }
+    border-top: 1px solid $K100;
 
     &-label {
       display: flex;
@@ -165,11 +161,14 @@
         color: $K400;
       }
     }
+  }
 
-    @media #{$query-max-sm} {
-      button .text {
-        display: none;
-      }
+  // Closed box
+  &.closed {
+    .box-menu,
+    .box-body,
+    .box-footer {
+      display: none;
     }
   }
 
