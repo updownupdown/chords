@@ -27,7 +27,7 @@ export const WheelLines = (props) => {
     "B#": "C",
   };
 
-  var notesCircle = [
+  const notesCircle = [
     "A",
     "E",
     "B",
@@ -85,9 +85,9 @@ export const WheelLines = (props) => {
   function findPoint(angle) {
     const rad = 320 / 2;
     const drawRad = rad * 0.65;
-    var cornerRad = (angle * Math.PI) / 180;
-    var nx = Math.cos(cornerRad) * drawRad + rad;
-    var ny = Math.sin(cornerRad) * drawRad + rad;
+    const cornerRad = (angle * Math.PI) / 180;
+    const nx = Math.cos(cornerRad) * drawRad + rad;
+    const ny = Math.sin(cornerRad) * drawRad + rad;
 
     return { x: nx, y: ny };
   }

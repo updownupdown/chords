@@ -151,6 +151,16 @@ export const Piano = (props) => {
             <span className="text">Play</span>
           </button>
           <button
+            className="play outline"
+            onClick={() => {
+              props.playPiano("notes", true);
+            }}
+            disabled={props.pianoLocked || props.selected.notes.length === 0}
+          >
+            <Sound />
+            <span className="text">Play Together</span>
+          </button>
+          <button
             className="outline"
             onClick={() => {
               props.setSelected({ type: "clear", cat: "notes" });

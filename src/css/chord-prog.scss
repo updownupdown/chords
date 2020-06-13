@@ -52,8 +52,12 @@
         border-color: $K300;
       }
 
-      &.active {
+      &.selected {
         border-color: $chord-color;
+      }
+
+      &.active {
+        box-shadow: 0 0 6px $chord-color, 0 0 12px $chord-color;
       }
 
       &-add {
@@ -68,6 +72,9 @@
     }
 
     // Copy/Remove Buttons
+    .prog-op:disabled {
+      display: none;
+    }
     button:not(:disabled).prog-op {
       opacity: 0;
       outline: none;
@@ -106,7 +113,7 @@
         }
       }
       &.prog-remove {
-        bottom: -4px;
+        top: -4px;
         left: -4px;
 
         &:hover {

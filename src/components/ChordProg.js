@@ -44,9 +44,10 @@ export const ChordProg = (props) => {
               <div key={i} className="prog">
                 <button
                   className={classNames("prog-name", {
-                    active:
+                    selected:
                       `${chord.root}${chord.formula}` ===
                       `${props.myChord.root}${props.myChord.formula}`,
+                    active: props.playingProg === i,
                   })}
                   onClick={() => {
                     props.getChord(`${chord.root}${chord.formula}`);
@@ -60,6 +61,7 @@ export const ChordProg = (props) => {
                   onClick={() => {
                     props.setMyProg({ type: "copy", index: i });
                   }}
+                  disabled={props.autoplaying}
                 >
                   <Copy />
                 </button>
@@ -68,6 +70,7 @@ export const ChordProg = (props) => {
                   onClick={() => {
                     props.setMyProg({ type: "remove", index: i });
                   }}
+                  disabled={props.autoplaying}
                 >
                   <Trash />
                 </button>

@@ -28,12 +28,6 @@ function Main() {
   const [autoplaying, setAutoplaying] = useState(false);
   const [pianoLocked, setPianoLocked] = useState(false);
 
-  const delayScaleMs = 300;
-  const delayScaleNote = "8n";
-
-  const delayChordMs = 1000;
-  const delayChordNote = "2n";
-
   useEffect(() => {
     synth.current = new Sampler(
       {
@@ -207,7 +201,6 @@ function Main() {
 
   // ===== Chord Progressions ===== //
   const [myProg, setMyProg] = useReducer(progReducer, []);
-  const [playingProg, setPlayingProg] = useState(false);
   function progReducer(myProg, action) {
     switch (action.type) {
       case "add":
@@ -223,40 +216,15 @@ function Main() {
     }
   }
 
-  // Play playlist
-  function playPlaylist(playlist, delay, select) {
-    if (!synthLoaded) return;
-
-    new Part(function (time, note) {
-      synth.current.triggerAttackRelease(note.note, note.duration, time);
-    }, playlist).start();
-    Transport.start();
-
-    // Highlight Keys
-    var timeouts = [];
-
-    for (let i = 0; i < playlist.length; i++) {
-      setAutoplaying(true);
-
-      timeouts.push(
-        setTimeout(() => {
-          setPressed({ type: "select", notes: playlist[i].note });
-          select &&
-            setSelected({
-              type: "select",
-              notes: playlist[i].note,
-              cat: "chord",
-            });
-        }, delay * i)
-      );
-
-      timeouts.push(
-        setTimeout(() => {
-          setPressed({ type: "clear" });
-          select && setSelected({ type: "clear", cat: "chord" });
-          setAutoplaying(false);
-        }, delay * playlist.length)
-      );
+  const [playingProg, setPlayingProg] = useReducer(playingProgReducer, -1);
+  function playingProgReducer(playingProg, action) {
+    switch (action.type) {
+      case "increment":
+        return playingProg + 1;
+      case "reset":
+        return -1;
+      default:
+        throw new Error();
     }
   }
 
@@ -275,50 +243,46 @@ function Main() {
         synth.current.triggerAttackRelease(note, duration);
         break;
       default:
-        return;
+        throw new Error();
     }
   }
 
   // Play Piano
   function playPiano(playType, playTogether) {
-    if (autoplaying) return;
+    if (!synthLoaded || autoplaying) return;
 
     var playlist = [];
     var notes = [];
-    var delayMs = "";
-    var delayNote = "";
+    var delayMs = playTogether ? 1000 : 300;
+    var delayNote = playTogether ? "2n" : "8n";
 
+    // set vars
     switch (playType) {
       case "notes":
         if (selected.notes.length === 0) return;
         notes = Note.sortedNames(selected.notes);
-        delayMs = delayScaleMs;
-        delayNote = delayScaleNote;
         break;
 
       case "scale":
         notes = pitchedNotesFromKey(myKey.key, myKey.type, myKey.subtype);
-        delayMs = delayScaleMs;
-        delayNote = delayScaleNote;
         break;
 
       case "chord":
         notes = pitchedNotesFromChord(myChord.chord.notes);
-        delayMs = delayChordMs;
-        delayNote = delayChordNote;
         break;
 
       case "prog":
         if (myProg.length === 0) return;
         for (var i = 0; i < myProg.length; i++) {
-          console.log(pitchedNotesFromChord(myProg[i].chord.notes));
           notes.push(pitchedNotesFromChord(myProg[i].chord.notes));
         }
-        delayMs = delayChordMs;
-        delayNote = delayChordNote;
         break;
+
+      default:
+        throw new Error();
     }
 
+    // prepare playlist
     if (playTogether) {
       playlist.push({
         time: 0,
@@ -326,16 +290,42 @@ function Main() {
         duration: delayNote,
       });
     } else {
-      for (var i = 0; i < notes.length; i++) {
+      for (var n = 0; n < notes.length; n++) {
         playlist.push({
-          time: (i * delayMs) / 1000,
-          note: notes[i],
+          time: (n * delayMs) / 1000,
+          note: notes[n],
           duration: delayNote,
         });
       }
     }
 
-    playPlaylist(playlist, delayMs);
+    // play on synth
+    new Part(function (time, note) {
+      synth.current.triggerAttackRelease(note.note, note.duration, time);
+    }, playlist).start();
+    Transport.start();
+
+    // highlight Keys
+    var timeouts = [];
+
+    for (let i = 0; i < playlist.length; i++) {
+      setAutoplaying(true);
+
+      timeouts.push(
+        setTimeout(() => {
+          setPressed({ type: "select", notes: playlist[i].note });
+          playType === "prog" && setPlayingProg({ type: "increment" });
+        }, delayMs * i)
+      );
+
+      timeouts.push(
+        setTimeout(() => {
+          setAutoplaying(false);
+          setPressed({ type: "clear" });
+          playType === "prog" && setPlayingProg({ type: "reset" });
+        }, delayMs * playlist.length)
+      );
+    }
   }
 
   return (
@@ -399,11 +389,13 @@ function Main() {
                 setMyProg={setMyProg}
               />
               <ChordProg
+                autoplaying={autoplaying}
                 myChord={myChord}
                 getChord={getChord}
                 myProg={myProg}
                 setMyProg={setMyProg}
                 playPiano={playPiano}
+                playingProg={playingProg}
               />
             </div>
           </div>

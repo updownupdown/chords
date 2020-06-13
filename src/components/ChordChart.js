@@ -65,16 +65,16 @@ export const ChordChart = (props) => {
 
   // Format Chord Type
   function formatChordName(type) {
+    function replaceAll(str, mapObj) {
+      const replace = new RegExp(Object.keys(mapObj).join("|"), "gi");
+
+      return str.replace(replace, function (matched) {
+        return mapObj[matched.toLowerCase()];
+      });
+    }
+
     const formattedType = replaceAll(type, chordStringSubs);
     return formattedType;
-  }
-
-  function replaceAll(str, mapObj) {
-    var re = new RegExp(Object.keys(mapObj).join("|"), "gi");
-
-    return str.replace(re, function (matched) {
-      return mapObj[matched.toLowerCase()];
-    });
   }
 
   const chordStringSubs = {

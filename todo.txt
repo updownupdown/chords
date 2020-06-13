@@ -9,21 +9,11 @@ Bugs
 ---------------------
 Technical
 
-- convert to reducers as much as possible
 - review all chords, advanced ones are broken or off screen; simplify to one drop down, drop complex ones?
 - Reactivate loading screen but make it seemless/smoother
-- review var/let/const
-- use context? refactor?
 - use typescript
 - add accessibility (aria)
 - check mobile responsiveness, touch events
-
----------------------
-Chord progressions
-
-- can't add chord unless one is selected
-- highlight index of chord prog as it plays
-- when finishing on the last chord, highlight it, select it, and select keys on piano unless locked
 
 ---------------------
 Key Info/Wheel
@@ -35,7 +25,6 @@ Key Info/Wheel
 -------------------------
 Keyboard
 
-- play notes above keyboard: play separate, play together (2 buttons, find keyboard shortcuts?).
 - view keyboard shortcuts can be moved below, along with shortcuts themselves.
 - does it make sense to move chord predictions below keyboard?
 
