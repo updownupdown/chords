@@ -5,7 +5,7 @@ import * as ChordDetect from "@tonaljs/chord-detect";
 import {
   getRootAndFormula,
   sortAlpha,
-  pitchedNotesFromChord,
+  pitchedNotes,
   pitchedNotesFromKey,
 } from "./Utils";
 import { Wheel } from "./Wheel";
@@ -194,7 +194,7 @@ function Main() {
     !pianoLocked &&
       setSelected({
         type: "select",
-        notes: pitchedNotesFromChord(chord.notes),
+        notes: pitchedNotes(chord.notes),
         cat: "chord",
       });
   }
@@ -248,13 +248,13 @@ function Main() {
   }
 
   // Play Piano
-  function playPiano(playType, playTogether) {
+  function playPiano(playType, playTogether, playNote) {
     if (!synthLoaded || autoplaying) return;
 
     var playlist = [];
     var notes = [];
-    var delayMs = playTogether ? 1000 : 300;
-    var delayNote = playTogether ? "2n" : "8n";
+    var delayMs = playTogether || playType === "prog" ? 1000 : 300;
+    var delayNote = playTogether || playType === "prog" ? "2n" : "8n";
 
     // set vars
     switch (playType) {
@@ -263,18 +263,23 @@ function Main() {
         notes = Note.sortedNames(selected.notes);
         break;
 
+      case "note":
+        if (playNote === undefined) return;
+        notes = [playNote];
+        break;
+
       case "scale":
         notes = pitchedNotesFromKey(myKey.key, myKey.type, myKey.subtype);
         break;
 
       case "chord":
-        notes = pitchedNotesFromChord(myChord.chord.notes);
+        notes = pitchedNotes(myChord.chord.notes);
         break;
 
       case "prog":
         if (myProg.length === 0) return;
         for (var i = 0; i < myProg.length; i++) {
-          notes.push(pitchedNotesFromChord(myProg[i].chord.notes));
+          notes.push(pitchedNotes(myProg[i].chord.notes));
         }
         break;
 
@@ -364,6 +369,7 @@ function Main() {
                 getKey={getKey}
                 getChord={getChord}
                 selected={selected}
+                playPiano={playPiano}
               />
               <Staff myKey={myKey} selected={selected} />
             </div>

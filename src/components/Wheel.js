@@ -98,31 +98,45 @@ export const Wheel = (props) => {
           xmlns="http://www.w3.org/2000/svg"
         >
           {offsetSegments.map((segment, i) => {
+            const currentKey = root === segment.note;
+            const currentChord =
+              props.myChord.chord.symbol !== undefined &&
+              props.myChord.chord.symbol === segment.chord;
+
             return (
               <g key={i}>
                 <path
                   className={classNames(
                     `outer outer-${i} type-${segment.gradetype}`,
                     {
-                      current: root === segment.note,
+                      current: currentKey,
                       "in-key": segment.gradetype !== "none",
                     }
                   )}
                   d={arcPaths[i].outer}
                   onClick={() => {
-                    props.getKey(
-                      Note.simplify(segment.note),
-                      props.myKey.type,
-                      props.myKey.subtype
-                    );
+                    currentKey
+                      ? props.playPiano("scale", false)
+                      : props.getKey(
+                          Note.simplify(segment.note),
+                          props.myKey.type,
+                          props.myKey.subtype
+                        );
                   }}
                 />
                 {segment.gradetype !== "none" && (
                   <path
-                    className={`inner inner-${i} type-${segment.gradetype}`}
+                    className={classNames(
+                      `inner inner-${i} type-${segment.gradetype}`,
+                      {
+                        current: currentChord,
+                      }
+                    )}
                     d={arcPaths[i].inner}
                     onClick={() => {
-                      segment.chord && props.getChord(segment.chord);
+                      currentChord
+                        ? props.playPiano("chord", true)
+                        : props.getChord(segment.chord);
                     }}
                   />
                 )}

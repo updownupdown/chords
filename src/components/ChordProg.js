@@ -40,42 +40,47 @@ export const ChordProg = (props) => {
       <div className="chart-details">
         <div className="chord-progs">
           {props.myProg.length !== 0 &&
-            props.myProg.map((chord, i) => (
-              <div key={i} className="prog">
-                <button
-                  className={classNames("prog-name", {
-                    selected:
-                      `${chord.root}${chord.formula}` ===
-                      `${props.myChord.root}${props.myChord.formula}`,
-                    active: props.playingProg === i,
-                  })}
-                  onClick={() => {
-                    props.getChord(`${chord.root}${chord.formula}`);
-                  }}
-                >
-                  {chord.root}
-                  {chord.formula}
-                </button>
-                <button
-                  className="prog-op prog-copy"
-                  onClick={() => {
-                    props.setMyProg({ type: "copy", index: i });
-                  }}
-                  disabled={props.autoplaying}
-                >
-                  <Copy />
-                </button>
-                <button
-                  className="prog-op prog-remove"
-                  onClick={() => {
-                    props.setMyProg({ type: "remove", index: i });
-                  }}
-                  disabled={props.autoplaying}
-                >
-                  <Trash />
-                </button>
-              </div>
-            ))}
+            props.myProg.map((chord, i) => {
+              const selected =
+                `${chord.root}${chord.formula}` ===
+                `${props.myChord.root}${props.myChord.formula}`;
+              return (
+                <div key={i} className="prog">
+                  <button
+                    className={classNames("prog-name", {
+                      selected,
+                      active: props.playingProg === i,
+                    })}
+                    onClick={() => {
+                      selected
+                        ? props.playPiano("chord", true)
+                        : props.getChord(`${chord.root}${chord.formula}`);
+                    }}
+                  >
+                    {chord.root}
+                    {chord.formula}
+                  </button>
+                  <button
+                    className="prog-op prog-copy"
+                    onClick={() => {
+                      props.setMyProg({ type: "copy", index: i });
+                    }}
+                    disabled={props.autoplaying}
+                  >
+                    <Copy />
+                  </button>
+                  <button
+                    className="prog-op prog-remove"
+                    onClick={() => {
+                      props.setMyProg({ type: "remove", index: i });
+                    }}
+                    disabled={props.autoplaying}
+                  >
+                    <Trash />
+                  </button>
+                </div>
+              );
+            })}
 
           <div className="prog">
             <button

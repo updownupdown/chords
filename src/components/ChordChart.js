@@ -1,7 +1,8 @@
 import React from "react";
 import { chordList } from "./Lists";
 import { Picker } from "./Picker";
-import { notesWithIntervals, trimChordRoot } from "./Utils";
+import { trimChordRoot } from "./Utils";
+import { NotesIntervals } from "./NotesIntervals";
 import Sound from "../icons/sound";
 import Piano from "../icons/piano";
 import "../css/charts.scss";
@@ -147,10 +148,11 @@ export const ChordChart = (props) => {
           <span className="no-selection">No chord selected.</span>
         ) : (
           <>
-            {notesWithIntervals(
-              props.myChord.chord["notes"],
-              props.myChord.chord["intervals"]
-            )}
+            <NotesIntervals
+              playPiano={props.playPiano}
+              notes={props.myChord.chord["notes"]}
+              intervals={props.myChord.chord["intervals"]}
+            />
 
             <div className="chord-details-footer">
               <div className="chord-name">

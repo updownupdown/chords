@@ -147,9 +147,10 @@ $wheel-width-mobile: calc(100vw - #{$layout-side-padding * 2});
   fill: $color;
   stroke: darken($color, 15%);
 
+  &.current,
   &:hover {
-    fill: darken($color, 10%);
-    stroke: darken($color, 25%);
+    fill: darken($color, 15%);
+    stroke: darken($color, 30%);
   }
 }
 

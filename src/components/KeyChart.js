@@ -1,6 +1,6 @@
 import React from "react";
 import { Key } from "@tonaljs/tonal";
-import { notesWithIntervals } from "./Utils";
+import { NotesIntervals } from "./NotesIntervals";
 import { gradesNumerals } from "./Lists";
 import classNames from "classnames";
 import { Picker } from "./Picker";
@@ -43,27 +43,34 @@ export const KeyChart = (props) => {
   function chordsWithGrades(type, chords, harmonicFunction) {
     return (
       <span className="chords-with-grades">
-        {chords.map((chord, i) => (
-          <span
-            key={i}
-            role="button"
-            className={classNames(
-              `pair pair-${gradeType(gradesNumerals[type][i])}`,
-              {
-                current: chord === props.myChord.root + props.myChord.formula,
-              }
-            )}
-            onClick={() => {
-              props.getChord(chord);
-            }}
-          >
-            <span className="grade">{gradesNumerals[type][i]}</span>
-            <span className="chord">{chord}</span>
-            <span className="harmonic-function">
-              {harmonicLabel(harmonicFunction[i])}
+        {chords.map((chord, i) => {
+          const currentChord =
+            chord === props.myChord.root + props.myChord.formula;
+
+          return (
+            <span
+              key={i}
+              role="button"
+              className={classNames(
+                `pair pair-${gradeType(gradesNumerals[type][i])}`,
+                {
+                  current: currentChord,
+                }
+              )}
+              onClick={() => {
+                currentChord
+                  ? props.playPiano("chord", true)
+                  : props.getChord(chord);
+              }}
+            >
+              <span className="grade">{gradesNumerals[type][i]}</span>
+              <span className="chord">{chord}</span>
+              <span className="harmonic-function">
+                {harmonicLabel(harmonicFunction[i])}
+              </span>
             </span>
-          </span>
-        ))}
+          );
+        })}
       </span>
     );
   }
@@ -93,7 +100,11 @@ export const KeyChart = (props) => {
 
       return (
         <>
-          {notesWithIntervals(details["scale"], details["intervals"])}
+          <NotesIntervals
+            playPiano={props.playPiano}
+            notes={details["scale"]}
+            intervals={details["intervals"]}
+          />
           {chordsWithGrades(
             "major",
             details["chords"],
@@ -109,10 +120,11 @@ export const KeyChart = (props) => {
 
       return (
         <>
-          {notesWithIntervals(
-            details[props.myKey.subtype]["scale"],
-            details[props.myKey.subtype]["intervals"]
-          )}
+          <NotesIntervals
+            playPiano={props.playPiano}
+            notes={details[props.myKey.subtype]["scale"]}
+            intervals={details[props.myKey.subtype]["intervals"]}
+          />
           {chordsWithGrades(
             props.myKey.subtype,
             details[props.myKey.subtype]["chords"],
