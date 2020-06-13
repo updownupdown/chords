@@ -29,16 +29,32 @@
   }
 }
 
-.chord-details-footer {
+.predicted-chords {
   display: flex;
-
+  align-items: center;
   justify-content: space-between;
   width: 100%;
-  margin-top: 10px;
-  padding-top: 10px;
-  border-top: 1px solid $K100;
 
   button {
     font-size: 14px;
+  }
+
+  &-empty,
+  &-title {
+    display: flex;
+    align-items: center;
+    height: $input-height;
+
+    font-family: $font;
+    font-size: 14px;
+    font-weight: 400;
+  }
+
+  &-title {
+    margin-right: auto;
+    color: $K600;
+  }
+  &-empty {
+    color: $K400;
   }
 }

@@ -8,6 +8,8 @@
   overflow-x: auto;
   padding: 10px 0; // for mobile overflow scroll
 
+  // @include horizontal-shadow;
+
   .pair {
     $note-width: 44px;
     $interval-width: 40px;

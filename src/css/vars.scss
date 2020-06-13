@@ -50,3 +50,20 @@ $query-within-sm: "(max-width: #{$break-md-low})";
 $query-within-md: "(min-width: #{$break-md}) and (max-width: #{$break-lg-low})";
 $query-within-lg: "(min-width: #{$break-lg}) and (max-width: #{$break-xl-low})";
 $query-within-xl: "(min-width: #{$break-xl})";
+
+@mixin horizontal-shadow {
+  $shadow-height: 100%;
+  $shadow-color: rgba(0, 0, 0, 0.1);
+  $shadow-weight: 9px;
+
+  background: linear-gradient(90deg, white 0%, rgba(255, 255, 255, 0)),
+    linear-gradient(-90deg, white 0%, rgba(255, 255, 255, 0)) 100% 0,
+    linear-gradient(90deg, $shadow-color, rgba(0, 0, 0, 0)),
+    linear-gradient(-90deg, $shadow-color, rgba(0, 0, 0, 0)) 100% 0;
+
+  background-repeat: no-repeat;
+  background-color: #fff;
+  background-size: 100px 100%, 100px 100%, $shadow-weight $shadow-height,
+    $shadow-weight $shadow-height;
+  background-attachment: local, local, scroll, scroll;
+}

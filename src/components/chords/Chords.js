@@ -124,8 +124,11 @@ export const Chords = (props) => {
             />
           </>
         )}
-        <span className="box-footer-label">Chords from selected notes:</span>
-        <div>
+        <div className="predicted-chords">
+          <span className="predicted-chords-title">
+            Chords from selected notes:
+          </span>
+
           {props.chordDetect.length > 0 ? (
             <div className="button-group">
               {props.chordDetect.map((chord, i) => (
@@ -145,7 +148,7 @@ export const Chords = (props) => {
               ))}
             </div>
           ) : (
-            <span className="box-select-text empty">No chords detected.</span>
+            <span className="predicted-chords-empty">No chords detected.</span>
           )}
         </div>
       </Box.Body>

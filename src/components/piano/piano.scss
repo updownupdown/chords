@@ -91,6 +91,12 @@
     padding: 20px 0 10px;
     border-top: 1px solid $K200;
 
+    @media #{$query-min-lg} {
+      .show-shortcuts & {
+        display: flex;
+      }
+    }
+
     &:before {
       $shadow-height: 12px;
       content: "";
@@ -104,10 +110,6 @@
 
       border-radius: 30%;
       box-shadow: 0 0 10px $K300;
-    }
-
-    .show-shortcuts & {
-      display: flex;
     }
 
     // "View Shortcuts" button
@@ -356,12 +358,10 @@
     align-items: flex-start;
     justify-content: center;
 
-    .show-shortcuts & {
-      display: flex;
-    }
-
-    @media #{$query-max-lg} {
-      display: none;
+    @media #{$query-min-lg} {
+      .show-shortcuts & {
+        display: flex;
+      }
     }
 
     .key-white & {

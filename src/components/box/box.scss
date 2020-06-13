@@ -12,13 +12,19 @@
   // Box Header
   &-header {
     display: flex;
-    align-items: center;
     padding: 12px 12px 12px 20px;
 
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
     border-bottom: 1px solid $K200;
     background: $K50;
+
+    @media #{$query-max-sm} {
+      align-items: flex-start;
+    }
+    @media #{$query-min-sm} {
+      align-items: center;
+    }
 
     &-inner {
       display: flex;
@@ -36,6 +42,10 @@
 
     // Box Title
     &-title {
+      display: flex;
+      align-items: center;
+      height: $input-height;
+
       font-family: $headingFont;
       font-size: 18px;
       font-weight: 600;
@@ -48,10 +58,17 @@
       flex-shrink: 0;
       justify-content: center;
       align-items: center;
-      width: 44px;
-      height: 44px;
       margin-left: 8px;
       padding: 0;
+
+      @media #{$query-min-sm} {
+        width: 44px;
+        height: 44px;
+      }
+      @media #{$query-max-sm} {
+        width: $input-height;
+        height: $input-height;
+      }
 
       svg {
         width: 80%;

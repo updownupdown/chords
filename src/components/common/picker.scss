@@ -4,12 +4,13 @@
 .picker-group {
   display: flex;
   flex: 1;
-  justify-content: flex-end;
 
   @media #{$query-min-sm} {
+    justify-content: flex-end;
     padding-left: 12px;
   }
   @media #{$query-max-sm} {
+    justify-content: flex-start;
     padding-top: 8px;
   }
 
