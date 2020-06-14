@@ -33,15 +33,9 @@
 // Chords with Grades
 .chords-with-grades {
   display: flex;
-  max-width: 100%;
-  overflow-x: auto;
-  padding: 0 0 10px 0; // for mobile overflow scroll
-
-  @media #{$query-max-md} {
-    @include horizontal-shadow;
-    max-width: unset;
-    width: calc(100% + 40px);
-  }
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 0 0 10px 0;
 
   .pair {
     transition: 0.2s ease background-color, 0.2s ease border-color;

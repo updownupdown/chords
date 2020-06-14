@@ -1,3 +1,4 @@
+import React from "react";
 import { Note } from "@tonaljs/tonal";
 import { highestNoteMidi } from "./Lists";
 
@@ -6,6 +7,21 @@ export function sortAlpha(a, b) {
   if (b > a) return -1;
 
   return 0;
+}
+
+export function stylizeNote(note) {
+  const noteClass = note.includes("#")
+    ? "sharp"
+    : note.includes("b")
+    ? "flat"
+    : "natural";
+
+  return (
+    <span className={noteClass}>
+      <span>{note.charAt(0)}</span>
+      <span>{note.substr(1)}</span>
+    </span>
+  );
 }
 
 export function trimChordRoot(name) {

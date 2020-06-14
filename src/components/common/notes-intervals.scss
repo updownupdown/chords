@@ -2,18 +2,10 @@
 
 .notes-with-intervals {
   display: flex;
-  width: 100%;
-  max-width: 100%;
   justify-content: center;
+  width: calc(100% + 40px);
   overflow-x: auto;
-  padding: 10px 0; // for mobile overflow scroll
-
-  @media #{$query-max-md} {
-    @include horizontal-shadow;
-    margin-bottom: 10px;
-    max-width: unset;
-    width: calc(100% + 40px);
-  }
+  padding: 10px 0;
 
   .pair {
     $note-width: 44px;
@@ -40,11 +32,29 @@
         align-items: center;
         justify-content: center;
 
-        font-size: 20px;
-        font-weight: 700;
-        color: $K800;
+        span {
+          display: flex;
+          flex-direction: row;
 
-        &:hover {
+          font-size: 20px;
+          font-weight: 700;
+          color: $K800;
+
+          span:nth-child(2) {
+            padding-left: 1px;
+            font-size: 13px;
+            font-weight: 500;
+          }
+
+          &.flat span:nth-child(2) {
+            margin-top: 8px;
+          }
+          &.sharp span:nth-child(2) {
+            margin-top: 4px;
+          }
+        }
+
+        &:hover span {
           color: $K500;
         }
       }

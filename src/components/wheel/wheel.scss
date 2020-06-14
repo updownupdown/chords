@@ -106,22 +106,24 @@ $wheel-width-mobile: calc(100vw - #{$layout-side-padding * 2});
       font-size: 26px;
 
       span:nth-child(2) {
-        font-size: 16px;
+        padding-left: 1px;
+        font-size: 14px;
       }
 
       @media (max-width: $wheel-breakpoint) {
         font-size: 7.5vw;
 
         span:nth-child(2) {
-          font-size: 5vw;
+          font-size: 4.5vw;
         }
       }
 
       &.flat span:nth-child(2) {
-        margin-top: 11px;
+        margin-top: 14px;
       }
       &.sharp span:nth-child(2) {
-        margin-top: 4px;
+        margin-top: 6px;
+        font-weight: 500;
       }
     }
 

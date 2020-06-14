@@ -38,7 +38,7 @@ export const KeyInfo = (props) => {
   // Chords with grades
   function chordsWithGrades(type, chords, harmonicFunction) {
     return (
-      <span className="chords-with-grades">
+      <div className="chords-with-grades">
         {chords.map((chord, i) => {
           const currentChord =
             chord === props.myChord.root + props.myChord.formula;
@@ -67,7 +67,7 @@ export const KeyInfo = (props) => {
             </span>
           );
         })}
-      </span>
+      </div>
     );
   }
 

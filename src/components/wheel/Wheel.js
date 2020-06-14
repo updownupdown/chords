@@ -3,6 +3,7 @@ import { Note } from "@tonaljs/tonal";
 import classNames from "classnames";
 import { WheelLines } from "./WheelLines";
 import { gradesOrder, gradesNumerals } from "../../utils/Lists";
+import { stylizeNote } from "../../utils/Utils";
 import "./wheel.scss";
 
 export const Wheel = (props) => {
@@ -33,21 +34,6 @@ export const Wheel = (props) => {
     count -= arr.length * Math.floor(count / arr.length);
     arr.push.apply(arr, arr.splice(0, count));
     return arr;
-  }
-
-  function stylize(note) {
-    const noteClass = note.includes("#")
-      ? "sharp"
-      : note.includes("b")
-      ? "flat"
-      : "natural";
-
-    return (
-      <span className={noteClass}>
-        <span>{note.charAt(0)}</span>
-        <span>{note.substr(1)}</span>
-      </span>
-    );
   }
 
   function generateNotes(root) {
@@ -155,7 +141,7 @@ export const Wheel = (props) => {
                 }
               )}
             >
-              {stylize(segment.note)}
+              {stylizeNote(segment.note)}
             </span>
 
             {segment.grade && (

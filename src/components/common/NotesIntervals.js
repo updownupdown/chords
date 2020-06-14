@@ -1,6 +1,6 @@
 import React from "react";
 import { Interval } from "@tonaljs/tonal";
-import { pitchedNotes } from "../../utils/Utils";
+import { pitchedNotes, stylizeNote } from "../../utils/Utils";
 import "./notes-intervals.scss";
 
 export function NotesIntervals(props) {
@@ -60,7 +60,7 @@ export function NotesIntervals(props) {
   }
 
   return (
-    <span className="notes-with-intervals">
+    <div className="notes-with-intervals">
       {notesList.map((note, i) => (
         <span key={i} className="pair">
           <div className="note-root">
@@ -75,7 +75,7 @@ export function NotesIntervals(props) {
                 props.playPiano("note", false, pitched[i]);
               }}
             >
-              {note.note}
+              {stylizeNote(note.note)}
             </span>
           </div>
           <span
@@ -87,6 +87,6 @@ export function NotesIntervals(props) {
           </span>
         </span>
       ))}
-    </span>
+    </div>
   );
 }
