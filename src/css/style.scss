@@ -275,13 +275,6 @@ input[type="range"] {
         width: 382px;
         padding-right: 20px;
       }
-      @media #{$query-max-lg} {
-        margin-bottom: 20px;
-      }
-      @media #{$query-max-md} {
-        flex-direction: column;
-        margin-bottom: 0px;
-      }
     }
 
     // Key/Chord/Prog

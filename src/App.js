@@ -8,6 +8,10 @@ import {
   pitchedNotes,
   pitchedNotesFromKey,
 } from "./utils/Utils";
+import {
+  useLocalStorage,
+  useLocallyPersistedReducer,
+} from "./utils/LocalStorage";
 
 import { Wheel } from "./components/wheel/Wheel";
 import { Keys } from "./components/keys/Keys";
@@ -26,12 +30,15 @@ function App() {
   const synth = useRef(null);
   const defaultVolume = -4;
   const [synthLoaded, setsynthLoaded] = useState(false);
-  const [volume, setVolume] = useState(defaultVolume);
-  const [mute, setMute] = useState(false);
+  const [volume, setVolume] = useLocalStorage("volume", defaultVolume);
+  const [mute, setMute] = useLocalStorage("mute", false);
 
   const [autoplaying, setAutoplaying] = useState(false);
-  const [pianoLocked, setPianoLocked] = useState(false);
-  const [showShortcuts, setShowShortcuts] = useState(false);
+  const [pianoLocked, setPianoLocked] = useLocalStorage("pianoLocked", false);
+  const [showShortcuts, setShowShortcuts] = useLocalStorage(
+    "showShortcuts",
+    false
+  );
 
   useEffect(() => {
     synth.current = new Sampler(
@@ -73,10 +80,14 @@ function App() {
   // }, [mute]);
 
   // ===== Notes ===== //
-  const [selected, setSelected] = useReducer(selectedReducer, {
-    notes: [],
-    cat: "notes",
-  });
+  const [selected, setSelected] = useLocallyPersistedReducer(
+    selectedReducer,
+    {
+      notes: [],
+      cat: "notes",
+    },
+    "selectedNotes"
+  );
 
   function selectedReducer(selected, action) {
     switch (action.type) {
@@ -129,7 +140,11 @@ function App() {
   }
 
   // Pressed notes on keyboard
-  const [pressed, setPressed] = useReducer(pressedReducer, []);
+  const [pressed, setPressed] = useLocallyPersistedReducer(
+    pressedReducer,
+    [],
+    "pressedNotes"
+  );
   function pressedReducer(pressed, action) {
     switch (action.type) {
       case "add":
@@ -146,7 +161,7 @@ function App() {
   }
 
   // ===== Keys ===== //
-  const [myKey, setMyKey] = useState({
+  const [myKey, setMyKey] = useLocalStorage("myKey", {
     key: Key.majorKey("C"),
     root: "C",
     type: "major",
@@ -174,7 +189,7 @@ function App() {
   }
 
   // ====== Chords ===== //
-  const [myChord, setMyChord] = useState({
+  const [myChord, setMyChord] = useLocalStorage("myChord", {
     chord: Chord.get("CM"),
     root: "C",
     formula: "M",
@@ -205,7 +220,11 @@ function App() {
   }
 
   // ===== Chord Progressions ===== //
-  const [myProg, setMyProg] = useReducer(progReducer, []);
+  const [myProg, setMyProg] = useLocallyPersistedReducer(
+    progReducer,
+    [],
+    "myProg"
+  );
   function progReducer(myProg, action) {
     switch (action.type) {
       case "add":
