@@ -377,7 +377,7 @@ $staff-color: $K700;
         &.note-E6 {
           top: -42px;
         }
-        &.note-E6 {
+        &.note-F6 {
           top: -48px;
         }
 
@@ -388,7 +388,9 @@ $staff-color: $K700;
         &.note-C5,
         &.note-E5,
         &.note-G5,
-        &.note-B5 {
+        &.note-B5,
+        &.note-D6,
+        &.note-F6 {
           margin-left: $odd-note-offset;
         }
       }

@@ -1,66 +1,42 @@
-import React, { createContext, useMemo, useContext } from "react";
+import React from "react";
 import { useLocalStorage } from "../../utils/LocalStorage";
 import classNames from "classnames";
 import ArrowDown from "../../icons/arrowdown";
 import "./box.scss";
 
-const BoxContext = createContext();
-const { Provider } = BoxContext;
-
 const Menu = ({ children }) => {
-  const { open } = useContext(BoxContext);
-
-  if (open) {
-    return <div className="box-menu">{children}</div>;
-  }
-  return false;
+  return <div className="box-menu">{children}</div>;
 };
 
 const Body = ({ children }) => {
-  const { open } = useContext(BoxContext);
-
-  if (open) {
-    return <div className="box-body">{children}</div>;
-  }
-  return false;
+  return <div className="box-body">{children}</div>;
 };
 
 const Footer = ({ children, className }) => {
-  const { open } = useContext(BoxContext);
-
-  if (open) {
-    return (
-      <div className={classNames("box-footer", className)}>{children}</div>
-    );
-  }
-  return false;
+  return <div className={classNames("box-footer", className)}>{children}</div>;
 };
 
 const Box = ({ id, title, openByDefault, children }) => {
   const [open, setOpen] = useLocalStorage(`acc-opened-${id}`, openByDefault);
 
-  const value = useMemo(() => ({ open }), [open]);
-
   return (
-    <Provider value={value}>
-      <div className={`box box-${id} ${open ? "opened" : "closed"}`}>
-        <div
-          className="box-header"
-          role="button"
-          onClick={() => {
-            setOpen(!open);
-          }}
-        >
-          <div className="box-header-inner">
-            <span className="box-header-title">{title}</span>
-          </div>
-          <span className="box-header-toggle">
-            <ArrowDown />
-          </span>
+    <div className={`box box-${id} ${open ? "opened" : "closed"}`}>
+      <div
+        className="box-header"
+        role="button"
+        onClick={() => {
+          setOpen(!open);
+        }}
+      >
+        <div className="box-header-inner">
+          <span className="box-header-title">{title}</span>
         </div>
-        {children}
+        <span className="box-header-toggle">
+          <ArrowDown />
+        </span>
       </div>
-    </Provider>
+      {open && children}
+    </div>
   );
 };
 

@@ -140,11 +140,7 @@ function App() {
   }
 
   // Pressed notes on keyboard
-  const [pressed, setPressed] = useLocallyPersistedReducer(
-    pressedReducer,
-    [],
-    "pressedNotes"
-  );
+  const [pressed, setPressed] = useReducer(pressedReducer, []);
   function pressedReducer(pressed, action) {
     switch (action.type) {
       case "add":
@@ -349,9 +345,9 @@ function App() {
 
       timeouts.push(
         setTimeout(() => {
-          setAutoplaying(false);
           setPressed({ type: "clear" });
           playType === "prog" && setPlayingProg({ type: "reset" });
+          setAutoplaying(false);
         }, delayMs * playlist.length)
       );
     }
@@ -370,6 +366,7 @@ function App() {
         </div> */}
         <div className="layout-center">
           <Piano
+            autoplaying={autoplaying}
             volume={volume}
             setVolume={setVolume}
             mute={mute}

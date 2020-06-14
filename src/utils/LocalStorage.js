@@ -17,7 +17,7 @@ export const useLocallyPersistedReducer = (
 
   useEffect(() => {
     localStorage.setItem(storageKey, JSON.stringify(hookVars[0]));
-  }, [storageKey, hookVars[0]]);
+  }, [storageKey, hookVars]);
 
   return hookVars;
 };

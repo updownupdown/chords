@@ -28,7 +28,7 @@ export const Piano = (props) => {
 
   function checkFocus() {
     const activeElement = document.activeElement;
-    const inputs = ["input", "select", "button", "textarea"];
+    const inputs = ["input", "select", "textarea"];
 
     if (
       activeElement &&
@@ -152,27 +152,31 @@ export const Piano = (props) => {
             onClick={() => {
               props.playPiano("notes", false);
             }}
-            disabled={props.selected.notes.length === 0}
+            disabled={props.autoplaying || props.selected.notes.length === 0}
           >
             <PlaySeparate />
-            <span className="text">Play Scale</span>
+            <span className="text">Play as Scale</span>
           </button>
           <button
             className="play small-on-mobile"
             onClick={() => {
               props.playPiano("notes", true);
             }}
-            disabled={props.selected.notes.length === 0}
+            disabled={props.autoplaying || props.selected.notes.length === 0}
           >
             <Play />
-            <span className="text">Play Chord</span>
+            <span className="text">Play as Chord</span>
           </button>
           <button
             className="small-on-mobile"
             onClick={() => {
               props.setSelected({ type: "clear", cat: "notes" });
             }}
-            disabled={props.pianoLocked || props.selected.notes.length === 0}
+            disabled={
+              props.autoplaying ||
+              props.pianoLocked ||
+              props.selected.notes.length === 0
+            }
           >
             <Clear />
             <span className="text">Clear</span>

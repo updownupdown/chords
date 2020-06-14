@@ -178,7 +178,6 @@ export const Chords = (props) => {
                 setChordSearch(e.target.value);
               }}
               onKeyDown={(e) => {
-                console.log(chordResult);
                 if (e.key === "Enter" && !chordResult.empty) {
                   props.getChord(chordResult.symbol);
                 }

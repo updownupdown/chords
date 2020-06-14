@@ -63,18 +63,19 @@ export const Staff = (props) => {
                 <span></span>
                 <span></span>
               </div>
-              {props.selected.notes.map((note) => (
-                <span
-                  key={note}
-                  className={`note treble note-${note
-                    .replace("#", "")
-                    .replace("b", "")} note-${note.replace("#", "s")}`}
-                >
-                  {note.includes("b") && <Flat />}
-                  {note.includes("#") && <Sharp />}
-                  <Whole />
-                </span>
-              ))}
+              {props.selected.notes.length > 0 &&
+                props.selected.notes.map((note) => (
+                  <span
+                    key={note}
+                    className={`note treble note-${note
+                      .replace("#", "")
+                      .replace("b", "")} note-${note.replace("#", "s")}`}
+                  >
+                    {note.includes("b") && <Flat />}
+                    {note.includes("#") && <Sharp />}
+                    <Whole />
+                  </span>
+                ))}
             </div>
             <div className="signature treble">
               {signature && sigList(signature)}
@@ -92,18 +93,19 @@ export const Staff = (props) => {
               <span></span>
             </div>
             <div className="notes bass">
-              {props.selected.notes.map((note) => (
-                <span
-                  key={note}
-                  className={`note bass note-${note
-                    .replace("#", "")
-                    .replace("b", "")} note-${note.replace("#", "s")}`}
-                >
-                  {note.includes("b") && <Flat />}
-                  {note.includes("#") && <Sharp />}
-                  <Whole />
-                </span>
-              ))}
+              {props.selected.notes.length > 0 &&
+                props.selected.notes.map((note) => (
+                  <span
+                    key={note}
+                    className={`note bass note-${note
+                      .replace("#", "")
+                      .replace("b", "")} note-${note.replace("#", "s")}`}
+                  >
+                    {note.includes("b") && <Flat />}
+                    {note.includes("#") && <Sharp />}
+                    <Whole />
+                  </span>
+                ))}
             </div>
             <div className="signature bass">
               {signature && sigList(signature)}
