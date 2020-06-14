@@ -12,7 +12,7 @@ Technical
 
 Misc
 
-- 
+- remember box states toggle? disable some entirely? use localstorage?
 
 Low Priority
 

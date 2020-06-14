@@ -44,16 +44,14 @@ export const Wave = (props) => {
     ctx.lineWidth = 2;
 
     for (var x = 0; x <= canvas.width; x++) {
-      var y = 0;
+      var y = canvas.height / 2;
 
       for (var f = 0; f < frequencies.length; f++) {
-        y +=
+        y -=
           Math.sin((frequencies[f] * x * Math.PI) / 180) *
           canvas.height *
           modAmplitude;
       }
-
-      y += canvas.height / 2;
 
       ctx.lineTo(x, y);
     }
