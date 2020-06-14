@@ -1,20 +1,18 @@
 Bugs
 
-- react_devtools_backend.js:6 The AudioContext is "suspended". Invoke Tone.start() from a user action to start the audio.
+- fix AudioContext
 - fix volume/mute
-- prevent AudioContext warnings?
 
 Technical
 
-- review all chords, advanced ones are broken or off screen; simplify to one drop down, drop complex ones?
-- Reactivate loading screen but make it seemless/smoother
+- review keys/chords for accuracy
+- reactivate loading screen but make it seemless/smoother
 - use typescript
 - add accessibility (aria)
-- check mobile responsiveness, touch events
 
 Misc
 
-- TAB: show sine waves of selected keys or just chord, add up waves: https://www.youtube.com/watch?v=G3H621_EdOM
+- 
 
 Low Priority
 

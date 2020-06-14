@@ -1,29 +1,5 @@
 @import "../../css/vars.scss";
 
-@mixin slider {
-  outline: none;
-  -webkit-appearance: none;
-  appearance: none;
-  cursor: pointer;
-  width: 15px;
-  height: 15px;
-
-  border-radius: 50%;
-  border: 0;
-  background: $K750;
-  box-shadow: 1px 2px 4px rgba($K600, 0.2);
-
-  &:hover,
-  &:active {
-    background: $K900;
-  }
-
-  .mute & {
-    background: $K300;
-    box-shadow: unset;
-  }
-}
-
 @mixin keyboard-shortcut() {
   display: flex;
   align-items: center;
@@ -52,32 +28,8 @@
     margin-right: auto;
     margin-left: 8px;
 
-    &-slider {
-      -webkit-appearance: none;
-      appearance: none;
-      outline: none;
-      transition: opacity 0.2s;
+    input[type="range"] {
       width: 80px;
-      height: 6px;
-
-      border-radius: 4px;
-      background: $K250;
-
-      &:hover {
-        opacity: 1;
-      }
-
-      // DO NOT COMBINE these, or it doesn't render properly
-      &::-moz-range-thumb {
-        @include slider();
-      }
-      &::-webkit-slider-thumb {
-        @include slider();
-      }
-    }
-
-    &.mute button:not(:disabled) svg path {
-      fill: $K600;
     }
   }
 

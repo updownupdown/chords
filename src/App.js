@@ -15,6 +15,7 @@ import { Chords } from "./components/chords/Chords";
 import { ChordProg } from "./components/progs/Progs";
 import { Nav } from "./components/nav/Nav";
 import { Staff } from "./components/staff/Staff";
+import { Wave } from "./components/wave/Wave";
 import { keyList } from "./utils/Lists";
 import "./css/style.scss";
 
@@ -405,6 +406,7 @@ function App() {
                 playPiano={playPiano}
                 playingProg={playingProg}
               />
+              <Wave selected={selected} />
             </div>
           </div>
         </div>
