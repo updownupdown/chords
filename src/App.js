@@ -8,6 +8,7 @@ import {
   pitchedNotes,
   pitchedNotesFromKey,
 } from "./utils/Utils";
+
 import { Wheel } from "./components/wheel/Wheel";
 import { Keys } from "./components/keys/Keys";
 import { Piano } from "./components/piano/Piano";
@@ -16,6 +17,7 @@ import { ChordProg } from "./components/progs/Progs";
 import { Nav } from "./components/nav/Nav";
 import { Staff } from "./components/staff/Staff";
 import { Wave } from "./components/wave/Wave";
+
 import { keyList } from "./utils/Lists";
 import "./css/style.scss";
 
@@ -355,13 +357,13 @@ function App() {
             setMute={setMute}
             selected={selected}
             setSelected={setSelected}
-            playNote={playNote}
+            pressed={pressed}
             setPressed={setPressed}
             toggleNote={toggleNote}
+            playNote={playNote}
             playPiano={playPiano}
             pianoLocked={pianoLocked}
             setPianoLocked={setPianoLocked}
-            pressed={pressed}
             showShortcuts={showShortcuts}
           />
 
@@ -406,7 +408,7 @@ function App() {
                 playPiano={playPiano}
                 playingProg={playingProg}
               />
-              <Wave selected={selected} />
+              <Wave selected={selected} playPiano={playPiano} />
             </div>
           </div>
         </div>

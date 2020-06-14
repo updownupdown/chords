@@ -226,9 +226,11 @@ input[type="range"] {
 
     &::-moz-range-thumb {
       cursor: default;
+      background: $K600;
     }
     &::-webkit-slider-thumb {
       cursor: default;
+      background: $K600;
     }
   }
 }
@@ -267,14 +269,14 @@ input[type="range"] {
     &-left {
       display: flex;
       align-items: center;
+      flex-direction: column;
 
       @media #{$query-min-lg} {
-        flex-direction: column;
+        width: 382px;
+        padding-right: 20px;
       }
       @media #{$query-max-lg} {
-        flex-direction: row;
-        justify-content: space-around;
-        margin-bottom: 34px;
+        margin-bottom: 20px;
       }
       @media #{$query-max-md} {
         flex-direction: column;
@@ -287,13 +289,6 @@ input[type="range"] {
       display: flex;
       flex-direction: column;
       flex: 1;
-
-      @media #{$query-min-lg} {
-        margin-left: 30px;
-      }
-      @media #{$query-max-lg} {
-        margin-top: 10px;
-      }
     }
   }
 }

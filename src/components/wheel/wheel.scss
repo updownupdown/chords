@@ -26,8 +26,8 @@
 }
 
 $wheel-width: 320px;
-$wheel-breakpoint: $wheel-width + $layout-side-padding * 2;
-$wheel-width-mobile: calc(100vw - #{$layout-side-padding * 2});
+$wheel-breakpoint: $wheel-width + $layout-side-padding * 4;
+$wheel-width-mobile: calc(100vw - #{$layout-side-padding * 4});
 
 // Wheel wrap (overflow allowed for box-shadow
 .wheel-wrap {
@@ -39,9 +39,7 @@ $wheel-width-mobile: calc(100vw - #{$layout-side-padding * 2});
   width: $wheel-width;
   height: $wheel-width;
 
-  @media #{$query-min-lg} {
-    // margin-top: 10px;
-  }
+  margin: 8px 0;
 
   @media (max-width: $wheel-breakpoint) {
     width: $wheel-width-mobile;

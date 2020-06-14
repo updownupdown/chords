@@ -3,6 +3,7 @@
 .box {
   display: flex;
   flex-direction: column;
+  width: 100%;
 
   border-radius: 8px;
   border: 1px solid $K200;
@@ -181,6 +182,6 @@
   }
 
   &:not(:first-child) {
-    margin-top: 30px;
+    margin-top: 20px;
   }
 }

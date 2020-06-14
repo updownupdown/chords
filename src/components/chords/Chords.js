@@ -104,8 +104,7 @@ export const Chords = (props) => {
   };
 
   return (
-    <Box type="chord">
-      <Box.Header title="Chord"></Box.Header>
+    <Box id="chord" title="Chord" openByDefault={true}>
       <Box.Menu>
         <div className="picker-group theme-chord">
           <Picker className="picker-notes" selected={props.myChord.root}>

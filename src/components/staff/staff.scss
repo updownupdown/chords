@@ -2,22 +2,6 @@
 
 $staff-color: $K700;
 
-.staff-wrap {
-  padding: 20px;
-
-  border-radius: 6px;
-  border: 1px solid $K250;
-  background: lighten($K100, 1%);
-  box-shadow: inset 1px 2px 12px rgba($K600, 0.12), 0 0 10px $white;
-
-  @media #{$query-min-lg} {
-    margin-top: 30px;
-  }
-  @media #{$query-max-md} {
-    margin: 30px 0;
-  }
-}
-
 .staffs {
   position: relative;
   display: flex;
@@ -61,7 +45,7 @@ $staff-color: $K700;
   height: 50px;
 
   &-treble {
-    margin: 40px 0 30px;
+    margin: 50px 0 30px;
   }
   &-bass {
     margin: 30px 0 10px;

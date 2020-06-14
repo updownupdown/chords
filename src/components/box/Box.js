@@ -1,12 +1,5 @@
-import React, {
-  createContext,
-  useState,
-  useCallback,
-  useRef,
-  useEffect,
-  useMemo,
-  useContext,
-} from "react";
+import React, { createContext, useMemo, useContext } from "react";
+import { useLocalStorage } from "../../utils/LocalStorage";
 import classNames from "classnames";
 import ArrowDown from "../../icons/arrowdown";
 import "./box.scss";
@@ -14,56 +7,57 @@ import "./box.scss";
 const BoxContext = createContext();
 const { Provider } = BoxContext;
 
-const Header = ({ title, children }) => {
-  const { open, toggle } = useContext(BoxContext);
-
-  return (
-    <div
-      className="box-header"
-      role="button"
-      onClick={() => {
-        toggle(!open);
-      }}
-    >
-      <div className="box-header-inner">
-        <span className="box-header-title">{title}</span>
-        {children}
-      </div>
-      <span className="box-header-toggle">
-        <ArrowDown />
-      </span>
-    </div>
-  );
-};
-
 const Menu = ({ children }) => {
-  return <div className="box-menu">{children}</div>;
+  const { open } = useContext(BoxContext);
+
+  if (open) {
+    return <div className="box-menu">{children}</div>;
+  }
+  return false;
 };
 
 const Body = ({ children }) => {
-  return <div className="box-body">{children}</div>;
+  const { open } = useContext(BoxContext);
+
+  if (open) {
+    return <div className="box-body">{children}</div>;
+  }
+  return false;
 };
 
 const Footer = ({ children, className }) => {
-  return <div className={classNames("box-footer", className)}>{children}</div>;
+  const { open } = useContext(BoxContext);
+
+  if (open) {
+    return (
+      <div className={classNames("box-footer", className)}>{children}</div>
+    );
+  }
+  return false;
 };
 
-const Box = ({ type, children, onOpen }) => {
-  const [open, setOpen] = useState(true);
+const Box = ({ id, title, openByDefault, children }) => {
+  const [open, setOpen] = useLocalStorage(`acc-opened-${id}`, openByDefault);
 
-  const toggle = useCallback(() => setOpen((prevOpen) => !prevOpen), []);
-  const componentJustMounted = useRef(true);
-  useEffect(() => {
-    if (!componentJustMounted) {
-      onOpen(open);
-    }
-    componentJustMounted.current = false;
-  }, [open, onOpen]);
-  const value = useMemo(() => ({ open, toggle }), [open, toggle]);
+  const value = useMemo(() => ({ open }), [open]);
 
   return (
     <Provider value={value}>
-      <div className={`box box-${type} ${open ? "opened" : "closed"}`}>
+      <div className={`box box-${id} ${open ? "opened" : "closed"}`}>
+        <div
+          className="box-header"
+          role="button"
+          onClick={() => {
+            setOpen(!open);
+          }}
+        >
+          <div className="box-header-inner">
+            <span className="box-header-title">{title}</span>
+          </div>
+          <span className="box-header-toggle">
+            <ArrowDown />
+          </span>
+        </div>
         {children}
       </div>
     </Provider>
@@ -72,7 +66,6 @@ const Box = ({ type, children, onOpen }) => {
 
 export default Box;
 
-Box.Header = Header;
 Box.Menu = Menu;
 Box.Body = Body;
 Box.Footer = Footer;

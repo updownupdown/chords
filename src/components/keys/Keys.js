@@ -121,8 +121,7 @@ export const Keys = (props) => {
 
   return (
     <>
-      <Box type="key">
-        <Box.Header title="Key" />
+      <Box id="key" title="Key" openByDefault={true}>
         <Box.Menu>
           <div className="picker-group theme-key">
             <Picker className="picker-notes" selected={props.myKey.root}>

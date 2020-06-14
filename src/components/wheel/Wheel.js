@@ -4,6 +4,7 @@ import classNames from "classnames";
 import { WheelLines } from "./WheelLines";
 import { gradesOrder, gradesNumerals } from "../../utils/Lists";
 import { stylizeNote } from "../../utils/Utils";
+import Box from "../box/Box";
 import "./wheel.scss";
 
 export const Wheel = (props) => {
@@ -154,18 +155,22 @@ export const Wheel = (props) => {
   }
 
   return (
-    <div className="wheel-wrap">
-      <div
-        className={classNames("wheel", {
-          [`theme-${props.selected.cat}`]: true,
-        })}
-      >
-        {generateNotes(props.myKey.root)}
+    <Box id="wheel" title="Circle of Fifths" openByDefault={true}>
+      <Box.Body>
+        <div className="wheel-wrap">
+          <div
+            className={classNames("wheel", {
+              [`theme-${props.selected.cat}`]: true,
+            })}
+          >
+            {generateNotes(props.myKey.root)}
 
-        <WheelLines showChord={props.showChord} myChord={props.myChord} />
-      </div>
-      <div className="wheel-background"></div>
-    </div>
+            <WheelLines showChord={props.showChord} myChord={props.myChord} />
+          </div>
+          <div className="wheel-background"></div>
+        </div>
+      </Box.Body>
+    </Box>
   );
 };
 

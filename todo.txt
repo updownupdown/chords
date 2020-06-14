@@ -5,6 +5,7 @@ Bugs
 
 Technical
 
+- use context
 - review keys/chords for accuracy
 - reactivate loading screen but make it seemless/smoother
 - use typescript
@@ -12,7 +13,11 @@ Technical
 
 Misc
 
-- remember box states toggle? disable some entirely? use localstorage?
+- make wheel and staff into boxes, make all draggable, use local storage to save open states and locations
+- sound wave: add slider to top left, and on top right add a play button
+- chord progressions: save custom chords (add selected notes, remembers C4 vs C5 vs C6)
+- simplify boxes (menu/footer not needed?), only render boxes when not closed (move <Box> to app, bodies are then suppressed)
+- chord search: escape to focus out
 
 Low Priority
 

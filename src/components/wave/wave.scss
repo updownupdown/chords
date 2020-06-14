@@ -1,5 +1,19 @@
 @import "../../css/vars.scss";
 
+// Range/Play
+.wave-top {
+  display: flex;
+  align-items: center;
+  width: 100%;
+
+  // Wave mod slider
+  .wave-slider {
+    flex: 1;
+    margin-right: 20px;
+  }
+}
+
+// Canvas
 .wave-canvas-wrap {
   position: relative;
   overflow-x: auto;
@@ -35,11 +49,4 @@
   .wave-canvas {
     max-width: 100%;
   }
-}
-
-// Wave mod slider
-.wave-slider {
-  width: 250px;
-  max-width: 100%;
-  margin: 10px 0 16px;
 }

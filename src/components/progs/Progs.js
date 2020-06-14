@@ -10,8 +10,7 @@ import "./progs.scss";
 
 export const ChordProg = (props) => {
   return (
-    <Box type="prog">
-      <Box.Header title="Chord Progression" />
+    <Box id="prog" title="Chord Progression" openByDefault={false}>
       <Box.Menu>
         <span></span>
         <div className="button-group touching">
