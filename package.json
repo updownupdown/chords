@@ -11,10 +11,10 @@
     "@tonejs/piano": "^0.2.1",
     "classnames": "^2.2.6",
     "gh-pages": "^3.0.0",
-    "node-sass": "^7.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",
+    "sass": "^1.49.8",
     "tone": "14.6.1",
     "webmidi": "^2.5.1"
   },
@@ -40,5 +40,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "yarn-audit-fix": "^9.1.2"
   }
 }

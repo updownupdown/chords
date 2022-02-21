@@ -24,6 +24,7 @@
   // Volume slider
   &-volume {
     display: flex;
+    visibility: hidden;
     align-items: center;
     margin-right: auto;
     margin-left: 8px;
